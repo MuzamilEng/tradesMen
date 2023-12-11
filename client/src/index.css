@@ -27,3 +27,10 @@
 }
 @media (max-width: 1366px) {}
 @media (max-width: 768px) {}
+
+
+/* remove the inc dec titda of input type number */
+.spin-button-none::-webkit-outer-spin-button,
+.spin-button-none::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}

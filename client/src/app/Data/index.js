@@ -99,3 +99,12 @@ export const signup = [
         ]
     }
 ]
+
+
+export const otps = [
+    {
+        title: "OTP verification code",
+        para: 'We have sent a 6 digit verification code to you provided phone number',
+        type: "text",
+    }
+]

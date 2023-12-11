@@ -7,10 +7,13 @@ import { useNavigate } from 'react-router-dom';
 import { useLoginUserMutation } from '../store/storeApi';
 import { Icon } from '@iconify/react';
 import Header from '../Component/Header';
+import Otp from '../Component/Otp';
 
 const Signup = () => {
     const [loginUser] = useLoginUserMutation();
+    const [showOpt, setShowOpt] = React.useState(false);
     const navigate = useNavigate()
+    const [otpValue, setOptValue] = React.useState([]);
     const { handleSubmit, setValue, control, formState: { errors } } = useForm({
         defaultValues: {
             email: '',
@@ -70,7 +73,7 @@ const Signup = () => {
                             ))}
                             </section>
                             <div className="flex w-full justify-center items-center">
-                                <button type='submit' className='bg-[#f85606] text-white mt-2vw p-0.5vw w-full max-w-[10vw] hover:bg-[#fa7447] text-vw rounded-md'>Sign Up</button>
+                                <button type='submit' className='bg-[#f85606] text-white mt-2vw p-0.5vw w-full max-w-[10vw] hover:bg-[#fa7447] text-vw rounded-md' onClick={() => setShowOpt(true)}>Sign Up</button>
                             </div>
                             <p className='text-[0.9vw] mt-0.5vw w-full text-center'>or continue with</p>
                             <div className="mt-2vw w-full justify-center flex items-center">
@@ -87,6 +90,14 @@ const Signup = () => {
                         </div>
                     ))}
                 </form>
+                {showOpt && (
+        <div className="fixed inset-0 flex items-center justify-center">
+          <div className="relative">
+            {/* <Otp setOptValue={setOptValue} validateOtp={validateOTP} showOtp={() => setShowOpt(!showOpt)} /> */}
+            <Otp showOtp={() => setShowOpt(!showOpt)} setOptValue={setOptValue} />
+          </div>
+        </div>
+      )}
             </main>
         </div>
     )
