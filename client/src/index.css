@@ -34,3 +34,134 @@
 .spin-button-none::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
+
+
+.navbar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #013914;
+    color: white;
+    position: sticky;
+    width: 100%;
+    top: 0;
+    z-index: 999;
+    transition: 0.5s all ease;
+  
+    &.active {
+      background-color: white;
+      color: black;
+  
+      button {
+        background-color: white !important;
+        color: #1dbf73 !important;
+        border: .2vw solid #1dbf73 !important;
+      }
+    }
+  
+    .navbar_container {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1vw 2vw;
+  
+      .logo {
+        font-size: 2vw;
+        font-weight: bold;
+        font-style: italic;
+  
+        .dot {
+            font-size: 2vw;
+          font-weight: bold;
+          color: #1dbf73;
+        }
+      }
+      .nav_links {
+        display: flex;
+        align-items: center;
+        gap: 2vw;
+        font-family: "Montserrat", sans-serif;
+        font-weight: 500;
+  
+        span {
+          white-space: nowrap;
+          font-size: 1vw;
+        }
+  
+        .user {
+          display: flex;
+          align-items: center;
+          gap:  1vw;
+          cursor: pointer;
+          position: relative;
+  
+          img {
+            width: full;
+            max-width: 3.5vw;
+            height: 2.5vw;
+            border-radius: 20vw;
+            object-fit: cover;
+          }
+  
+          .options {
+            position: absolute;
+            top: 2vw;
+            right: 0;
+            padding: 0.6vw;
+            background-color: white;
+            border-radius: 1vw;
+            z-index: 999;
+            border: 0.1vw solid lightgrey;
+            display: flex;
+            flex-direction: column;
+            gap: 1vw;
+            width: 10vw;
+            /* max-width: 20vw; */
+            font-weight: 300;
+            color: gray;
+          }
+        }
+        .nav_link{
+          font-size: 1vw;
+        }
+  
+        .nav_btn {
+          color: white;
+          padding: 10px 20px;
+          border-radius: 5px;
+          border: 1px solid white;
+          background-color: transparent;
+          cursor: pointer;
+  
+          &:hover {
+            background-color: #1dbf73;
+            border-color: #1dbf73;
+          }
+        }
+      }
+    }
+  
+    hr {
+      width: calc(100% - 2px);
+      height: 0;
+      border-top: 0.5px solid #ebe9e9;
+      border-bottom: 0.5px solid #ebe9e9;
+    }
+  
+    .nav_menu {
+      background-color: #fff;
+      width: 100%;
+      padding: 1.4vw 2vw;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: gray;
+      font-weight: 300;
+      font-family: "Montserrat", sans-serif;
+    }
+  }
+  .nav_menu .link{
+    font-size: 1vw;
+    margin-left: 2vw;
+  }
