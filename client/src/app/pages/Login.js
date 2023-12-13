@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useLoginUserMutation } from '../store/storeApi';
 import { Icon } from '@iconify/react';
 import Header from '../Component/Header';
+import Navbar from '../Component/Navbar';
 
 const Login = () => {
     const [loginUser] = useLoginUserMutation();
@@ -43,6 +44,7 @@ const Login = () => {
             <main className='w-screen relative h-full'>
                 <ToastContainer />
                 <Header />
+                {/* <Navbar /> */}
                 <form onSubmit={handleSubmit(onSubmit)} className="flex mt-vw justify-center items-center">
                     {login?.map((item, index) => (
                         <div key={index} className='mt-2vw'>
@@ -68,7 +70,7 @@ const Login = () => {
                                 </div>
                             ))}
                             <div className="flex justify-center items-center">
-                                <button type='submit' className='bg-[#f85606] text-white mt-2vw p-0.5vw w-full max-w-[10vw] hover:bg-[#fa7447] text-vw rounded-md'>Login</button>
+                                <button type='submit' className='bg-[#1dbf73] text-white mt-2vw p-0.5vw w-full max-w-[10vw] hover:bg-[#1dbf73e0] text-vw rounded-md'>Login</button>
                             </div>
                             <p className='text-[0.9vw] mt-0.5vw w-full text-center'>or continue with</p>
                             <div className="mt-2vw w-full flex items-center">

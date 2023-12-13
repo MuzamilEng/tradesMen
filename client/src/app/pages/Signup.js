@@ -73,7 +73,7 @@ const Signup = () => {
                             ))}
                             </section>
                             <div className="flex w-full justify-center items-center">
-                                <button type='submit' className='bg-[#f85606] text-white mt-2vw p-0.5vw w-full max-w-[10vw] hover:bg-[#fa7447] text-vw rounded-md' onClick={() => setShowOpt(true)}>Sign Up</button>
+                                <button type='submit' className='bg-[#1dbf73] text-white mt-2vw p-0.5vw w-full max-w-[10vw] hover:bg-[#1dbf73e0] text-vw rounded-md' onClick={() => setShowOpt(true)}>Sign Up</button>
                             </div>
                             <p className='text-[0.9vw] mt-0.5vw w-full text-center'>or continue with</p>
                             <div className="mt-2vw w-full justify-center flex items-center">
