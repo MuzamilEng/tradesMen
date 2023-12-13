@@ -81,8 +81,6 @@ function Navbar() {
           )}
         </div>
       </div>
-      
-    </div>
     {/* {(active || pathname !== "/") && ( */}
     <>
           <hr />
@@ -117,7 +115,8 @@ function Navbar() {
           </div>
           <hr />
         </>
-      {/* )}     */}
+      {/* )} */}
+    </div>
     </>
   );
 }
