@@ -1,42 +1,26 @@
 const express = require('express');
 const app = express();
-const mongoose = require('mongoose');
-require('dotenv').config({ path: '.env' })
-const componentsRoutes = require('./routes/components');
-const templateRoutes = require('./routes/templates');
+const connectDB = require('./db/connect');
+const errorHandler = require('./middleware/error-handler');
+const notFound = require('./middleware/not-found');
 const cors = require('cors');
+const auth = require('./routes/auth')
 
-
-
-const port = 5000; // Set the port directly
+const port = process.env.PORT || 5000;
+require('dotenv').config({ path: '.env' })
 
 // Middleware
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 
 // Routes
-app.use('/api/v1/components', componentsRoutes);
-app.use('/api/v1/templates', templateRoutes)
-// MongoDB connection
-const connectDB = async () => {
-  try {
-    const conn = await mongoose.connect('mongodb+srv://muzekhan777:muzamil@cluster0.jhpz0k8.mongodb.net/?retryWrites=true&w=majority', {
-      useNewUrlParser: true, // Add this option to use the new URL parser
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-      useFindAndModify: false,
-    });
-
-    console.log('MongoDB connected');
-  } catch (err) {
-    console.error('Error connecting to MongoDB:', err);
-  }
-};
+app.use('/api/v1/', auth);
+app.use(errorHandler)
+app.use(notFound)
 
 const start = async () => {
   try {
-    await connectDB(); // Call the connectDB function
-
+    await connectDB(process.env.URI);
     app.listen(port, () =>
       console.log(`Server is listening on port ${port}...`)
     );
@@ -45,4 +29,4 @@ const start = async () => {
   }
 };
 
-start();
+start(); 

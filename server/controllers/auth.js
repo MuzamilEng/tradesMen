@@ -1,14 +1,14 @@
-const User = require('../models/auth');
+const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
 const signUp = async (req, res) => {
     try {
-      const { username, password } = req.body;
+      const { username, password, email } = req.body;
   
-      // Check if the username is already taken
-      const existingUser = await User.findOne({ username });
+      // Check if the email is already taken
+      const existingUser = await User.findOne({ email });
       if (existingUser) {
-        return res.status(400).json({ error: 'Username already exists' });
+        return res.status(400).json({ error: 'email already exists' });
       }
   
       // Hash the password
@@ -19,11 +19,12 @@ const signUp = async (req, res) => {
       const newUser = new User({
         username,
         password: hashedPassword,
+        email
       });
   
-      await newUser.save();
+     const savedUser = await newUser.save();
   
-      res.status(201).json({ message: 'User registered successfully' });
+      res.status(201).json(savedUser);
     } catch (error) {
       console.error('Error during registration:', error);
       res.status(500).json({ error: 'Internal Server Error' });
