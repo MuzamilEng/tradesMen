@@ -34,10 +34,10 @@ const Login = () => {
     const onSubmit = (data, e) => {
         e.preventDefault();
         loginUser(data);
-        showToast('Successfully Signed Up', 'success');
+        showToast('Successfully loggedIn', 'success');
         setTimeout(() => {
             navigate('/');
-        }, 2000);
+        }, 3000);
     };
     return (
         <div>

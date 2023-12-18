@@ -42,7 +42,7 @@ export const signup = [
     { 
         title: "Welcome to TradesMen! Please Sign Up.", url: "/signup",
         form: [
-            {label: "First Name", name: "firstName", type: "text", placeholder: "Enter your firstName",
+            {label: "First Name", name: "username", type: "text", placeholder: "Enter your firstName",
             rules : {
                 required: 'firstName is required',
                 pattern: {

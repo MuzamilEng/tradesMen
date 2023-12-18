@@ -40,7 +40,14 @@ export const storeApi = createApi({
         }),
         loginUser: builder.mutation({
             query: (data) => ({
-                url: '/auth/login',
+                url: '/login',
+                method: 'POST',
+                body: data,
+            }),
+        }),
+        signUpUser: builder.mutation({
+            query: (data) => ({
+                url: '/signUp',
                 method: 'POST',
                 body: data,
             }),
@@ -73,5 +80,6 @@ export const {
     useAddUserMutation,
     useEditUserMutation,
     useDeleteUserMutation,
-    useLoginUserMutation
+    useLoginUserMutation,
+    useSignUpUserMutation
 } = storeApi

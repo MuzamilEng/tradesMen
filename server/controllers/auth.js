@@ -1,9 +1,14 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const JwtStrategy = require('passport-jwt').Strategy;
+const ExtractJwt = require('passport-jwt').ExtractJwt;
+const jwt = require('jsonwebtoken');
 
 const signUp = async (req, res) => {
     try {
-      const { username, password, email } = req.body;
+      const { username, password, email, phoneNumber } = req.body;
   
       // Check if the email is already taken
       const existingUser = await User.findOne({ email });
@@ -19,7 +24,8 @@ const signUp = async (req, res) => {
       const newUser = new User({
         username,
         password: hashedPassword,
-        email
+        email,
+        phoneNumber
       });
   
      const savedUser = await newUser.save();
@@ -31,31 +37,100 @@ const signUp = async (req, res) => {
     }
   };
 
-  const login = async (req, res) => {
+  // Local Strategy for handling username/password login
+passport.use(new LocalStrategy({
+  usernameField: 'email', // Assuming you use email as the username
+  passwordField: 'password',
+}, async (email, password, done) => {
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return done(null, false, { message: 'Incorrect email or password' });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return done(null, false, { message: 'Incorrect email or password' });
+    }
+
+    return done(null, user);
+  } catch (error) {
+    return done(error);
+  }
+}));
+
+// JWT Strategy for handling token-based authentication
+const jwtOptions = {
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: 'JSONWEBTOKKENSECRETKEY!@#$%^&*()', // Replace with a secret key for JWT signing
+};
+
+passport.use(new JwtStrategy(jwtOptions, async (payload, done) => {
+  try {
+    const user = await User.findById(payload.id);
+
+    if (!user) {
+      return done(null, false);
+    }
+
+    return done(null, user);
+  } catch (error) {
+    return done(error, false);
+  }
+}));
+
+// Login Controller
+const login = (req, res, next) => {
+  passport.authenticate('local', { session: false }, (err, user, info) => {
+    if (err) {
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+    if (!user) {
+      return res.status(401).json({ error: info.message });
+    }
+
+    // Generate and sign a JWT token
+    const token = jwt.sign({ id: user._id, email: user.email }, 'JSONWEBTOKKENSECRETKEY!@#$%^&*()', { expiresIn: '1h' });
+
+    // Send the token in the response
+    return res.json({ token });
+  })(req, res, next);
+};
+// Controller to fetch user details using a JWT token
+const getUserDetails = (req, res) => {
+  console.log(req.body, "tokken here");
+  passport.authenticate('jwt', { session: false }, (err, user) => {
+    if (err) {
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+    if (!user) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    // Send user details in the response
+    return res.json({
+      id: user._id,
+      username: user.username,
+      email: user.email,
+    });
+  })(req, res);
+};
+
+const getUsers = async (req, res) => {
     try {
-      const { username, password } = req.body;
-  
-      // Find the user in the database by username
-      const user = await User.findOne({ username });
-  
-      if (!user) {
-        return res.status(401).json({ error: 'Invalid username or password' });
-      }
-  
-      // Compare the provided password with the stored hashed password
-      const passwordMatch = await bcrypt.compare(password, user.password);
-  
-      if (passwordMatch) {
-        res.json({ message: 'Login successful' });
-      } else {
-        res.status(401).json({ error: 'Invalid username or password' });
-      }
+      const users = await User.find();
+      res.json(users);
     } catch (error) {
-      console.error('Error during login:', error);
+      console.error('Error fetching users:', error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
-  };
+}
 module.exports = {
     signUp,
-    login
+    login,
+    getUserDetails
 }

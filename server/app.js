@@ -5,6 +5,8 @@ const errorHandler = require('./middleware/error-handler');
 const notFound = require('./middleware/not-found');
 const cors = require('cors');
 const auth = require('./routes/auth')
+const passport = require('passport');
+const jwt = require('jsonwebtoken');
 
 const port = process.env.PORT || 5000;
 require('dotenv').config({ path: '.env' })
@@ -15,6 +17,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/v1/', auth);
+
 app.use(errorHandler)
 app.use(notFound)
 

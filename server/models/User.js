@@ -10,6 +10,9 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
   },
+  phoneNumber:{
+    type: Number
+  }
 });
 
 module.exports = mongoose.model('User', userSchema);
