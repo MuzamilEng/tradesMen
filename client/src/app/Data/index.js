@@ -294,3 +294,98 @@ export const cards = [
       username: "Wilton Hunt",
     },
   ];
+
+
+  export const tradesmanProfile = [
+    {
+      title: "Customize your tradesmen profile",
+      image: {
+        type: 'file',
+      },
+      form: [
+        {
+          label: "Username",
+          type: "text",
+          name: 'username',
+          placeholder: "Enter your username",
+        },{
+          label: "Email",
+          type: "text",
+          name: 'email',
+          placeholder: "Enter your email",
+        },{
+          label: "Phone Number",
+          type: "number",
+          name: 'phoneNumber',
+          placeholder: "Enter your number",
+        },{
+          label: "Occupation",
+          type: "text",
+          name: 'occupation',
+          placeholder: "Enter your occupation",
+        },
+        {
+          label: "Description",
+          type: "textarea",
+          name: 'description',
+          placeholder: "Enter your description",
+        },
+        {
+          label: "Hourly Rate",
+          type: "number",
+          name: 'hourlyRate',
+          placeholder: "Enter your hourlyRate",
+        },
+        {
+          label: "Ratings",
+          type: "number",
+          name: 'ratings',
+          placeholder: "Enter your ratings",
+        },
+        {
+          label: "Location",
+          type: "text",
+          name: 'location',
+          placeholder: "Enter your location",
+        }
+      ],
+    }
+  ]
+
+  // export const tradesmanProfile = [
+  //   {
+  //     title: "Hello Motto!. Welcome to tradesmen",
+  //     img: "img/man1.avif",
+  //     form: [
+  //       {
+  //         label: "Username",
+  //         title: "Jhons Smilga",
+  //       },{
+  //         label: "Email",
+  //         title: "jhnonsmilga@gmail.com",
+  //       },{
+  //         label: "Phone Number",
+  //         title: "0922 76433 7654",
+  //       },{
+  //         label: "Title",
+  //         title: "Plumber",
+  //       },
+  //       {
+  //         label: "Description",
+  //         title: "I am a skilled plumber with more than 4 years expeirence. I have worked on several industrial projects. I also work on hourly rate and on small sale projects",
+  //       },
+  //       {
+  //         label: "Hourly Rate",
+  //         title: 110,
+  //       },
+  //       {
+  //         label: "Ratings",
+  //         title: 4.5,
+  //       },
+  //       {
+  //         label: "Location",
+  //         title: "USA, Los Angeles",
+  //       }
+  //     ],
+  //   }
+  // ]

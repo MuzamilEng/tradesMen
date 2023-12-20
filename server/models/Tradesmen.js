@@ -10,4 +10,4 @@ const tradesMenSchema = new mongoose.Schema({
       },
   })
 
-module.exports = mongoose.model('User', tradesMenSchema);
+module.exports = mongoose.model('Trademan', tradesMenSchema);

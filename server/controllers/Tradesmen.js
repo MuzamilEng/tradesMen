@@ -1,18 +1,15 @@
-const Letting = require('../models/Lettings');
+const TrademanSchema = require('../models/Tradesmen');
 const cloudinary = require('../cloudinary.config')
 
-const createLettings = async (req, res) => {
-  const {
-    propertyName, pricePerWeek, pricePerMonth, info, availableDate, furnished, bills, bedrooms, bathrooms, reception,
-    location, keyFeatures, lettingDetails, description, propertyFor, propertyType,
-  } = req.body;
+const createTrademanProfile = async (req, res) => {
+  const { mainTitle, info, location, } = req.body;
 
   const imageUrls = [];
 
   try {
     // Upload images to Cloudinary in parallel
     await Promise.all(
-      Array.from({ length: 15 }, (_, index) => `image${index + 1}`).map(async (fieldName) => {
+      Array.from({ length: 3 }, (_, index) => `image${index + 1}`).map(async (fieldName) => {
         if (req.files[fieldName]) {
           const image = req.files[fieldName][0];
           const result = await cloudinary.uploader.upload(image.path, {
@@ -23,9 +20,8 @@ const createLettings = async (req, res) => {
       })
     );
 
-    const newContent = new Letting({
-      propertyName, pricePerWeek, pricePerMonth, info, availableDate, furnished, bills, bedrooms, bathrooms, reception,
-      location, keyFeatures, lettingDetails, description, propertyFor, propertyType, ...Object.assign({}, ...imageUrls),
+    const newContent = new TrademanSchema({
+     mainTitle, info, location, ...Object.assign({}, ...imageUrls),
     });
 
     const savedContent = await newContent.save();
@@ -43,20 +39,14 @@ const createLettings = async (req, res) => {
 };
 
 
-// Function to update an existing letting
-const updateLettings = async (req, res, next) => {
-  const {
-    propertyName, pricePerWeek, pricePerMonth, info, availableDate, furnished, bills, bedrooms, bathrooms, reception,
-    location, keyFeatures, lettingDetails, description, propertyFor
-  } = req.body;
+// Function to update an existing trademan
+const updateTrademanProfile = async (req, res, next) => {
+  const { mainTitle, info, location } = req.body;
 
-  const updateFields = {
-    propertyName, pricePerWeek, pricePerMonth, info, availableDate, furnished, bills, bedrooms, bathrooms, reception,
-    location, keyFeatures, lettingDetails, description, propertyFor, propertyType,
-  };
+  const updateFields = {mainTitle, info, location};
 
   try {
-    const existingContent = await Letting.findById(req.params.id);
+    const existingContent = await TrademanSchema.findById(req.params.id);
 
     if (!existingContent) {
       return res.status(404).json({ message: 'Content not found' });
@@ -88,7 +78,8 @@ const updateLettings = async (req, res, next) => {
       await cloudinary.uploader.destroy(publicId.replace(cloudinary.config().cloud_name + '/', ''));
     }
 
-    const updatedContent = await Letting.findByIdAndUpdate(
+    const updatedContent = await 
+    TrademanSchema.findByIdAndUpdate(
       req.params.id,
       { $set: updateFields },
       { new: true }
@@ -105,99 +96,47 @@ const updateLettings = async (req, res, next) => {
   }
 };
 
-// Get all lettings
-const getAllLettings = async (req, res) => {
+// Get all trademans
+const getAllTradesmenProfiles = async (req, res) => {
   try {
-    const lettings = await Letting.find();
-    res.status(200).json(lettings);
+    const profiles = await TrademanSchema.find();
+    res.status(200).json(profiles);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
-// Get a single letting by ID
-const getLettingById = async (req, res) => {
+// Get a single trademan by ID
+const getTrademanProfileById = async (req, res) => {
   try {
-    const letting = await Letting.findById(req.params.id);
-    if (!letting) {
-      return res.status(404).json({ error: 'Letting not found' });
+    const profile = await TrademanSchema.findById(req.params.id);
+    if (!profile) {
+      return res.status(404).json({ error: 'profile not found' });
     }
-    res.status(200).json(letting);
+    res.status(200).json(profile);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
-// Delete a letting by ID
-const deleteLettingById = async (req, res) => {
+// Delete a trademan by ID
+const deleteTrademanProfile = async (req, res) => {
   try {
-    const deletedLetting = await Letting.findByIdAndRemove(req.params.id);
-    if (!deletedLetting) {
-      return res.status(404).json({ error: 'Letting not found' });
+    const profile = await TrademanSchema.findByIdAndRemove(req.params.id);
+    if (!profile) {
+      return res.status(404).json({ error: 'profile not found' });
     }
-    res.status(200).json(deletedLetting);
+    res.status(200).json(profile);
     // console.log("Successfully deleted");
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-const advancedSearch = async (req, res) => {
-  const { minPrice, maxPrice, bedrooms, propertyType } = req.query;
-
-  // Define an array to store the conditions for the $and operator
-  const andConditions = [];
-  
-  // Check and add conditions based on the provided query parameters
-  if (minPrice && maxPrice) {
-    andConditions.push({
-      pricePerMonth: { $gte: parseInt(minPrice), $lte: parseInt(maxPrice) },
-    });
-  }
-  
-  if (bedrooms) {
-    andConditions.push({ bedrooms: parseInt(bedrooms) });
-  }
-  
-  if (propertyType) {
-    andConditions.push({ propertyType: propertyType });
-  }
-  
-  // Build the final search query
-  const searchQuery = {
-    $or: andConditions,
-  };
-  
-  try {
-    const searchResults = await Letting.find(searchQuery);
-  
-    // Check if at least three conditions match
-    const matchingConditions =
-      (minPrice && maxPrice ? 1 : 0) +
-      (bedrooms ? 1 : 0) +
-      (propertyType ? 1 : 0);
-  
-    if (matchingConditions >= 3) {
-      // Send the relevant response containing the filtered items
-      res.status(200).json(searchResults);
-    } else {
-      res.status(400).json({
-        error: 'Not enough conditions matched.',
-      });
-    }
-  } catch (error) {
-    console.error('Error during search:', error);
-    res.status(500).json({
-      error: 'Internal server error',
-    });
-  }
-};
-
 
 
 module.exports = {
-createLettings,
-  getAllLettings,
-  getLettingById,
-  deleteLettingById,
-  updateLettings,
-  advancedSearch
+  createTrademanProfile,
+  updateTrademanProfile,
+  getAllTradesmenProfiles,
+  getTrademanProfileById,
+  deleteTrademanProfile
 };
