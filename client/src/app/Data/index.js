@@ -37,6 +37,110 @@ export const login = [
         ]
     }
 ]
+export const tradesmanProfile = [
+  {
+    title: "Customize your tradesmen profile",
+    image: {
+      name: "image",
+      type: 'file',
+    },
+    form: [
+      {
+        label: "Username",
+        type: "text",
+        name: 'username',
+        placeholder: "Enter your username",
+        rules : {
+          required: 'username is required',
+          minLength: {
+              value: 4,
+              message: 'username must be at least 4 characters',
+          }
+      }
+      },{
+        label: "Email",
+        type: "text",
+        name: 'email',
+        placeholder: "Enter your email",
+        rules : {
+          required: 'Email is required',
+          pattern: {
+              value: /^\S+@\S+$/i,
+              message: 'Invalid email format',
+          }
+      }
+      },{
+        label: "Phone Number",
+        type: "number",
+        name: 'phoneNumber',
+        placeholder: "Enter your number",
+        rules : {
+          required: 'phone number is required',
+          pattern: {
+              value: /^[0-9]+$/,
+              message: 'Invalid phone number format',
+          }
+      }
+  },
+      ,{
+        label: "Occupation",
+        type: "text",
+        name: 'occupation',
+        placeholder: "Enter your occupation",
+        rules : {
+          required: 'Occupation is required',
+          message: 'Occupation is required',
+      }
+      },
+      {
+        label: "Description",
+        type: "textarea",
+        name: 'description',
+        placeholder: "Enter your description",
+        rules : {
+          required: 'Description is required',
+          message: 'Description is required',
+
+      }
+      },
+      {
+        label: "Hourly Rate",
+        type: "number",
+        name: 'hourlyRate',
+        placeholder: "Enter your hourlyRate",
+        rules : {
+          rules : {
+            required: 'Hourly Rate is required',
+            message: 'Hourly Rate is required',
+  
+        }
+      }
+      },
+      {
+        label: "Ratings",
+        type: "number",
+        name: 'ratings',
+        placeholder: "Enter your ratings",
+        rules : {
+          rules : {
+            required: 'Ratings is required',
+            message: 'ratings is required',
+        }
+      }
+      },
+      {
+        label: "Location",
+        type: "text",
+        name: 'location',
+        placeholder: "Enter your location",
+        rules : {
+            required: 'Location is required',
+            message: 'Location is required',
+      }
+    },
+    ],
+  }
+]
 
 export const signup = [
     { 
@@ -296,61 +400,7 @@ export const cards = [
   ];
 
 
-  export const tradesmanProfile = [
-    {
-      title: "Customize your tradesmen profile",
-      image: {
-        type: 'file',
-      },
-      form: [
-        {
-          label: "Username",
-          type: "text",
-          name: 'username',
-          placeholder: "Enter your username",
-        },{
-          label: "Email",
-          type: "text",
-          name: 'email',
-          placeholder: "Enter your email",
-        },{
-          label: "Phone Number",
-          type: "number",
-          name: 'phoneNumber',
-          placeholder: "Enter your number",
-        },{
-          label: "Occupation",
-          type: "text",
-          name: 'occupation',
-          placeholder: "Enter your occupation",
-        },
-        {
-          label: "Description",
-          type: "textarea",
-          name: 'description',
-          placeholder: "Enter your description",
-        },
-        {
-          label: "Hourly Rate",
-          type: "number",
-          name: 'hourlyRate',
-          placeholder: "Enter your hourlyRate",
-        },
-        {
-          label: "Ratings",
-          type: "number",
-          name: 'ratings',
-          placeholder: "Enter your ratings",
-        },
-        {
-          label: "Location",
-          type: "text",
-          name: 'location',
-          placeholder: "Enter your location",
-        }
-      ],
-    }
-  ]
+ 
 
   // export const tradesmanProfile = [
   //   {

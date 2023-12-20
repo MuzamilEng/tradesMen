@@ -5,29 +5,29 @@ export const storeApi = createApi({
     reducerPath: 'storeApi',
     baseQuery: fetchBaseQuery({ baseUrl: ' http://localhost:5000/api/v1' }),
     endpoints: (builder) => ({
-        getHomeContent: builder.query({
-            query: () => `/home`,
+        getAllTradesmen: builder.query({
+            query: () => `/tradesman`,
         }),
-        getPostsById: builder.query({
-            query: (id) => `/products/${id}`,
+        getTrademanById: builder.query({
+            query: (id) => `/tradesman/${id}`,
           }),
-        addHomeContent: builder.mutation({
+        addTradesman: builder.mutation({
             query: (data) => ({
-                url: '/home',
+                url: '/tradesman',
                 method: 'POST',
                 body: data,
             }),
         }),
-        updateHomeContent: builder.mutation({
+        updateTradesman: builder.mutation({
             query: ({ id, data }) => ({
-              url: `/edit-home/${id}`,
+              url: `/tradesman/${id}`,
               method: 'PUT',
               body: data,
             }),
         }),
-        deletePost: builder.mutation({
+        deleteTradesman: builder.mutation({
             query: (id) => ({
-              url: `/products/${id}`,
+              url: `/tradesman/${id}`,
               method: 'DELETE',
             }),
           }),
@@ -69,14 +69,11 @@ export const storeApi = createApi({
 })
 
 export const {
-    useGetHomeContentQuery,
-    useAddHomeContentMutation,
-    useUpdateHomeContentMutation,
-    useAddPostMutation,
-    useGetPostsQuery,
-    useGetPostsByIdQuery,
-    useDeletePostMutation,
-    useUpdatePostMutation,
+    useGetAllTradesmenQuery,
+    useGetTrademanByIdQuery,
+    useAddTradesmanMutation,
+    useUpdateTradesmanMutation,
+    useDeleteTradesmanMutation,
     useAddUserMutation,
     useEditUserMutation,
     useDeleteUserMutation,

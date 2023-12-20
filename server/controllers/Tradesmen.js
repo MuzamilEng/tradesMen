@@ -1,35 +1,34 @@
 const TrademanSchema = require('../models/Tradesmen');
 const cloudinary = require('../cloudinary.config')
 
+
 const createTrademanProfile = async (req, res) => {
-  const { mainTitle, info, location, } = req.body;
-
-  const imageUrls = [];
-
+  console.log(req.body, );
+  const { occupation, username, email, ratings, hourlyRate, description, location, } = req.body;
   try {
-    // Upload images to Cloudinary in parallel
-    await Promise.all(
-      Array.from({ length: 3 }, (_, index) => `image${index + 1}`).map(async (fieldName) => {
-        if (req.files[fieldName]) {
-          const image = req.files[fieldName][0];
-          const result = await cloudinary.uploader.upload(image.path, {
-            folder: 'Assets',
-          });
-          imageUrls.push({ [fieldName]: { public_id: result.public_id, url: result.secure_url } });
-        }
-      })
-    );
-
+    let mainImageURL;
+    console.log(req.file, "hello kjs");
+    if (req.file) {
+      console.log('File received:', req.file);
+      const mainImage = req.file;
+      const mainImageResult = await cloudinary.uploader.upload(mainImage.path, {
+        folder: 'Assets',
+      });
+      mainImageURL = mainImageResult.secure_url;
+      console.log(mainImageURL);
+    }
     const newContent = new TrademanSchema({
-     mainTitle, info, location, ...Object.assign({}, ...imageUrls),
+      occupation, username, email, ratings, hourlyRate, description, location, image: mainImageURL,
     });
 
     const savedContent = await newContent.save();
 
     const responseObj = {
       ...savedContent._doc,
-      ...Object.assign({}, ...imageUrls),
     };
+    if (mainImageURL) {
+      responseObj.mainImage = mainImageURL;
+    }
 
     res.status(201).json(responseObj);
   } catch (error) {
@@ -41,9 +40,9 @@ const createTrademanProfile = async (req, res) => {
 
 // Function to update an existing trademan
 const updateTrademanProfile = async (req, res, next) => {
-  const { mainTitle, info, location } = req.body;
+  const { occupation, username, email, ratings, hourlyRate, description, location } = req.body;
 
-  const updateFields = {mainTitle, info, location};
+  const updateFields = {occupation, username, email, ratings, hourlyRate, description, location};
 
   try {
     const existingContent = await TrademanSchema.findById(req.params.id);

@@ -1,13 +1,21 @@
 const mongoose = require('mongoose');
 
 const tradesMenSchema = new mongoose.Schema({
-    mainTitle: String,
-      info: String,
+    occupation: String,
+    username: String,
+    email: String,
+    ratings: Number,
+    hourlyRate: Number,
+      description: String,
       location: String,
+      phoneNumber: Number,
       image: {
-           public_id: {type: String,},
-         url: {type: String,}
-      },
+        type: String,
+      }
+      // image: {
+      //      public_id: {type: String,},
+      //    url: {type: String,}
+      // },   
   })
 
 module.exports = mongoose.model('Trademan', tradesMenSchema);
