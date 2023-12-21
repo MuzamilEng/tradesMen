@@ -8,6 +8,7 @@ import { useLoginUserMutation } from '../store/storeApi';
 import { Icon } from '@iconify/react';
 import Header from '../Component/Header';
 import Navbar from '../Component/Navbar';
+import axios from 'axios';
 
 const Login = () => {
     const [loginUser] = useLoginUserMutation();
@@ -31,13 +32,33 @@ const Login = () => {
         });
     };
 
-    const onSubmit = (data, e) => {
+    const onSubmit = async (data, e) => {
         e.preventDefault();
-        loginUser(data);
-        showToast('Successfully loggedIn', 'success');
-        setTimeout(() => {
-            navigate('/');
-        }, 3000);
+       try {
+        const response  = await loginUser(data);
+        // console.log(response.data.token, 'success');
+        const fetchDetails = await axios.get('http://localhost:5000/api/v1/getDetails', {
+            headers: {
+              Authorization: `Bearer ${response.data.token}`,
+            },
+          });
+       // Storing user login info in localStorage
+        const userLoginInfo = fetchDetails?.data;
+        localStorage.setItem('userLoginInfo', JSON.stringify(userLoginInfo));
+        //   console.log(fetchDetails.data, 'fetched user details');
+        //   console.log(fetchDetails.status, 'fetched user details');
+        if(fetchDetails.status === 200 || fetchDetails.status === 201) {
+            showToast('Successfully Logged In', 'success');
+            setTimeout(() => {
+                navigate('/');
+            }, 3000);
+        } else {
+            showToast('Failed to login. Please try again.', 'error');
+        }
+       } catch (error) {
+        console.error('Error during login:', error);
+        showToast('An unexpected error occurred. Please try again.', 'error');
+       }
     };
     return (
         <div>

@@ -4,14 +4,13 @@ import { useForm, Controller } from 'react-hook-form';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-import { useLoginUserMutation, useSignUpUserMutation } from '../store/storeApi';
+import { useSignUpUserMutation } from '../store/storeApi';
 import { Icon } from '@iconify/react';
 import Header from '../Component/Header';
 import Otp from '../Component/Otp';
 import { useGlobalContext } from '../UserContext/UserContext';
 
 const Signup = () => {
-    // const [loginUser] = useLoginUserMutation();
     const [signUpUser] = useSignUpUserMutation()
     const {userInfo, setUserInfo} = useGlobalContext();
     const [showOpt, setShowOpt] = React.useState(false);
@@ -19,22 +18,21 @@ const Signup = () => {
     const [otpValue, setOptValue] = React.useState([]);
     const { handleSubmit, setValue, control, formState: { errors } } = useForm({
         defaultValues: {
-            username: "",
+            firstName: "",
+            lastName: '',
             email: '',
             password: '',
             phoneNumber: '',
+            category: '',
         },
     });
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        console.log(value, "value")
         setUserInfo({
             ...userInfo,
             [name]: value
         })
         setValue(name, value);
-        console.log(userInfo, "userInfo");
     };
     const showToast = (message, type) => {
         toast[type](message, {
@@ -43,14 +41,30 @@ const Signup = () => {
         });
     };
 
-    const onSubmit = (data, e) => {
+    const onSubmit = async (data, e) => {
         e.preventDefault();
-        signUpUser(data);
-        showToast('Successfully Signed Up', 'success');
-        setTimeout(() => {
-            navigate('/');
-        }, 2000);
+        try {
+            const response = await signUpUser(data);
+            // console.log(response, 'success');
+            // console.log(response.data, 'success');
+                if (!response.error) {
+                showToast('Successfully Signed Up', 'success');
+                    if (response.data.category === 'tradesman') {
+                    navigate('/login');
+                } else {
+                    setTimeout(() => {
+                        navigate('/');
+                    }, 2000);
+                }
+            } else {
+                showToast('Failed to sign up. Please try again.', 'error');
+            }
+        } catch (error) {
+            console.error('Error during sign-up:', error);
+            showToast('An unexpected error occurred. Please try again.', 'error');
+        }
     };
+    
     return (
         <div>
             <main className='w-screen relative h-full'>
@@ -81,9 +95,31 @@ const Signup = () => {
                                     {errors[form?.name] && <p className='text-red-500'>{errors[form?.name]?.message}</p>}
                                 </div>
                             ))}
+                                    <h1 className='text-vw text-black font-medium ml-vw mt-vw'>Select your category</h1> <br />
+                                <section className="grid grid-cols-2 gap-2">
+                                    {item?.category?.map((form, index) => (
+                                        <div key={index} className='w-full p-0.5vw max-w-[30vw]'>
+                                            {form?.options.map((option, optionIndex) => (
+                                                <div key={optionIndex} className="ml-vw flex items-center">
+                                                    <input
+                                                        type={form?.type}
+                                                        id={`${form?.name}-${option.value}`}
+                                                        name={form?.name}
+                                                        value={option.value}
+                                                        onChange={handleInputChange}
+                                                        checked={option.value === userInfo.category}
+                                                        className="ml-vw"
+                                                    />
+                                                    <label className='text-vw ml-0.5vw text-black font-medium' htmlFor={`${form?.name}-${option.value}`}>{option.label}</label>
+                                                </div>
+                                            ))}
+                                            <br />
+                                            {errors[form?.name] && <p className='text-red-500'>{errors[form?.name]?.message}</p>}
+                                        </div>
+                                    ))}
+                                </section>
                             </section>
                             <div className="flex w-full justify-center items-center">
-                                {/* <button type='submit' className='bg-[#1dbf73] text-white mt-2vw p-0.5vw w-full max-w-[10vw] hover:bg-[#1dbf73e0] text-vw rounded-md' onClick={() => setShowOpt(true)}>Sign Up</button> */}
                                 <button type='submit' className='bg-[#1dbf73] text-white mt-2vw p-0.5vw w-full max-w-[10vw] hover:bg-[#1dbf73e0] text-vw rounded-md'>Sign Up</button>
                             </div>
                             <p className='text-[0.9vw] mt-0.5vw w-full text-center'>or continue with</p>

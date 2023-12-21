@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 
 const signUp = async (req, res) => {
     try {
-      const { username, password, email, phoneNumber } = req.body;
+      const { firstName, lastName, category, password, email, phoneNumber } = req.body;
   
       // Check if the email is already taken
       const existingUser = await User.findOne({ email });
@@ -22,7 +22,7 @@ const signUp = async (req, res) => {
   
       // Create and save the new user
       const newUser = new User({
-        username,
+        firstName, lastName, category,
         password: hashedPassword,
         email,
         phoneNumber
@@ -114,21 +114,21 @@ const getUserDetails = (req, res) => {
     // Send user details in the response
     return res.json({
       id: user._id,
-      username: user.username,
+      username: user.firstName,
       email: user.email,
     });
   })(req, res);
 };
 
-const getUsers = async (req, res) => {
-    try {
-      const users = await User.find();
-      res.json(users);
-    } catch (error) {
-      console.error('Error fetching users:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
-}
+// const getUsers = async (req, res) => {
+//     try {
+//       const users = await User.find();
+//       res.json(users);
+//     } catch (error) {
+//       console.error('Error fetching users:', error);
+//       res.status(500).json({ error: 'Internal Server Error' });
+//     }
+// }
 module.exports = {
     signUp,
     login,

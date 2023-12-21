@@ -6,8 +6,9 @@ const UserContext = createContext();
 export const useGlobalContext = () => useContext(UserContext);
 
 export const UserProvider = ({ children }) => {
-  const [userInfo, setUserInfo] = useState({username: "", password: "", email: "", phoneNumber: null})
+  const [userInfo, setUserInfo] = useState({firstName: "", lastName: "", password: "", email: "", phoneNumber: null, category: "",})
   const [content, setContent] = useState([]);
+  const [userDetails, setUserDetails] = useState({firstName: "", lastName: "", password: "", email: "", phoneNumber: null, category: "",});
   const [tradesManProfile, setTradesManProfile] = useState({
     username: "",
     email: "",
@@ -19,9 +20,10 @@ export const UserProvider = ({ children }) => {
     location: "",
     image: "" // Set image as an object
   })
-  
+  const userLoginInfo =  localStorage.getItem('userLoginInfo')
+  console.log(userLoginInfo, 'userinfo');
   return (
-    <UserContext.Provider value={{ content, setContent, userInfo, setUserInfo, tradesManProfile, setTradesManProfile }}>
+    <UserContext.Provider value={{ content, userDetails, setUserDetails, setContent, userInfo, setUserInfo, tradesManProfile, setTradesManProfile }}>
       {children}
     </UserContext.Provider>
   );

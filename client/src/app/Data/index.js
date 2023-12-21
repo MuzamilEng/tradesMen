@@ -146,7 +146,7 @@ export const signup = [
     { 
         title: "Welcome to TradesMen! Please Sign Up.", url: "/signup",
         form: [
-            {label: "First Name", name: "username", type: "text", placeholder: "Enter your firstName",
+            {label: "First Name", name: "firstName", type: "text", placeholder: "Enter your firstName",
             rules : {
                 required: 'firstName is required',
                 pattern: {
@@ -200,8 +200,18 @@ export const signup = [
         }
     }
 },
-        ]
-    }
+    ],
+    category: [
+      {
+          label: "User", value: "user", name: "category", type: "radio",
+          options: [ { label: "User", value: "user" }],
+      },
+      { label: "Tradesman", value: "tradesman", name: "category", type: "radio", 
+        options: [ { label: "Tradesman", value: "tradesman" }],
+      },
+  ],
+  
+  }
 ]
 
 

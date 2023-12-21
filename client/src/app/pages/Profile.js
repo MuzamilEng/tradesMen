@@ -9,20 +9,25 @@ import { useAddTradesmanMutation } from '../store/storeApi';
 import { useGlobalContext } from '../UserContext/UserContext';
 
 const Profile = () => {
+   // Retrieving user login info from localStorage
+   const userLoginInfoString = localStorage.getItem('userLoginInfo');
+   const userLoginInfo = JSON.parse(userLoginInfoString);
     const [addTradesman] = useAddTradesmanMutation();
     const navigate = useNavigate();
+    // const [userDetails, setUserDetails] = useState(null)
     const { tradesManProfile, setTradesManProfile } = useGlobalContext();
     const [selectedImageURL, setSelectedImageURL] = useState(tradesManProfile?.image || "");
     const { handleSubmit, setValue, control, formState: { errors } } = useForm({
       defaultValues: {
         occupation: tradesManProfile?.occupation || "",
-        username: tradesManProfile?.username || "",
-        email: tradesManProfile?.email || "",
+        username: userLoginInfo?.username || "",
+        email: userLoginInfo?.email || "",
+        phoneNumber: userLoginInfo?.phoneNumber || "",
         ratings: tradesManProfile?.ratings || "",
         hourlyRate: tradesManProfile?.hourlyRate || "",
         description: tradesManProfile?.description || "",
         location: tradesManProfile?.location || "",
-        image: tradesManProfile?.image // Set image as an object
+        image: tradesManProfile?.image
       },
     });
   
@@ -49,7 +54,6 @@ const Profile = () => {
           formData.append(key, data[key]);
         }
       }
-  
       // Append image to formData
       if (tradesManProfile?.image) {
         formData.append('image', tradesManProfile.image);

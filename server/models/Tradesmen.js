@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const tradesMenSchema = new mongoose.Schema({
+  userinfo: Object,
     occupation: String,
     username: String,
     email: String,
