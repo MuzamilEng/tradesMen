@@ -4,6 +4,7 @@ import Home from './app/pages/Home'
 import Login from './app/pages/Login'
 import Signup from './app/pages/Signup'
 import Profile from './app/pages/Profile'
+import MapComponent from './app/Component/MapComponent'
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
         <Route path='/profile' element={<Profile />} />
+        <Route path='/map' element={<MapComponent />} />
       </Routes>
     </>
   )
