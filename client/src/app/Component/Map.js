@@ -44,8 +44,10 @@ const Map = ({setSearchedLocation}) => {
     map.addControl(new mapboxgl.NavigationControl());
     map.addControl(new mapboxgl.ScaleControl());
     map.addControl(new mapboxgl.FullscreenControl());
-    map.addControl(new mapboxgl.GeolocateControl());
-    // map.addControl(new mapboxgl.CompassControl(), 'top-left');
+    map.on('load', () => {
+      // Add GeolocateControl only after the map has loaded
+      map.addControl(new mapboxgl.GeolocateControl());
+    });
 
     const fetchSuggestions = async () => {
       if (searchText) {
@@ -74,11 +76,11 @@ const Map = ({setSearchedLocation}) => {
         marker.remove();
       }
 
-      const customIcon = document.createElement('div');
-      customIcon.className = 'custom-marker';
-      customIcon.style.backgroundImage = 'url(/img/star.png)';
-      customIcon.style.width = '30px';
-      customIcon.style.height = '30px';
+      const customIcon = document.createElement('img');
+    customIcon.src = '/images/marker1.png';
+    customIcon.style.width = '3vw';
+    customIcon.style.height = '3vw';
+    customIcon.style.marginTop = '-1.2vw';
 
       const newMarker = new mapboxgl.Marker({ element: customIcon }).setLngLat(lngLat).addTo(map);
       setMarker(newMarker);
@@ -110,15 +112,16 @@ const Map = ({setSearchedLocation}) => {
 
   return (
     <div className='relative'>
-      <input
-        type="text"
-        placeholder="Enter your business address"
-        value={searchText}
-        className="w-full h-[3rem] text-lg text-black p-2 border-[1.5px] rounded-lg m-2 focus:outline-blue-900"
-        onChange={handleSearchLocation}
-      />
-      <Icon className='absolute top-5 text-2xl right-2' icon="bi:search" color="black" onClick={handleSearchLocation} />
-      {/* <button onClick={handleSearch}>Search</button> */}
+    <div className="flex items-center w-full justify-between w-full max-w-[23vw] border-[1px] rounded-lg border-gray-300">
+            <input
+            type="text"
+            placeholder="Enter your location"
+            value={searchText}
+            className="w-full text-vw text-black max-w-[20vw] p-[0.7vw] bouder-none focus:outline-none"
+            onChange={handleSearchLocation}
+          />
+          <Icon className='text-[1.3vw] cursor-pointer mr-[0.5vw]' icon="bi:search" color="black" onClick={handleSearchLocation} />
+    </div>
       <ul>
         {selectedSuggestion ? (
           <li onClick={() => handleSuggestionClick(selectedSuggestion)}>
