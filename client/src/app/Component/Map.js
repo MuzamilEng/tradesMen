@@ -7,6 +7,7 @@ const ACCESS_TOKEN = 'pk.eyJ1Ijoic3BlY25nIiwiYSI6ImNrZXg3N3dlOTA2cjgydGxieG80czF
 const Map = ({setSearchedLocation}) => {
   const [searchText, setSearchText] = useState('');
   const [suggestions, setSuggestions] = useState([]);
+  const [hideSuggestions, setHideSuggestions] = useState(false);
   const [selectedSuggestion, setSelectedSuggestion] = useState(null);
   const [marker, setMarker] = useState(null);
 
@@ -54,7 +55,7 @@ const Map = ({setSearchedLocation}) => {
         const suggestions = await getSearchSuggestions(searchText);
         if (suggestions[0]) {
           const lngLat = suggestions[0].center;
-          if (map) {
+          if (map && hideSuggestions) {
             map.flyTo({ center: lngLat });
             addMarker(lngLat);
           }
@@ -76,7 +77,7 @@ const Map = ({setSearchedLocation}) => {
         marker.remove();
       }
 
-      const customIcon = document.createElement('img');
+    const customIcon = document.createElement('img');
     customIcon.src = '/images/marker1.png';
     customIcon.style.width = '3vw';
     customIcon.style.height = '3vw';
@@ -92,22 +93,11 @@ const Map = ({setSearchedLocation}) => {
   };
 
   const handleSuggestionClick = (suggestion) => {
-      setSelectedSuggestion(suggestion.place_name);
     setSearchText(suggestion.place_name);
     setSearchedLocation(suggestion);
-    const lngLat = suggestion.center;
-  
-    if (map) {
-      if (!selectedSuggestion) {
-        map.flyTo({ center: lngLat });
-      }
-  
-      // Remove all other suggestions
-      setSuggestions([]);
-      addMarker(lngLat); // Add marker to the selected location
-    }
+    setHideSuggestions(true)
   };
-  
+
   
 
   return (
@@ -128,7 +118,7 @@ const Map = ({setSearchedLocation}) => {
             {selectedSuggestion.place_name}
           </li>
         ) : (
-          suggestions.map((suggestion) => (
+        !hideSuggestions && suggestions.map((suggestion) => (
             <li key={suggestion.id} onClick={() => handleSuggestionClick(suggestion)}>
               {suggestion.place_name}
             </li>
@@ -141,3 +131,33 @@ const Map = ({setSearchedLocation}) => {
 };
 
 export default Map;
+
+
+// <div className='relative'>
+// <div className="flex absolute top-0 z-50 bg-white items-center w-full justify-between w-full max-w-[30vw] border-[1px] rounded-lg border-gray-300">
+//         <input
+//         type="text"
+//         placeholder="Enter your location"
+//         value={searchText}
+//         className="w-full text-vw text-black max-w-[20vw] p-[0.7vw] bouder-none focus:outline-none"
+//         onChange={handleSearchLocation}
+//       />
+//       <Icon className='text-[1.3vw] cursor-pointer mr-[0.5vw]' icon="bi:search" color="black" onClick={handleSearchLocation} />
+// </div>
+// <ul className='absolute top-3vw bg-white w-full max-w-[30vw] border-[1px] rounded-lg border-gray-300'>
+//   {selectedSuggestion ? (
+//     <li onClick={() => handleSuggestionClick(selectedSuggestion)}>
+//       {selectedSuggestion.place_name}
+//     </li>
+//   ) : (
+//     suggestions.map((suggestion) => (
+//       <li key={suggestion.id} onClick={() => handleSuggestionClick(suggestion)}>
+//         {suggestion.place_name}
+//       </li>
+//     ))
+//   )}
+// </ul>
+// {/* <div id="map" style={{ position: 'absolute ', top: '0', width: '100%', height: '600px' }} /> */}
+// <div id="map" className='w-full h-40vw absolute top-0 z-10' />
+// </div>
+
