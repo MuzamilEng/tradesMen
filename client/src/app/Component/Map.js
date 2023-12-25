@@ -37,7 +37,7 @@ const Map = ({setSearchedLocation}) => {
     map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v12',
-      center: [-73.99209, 40.68933],
+      center: [-1.567857, 53.812431],
       zoom: 12.8,
     });
 
@@ -102,7 +102,7 @@ const Map = ({setSearchedLocation}) => {
 
   return (
     <div className='relative'>
-    <div className="flex items-center w-full justify-between w-full max-w-[23vw] border-[1px] rounded-lg border-gray-300">
+    <div className="flex absolute top-0 left-0 z-50 bg-white items-center w-full justify-between w-full max-w-[23vw] border-[1px] rounded-lg border-gray-300">
             <input
             type="text"
             placeholder="Enter your location"
@@ -112,20 +112,21 @@ const Map = ({setSearchedLocation}) => {
           />
           <Icon className='text-[1.3vw] cursor-pointer mr-[0.5vw]' icon="bi:search" color="black" onClick={handleSearchLocation} />
     </div>
-      <ul>
+      {/* <ul className={`w-full absolute top-[3.4vw] left-0 z-50 ${!suggestions && !hideSuggestions ? 'bg-transparent border-none' : 'bg-white border-[1px] border-gray-300'} p-0.5vw max-w-[20vw]`}> */}
+      <ul className={`w-full absolute top-[3.4vw] left-0 z-50 ${suggestions && 'bg-white'} max-w-[20vw]`}>
         {selectedSuggestion ? (
-          <li onClick={() => handleSuggestionClick(selectedSuggestion)}>
+          <li className='text-vw p-0.3vw' onClick={() => handleSuggestionClick(selectedSuggestion)}>
             {selectedSuggestion.place_name}
           </li>
         ) : (
         !hideSuggestions && suggestions.map((suggestion) => (
-            <li key={suggestion.id} onClick={() => handleSuggestionClick(suggestion)}>
+            <li key={suggestion.id} className='text-vw p-0.3vw' onClick={() => handleSuggestionClick(suggestion)}>
               {suggestion.place_name}
             </li>
           ))
         )}
       </ul>
-      <div id="map" style={{ position: 'absolute', width: '100%', height: '600px' }} />
+      <div id="map" style={{ position: 'absolute', width: '60vw', height: '30vw' }} />
     </div>
   );
 };

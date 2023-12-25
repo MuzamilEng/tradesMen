@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../Component/Header'
 import { tradesmanProfile } from '../Data'
 import { useForm, Controller } from 'react-hook-form';
@@ -7,8 +7,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAddTradesmanMutation } from '../store/storeApi';
 import { useGlobalContext } from '../UserContext/UserContext';
+import Map from '../Component/Map';
+
+{/* <Map setSearchedLocation={setSearchedLocation}/> */}
 
 const Profile = () => {
+  const [searchedLocation, setSearchedLocation] = useState(null)
    // Retrieving user login info from localStorage
    const userLoginInfoString = localStorage.getItem('userLoginInfo');
    const userLoginInfo = JSON.parse(userLoginInfoString);
@@ -84,6 +88,10 @@ const Profile = () => {
       }
     };
 
+    useEffect(()=> {
+      console.log(searchedLocation,'searchedLocation');
+  }, [searchedLocation])
+
   return (
     <div>
         <Header />
@@ -145,6 +153,12 @@ const Profile = () => {
                                 <button type='submit' className='bg-[#1dbf73] text-white mt-2vw p-0.5vw w-full max-w-[10vw] hover:bg-[#1dbf73e0] text-vw rounded-md'>Submit</button>
                             </div>
                     </div>
+                            <div className="mb-4vw">
+                      <Map setSearchedLocation={setSearchedLocation} />
+                    </div>
+                    <div className="flex w-full justify-center items-center">
+                                <button type='submit' className='bg-[#1dbf73] text-white mt-2vw p-0.5vw w-full max-w-[10vw] hover:bg-[#1dbf73e0] text-vw rounded-md'>Submit</button>
+                            </div>
                 </div>
             ))}
         </form>
