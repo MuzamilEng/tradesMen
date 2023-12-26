@@ -40,7 +40,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/v1/', auth);
-// app.use('/api/v1/tradesman', tradesmanRoute);
+app.use('/api/v1/tradesman', tradesmanRoute);
 app.post('/api/v1/tradesman', upload.single('image'), async (req, res, next) => {
   const { occupation, username, email, ratings, hourlyRate, description, location,lat, lng } = req.body;
   console.log(req.body, 'req.body');

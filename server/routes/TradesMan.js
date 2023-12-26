@@ -26,7 +26,7 @@ const uploadFiles = upload.fields([{ name: 'image', maxCount: 1 }, { name: 'imag
 router.route('/').get(getAllTradesmenProfiles);
 
 // Create a new letting
-router.route('/').post(uploadFiles, createTrademanProfile);
+// router.route('/').post(uploadFiles, createTrademanProfile);
 
 // Update an existing letting by ID
 router.route('/:id').put(uploadFiles, updateTrademanProfile);

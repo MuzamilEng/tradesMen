@@ -6,6 +6,7 @@ import Signup from './app/pages/Signup'
 import Profile from './app/pages/Profile'
 import MapComponent from './app/Component/MapComponent'
 import Tracker from './app/pages/Tracker'
+import UserProfile from './app/Component/UserProfile'
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Route path='/profile' element={<Profile />} />
         <Route path='/map' element={<MapComponent />} />
         <Route path='/tracker' element={<Tracker />} />
+        <Route path='/user-profile/' element={<UserProfile />} />
       </Routes>
     </>
   )
