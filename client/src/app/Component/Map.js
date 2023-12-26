@@ -102,7 +102,7 @@ const Map = ({setSearchedLocation}) => {
 
   return (
     <div className='relative'>
-    <div className="flex absolute top-0 left-0 z-50 bg-white items-center w-full justify-between w-full max-w-[23vw] border-[1px] rounded-lg border-gray-300">
+    <div className="flex absolute top-0 left-0 z-50 bg-white items-center justify-between w-full max-w-[23vw] border-[1px] rounded-lg border-gray-300">
             <input
             type="text"
             placeholder="Enter your location"
@@ -126,39 +126,10 @@ const Map = ({setSearchedLocation}) => {
           ))
         )}
       </ul>
-      <div id="map" style={{ position: 'absolute', width: '60vw', height: '30vw' }} />
+      <div id="map" style={{ position: 'absolute', width: '100%', height: '25vw' }} />
     </div>
   );
 };
 
 export default Map;
-
-
-// <div className='relative'>
-// <div className="flex absolute top-0 z-50 bg-white items-center w-full justify-between w-full max-w-[30vw] border-[1px] rounded-lg border-gray-300">
-//         <input
-//         type="text"
-//         placeholder="Enter your location"
-//         value={searchText}
-//         className="w-full text-vw text-black max-w-[20vw] p-[0.7vw] bouder-none focus:outline-none"
-//         onChange={handleSearchLocation}
-//       />
-//       <Icon className='text-[1.3vw] cursor-pointer mr-[0.5vw]' icon="bi:search" color="black" onClick={handleSearchLocation} />
-// </div>
-// <ul className='absolute top-3vw bg-white w-full max-w-[30vw] border-[1px] rounded-lg border-gray-300'>
-//   {selectedSuggestion ? (
-//     <li onClick={() => handleSuggestionClick(selectedSuggestion)}>
-//       {selectedSuggestion.place_name}
-//     </li>
-//   ) : (
-//     suggestions.map((suggestion) => (
-//       <li key={suggestion.id} onClick={() => handleSuggestionClick(suggestion)}>
-//         {suggestion.place_name}
-//       </li>
-//     ))
-//   )}
-// </ul>
-// {/* <div id="map" style={{ position: 'absolute ', top: '0', width: '100%', height: '600px' }} /> */}
-// <div id="map" className='w-full h-40vw absolute top-0 z-10' />
-// </div>
 

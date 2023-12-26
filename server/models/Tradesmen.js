@@ -9,6 +9,8 @@ const tradesMenSchema = new mongoose.Schema({
     hourlyRate: Number,
       description: String,
       location: String,
+        lat: Number,
+        lng: Number,
       phoneNumber: Number,
       image: {
         type: String,

@@ -42,7 +42,11 @@ app.use(express.json());
 app.use('/api/v1/', auth);
 // app.use('/api/v1/tradesman', tradesmanRoute);
 app.post('/api/v1/tradesman', upload.single('image'), async (req, res, next) => {
-  const { occupation, username, email, ratings, hourlyRate, description, location, } = req.body;
+  const { occupation, username, email, ratings, hourlyRate, description, location,lat, lng } = req.body;
+  console.log(req.body, 'req.body');
+    const parsedLat = Number(lat?.[1]);
+const parsedLng = Number(lng?.[1]);
+console.log(parsedLat, parsedLng, 'parsedLat and parsedLng');
 
   let mainImageURL;
 
@@ -56,7 +60,7 @@ app.post('/api/v1/tradesman', upload.single('image'), async (req, res, next) => 
   }
 
   const newContent = new TrademanSchema({
-    occupation, username, email, ratings, hourlyRate, description, location, image: mainImageURL,
+    occupation, username, email, ratings, hourlyRate, description, location, image: mainImageURL, lat: parsedLat, lng: parsedLng
   });
 
   try {

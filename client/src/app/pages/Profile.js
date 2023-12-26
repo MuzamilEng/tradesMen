@@ -9,10 +9,13 @@ import { useAddTradesmanMutation } from '../store/storeApi';
 import { useGlobalContext } from '../UserContext/UserContext';
 import Map from '../Component/Map';
 
-{/* <Map setSearchedLocation={setSearchedLocation}/> */}
 
 const Profile = () => {
   const [searchedLocation, setSearchedLocation] = useState(null)
+  const [coordinates, setCoordinates] = useState({
+    lat: null,
+    lng: null
+  })
    // Retrieving user login info from localStorage
    const userLoginInfoString = localStorage.getItem('userLoginInfo');
    const userLoginInfo = JSON.parse(userLoginInfoString);
@@ -31,7 +34,9 @@ const Profile = () => {
         hourlyRate: tradesManProfile?.hourlyRate || "",
         description: tradesManProfile?.description || "",
         location: tradesManProfile?.location || "",
-        image: tradesManProfile?.image
+        image: tradesManProfile?.image || "",
+          lat: coordinates?.lat || 0,
+          lng: coordinates?.lng || 0,
       },
     });
   
@@ -48,36 +53,40 @@ const Profile = () => {
         setSelectedImageURL(imageURL);
       }
     };
-  
     const onSubmit = async (data) => {
       const formData = new FormData();
-  
+    
       // Append text data to formData
       for (const key in data) {
         if (data[key] !== undefined) {
           formData.append(key, data[key]);
         }
       }
+    
+      console.log(coordinates?.lat, 'coordinates ------------1');
+      console.log(coordinates?.lng, 'coordinates-------------1');
+      // Convert coordinates to numbers and append to formData
+    formData.append('lat', coordinates?.lat);
+    formData.append('lng', coordinates?.lng);
+   
       // Append image to formData
       if (tradesManProfile?.image) {
         formData.append('image', tradesManProfile.image);
-        console.log(tradesManProfile.image, "tradesManProfile.image");
-    }
+      }
     
-  
       try {
         const result = await addTradesman(formData);
-  
+    
         toast.success("Post Added successfully", {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
         });
-  
+    
         setTimeout(() => {
           // navigate('/');
         }, 3000);
-  
+    
         console.log(result, "from onSubmit");
       } catch (error) {
         toast.error("An error occurred while adding post", {
@@ -85,23 +94,31 @@ const Profile = () => {
           autoClose: 3000,
           hideProgressBar: false,
         });
+        console.error(error);
       }
     };
+    
 
-    useEffect(()=> {
-      console.log(searchedLocation,'searchedLocation');
-  }, [searchedLocation])
+    useEffect(() => {
+      console.log(searchedLocation, 'searchedLocation');
+      const lat = Number(searchedLocation?.center?.[0]) || 0;
+      const lng = Number(searchedLocation?.center?.[1]) || 0;
+    
+      setCoordinates({ ...coordinates, lat, lng });
+    }, [searchedLocation]);
+    
+  console.log(coordinates?.lat, 'coordinates');
+  console.log(coordinates?.lng, 'coordinates');
 
   return (
     <div>
         <Header />
         <ToastContainer />
-        <form onSubmit={handleSubmit(onSubmit)} className="p-3vw w-full">
+        <form onSubmit={handleSubmit(onSubmit)} className="p-3vw w-full h-full">
             {tradesmanProfile?.map((item, index) => (
-                <div key={index} className="w-full h-full">
+                <div key={index} className="w-full h-[90vw]">
                     <h1 className='text-3xl text-center italic font-medium underline'>{item?.title}</h1>
                     <img src={selectedImageURL || tradesManProfile?.image} className='w-full bg-slate-300 mt-vw max-w-[7vw] h-[7vw] rounded-full border-[1px] border-gray-300 ' /> <br />
-                    {/* <img src={''} alt="" className='w-full bg-slate-300 mt-vw max-w-[7vw] h-[7vw] rounded-full border-[1px] border-gray-300' /> */}
                     <input type="file" name='image' onChange={handleImageChange} className='p-0.5vw mt-vw border-[1px] border-gray-300 rounded-md w-full max-w-[10vw]' />
                     <div className="col-center w-full">
                     <section className="mt-vw ml-8vw p-2vw w-full grid grid-cols-2 gap-2">
@@ -149,16 +166,13 @@ const Profile = () => {
                             </div>
                         ))}
                     </section>
-                    <div className="flex w-full justify-center items-center">
-                                <button type='submit' className='bg-[#1dbf73] text-white mt-2vw p-0.5vw w-full max-w-[10vw] hover:bg-[#1dbf73e0] text-vw rounded-md'>Submit</button>
-                            </div>
-                    </div>
-                            <div className="mb-4vw">
+                    <div className="m-vw w-full">
                       <Map setSearchedLocation={setSearchedLocation} />
                     </div>
-                    <div className="flex w-full justify-center items-center">
+                    <div className="flex mt-25vw w-full justify-center items-center">
                                 <button type='submit' className='bg-[#1dbf73] text-white mt-2vw p-0.5vw w-full max-w-[10vw] hover:bg-[#1dbf73e0] text-vw rounded-md'>Submit</button>
                             </div>
+                    </div>
                 </div>
             ))}
         </form>

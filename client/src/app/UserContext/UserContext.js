@@ -68,7 +68,9 @@ export const UserProvider = ({ children }) => {
     ratings: null,
     description: "",
     location: "",
-    image: "" // Set image as an object
+    image: "", 
+      lat: "",
+      lng: "",
   })
   const userLoginInfo =  localStorage.getItem('userLoginInfo')
   // console.log(userLoginInfo, 'userinfo');

@@ -537,12 +537,6 @@ export const cards = [
       type: 'text',
       placeholder: 'enter a title'
     },
-    // {
-    //   label: "Owner Image",
-    //   name:"owner",
-    //   type: 'file',
-    //   placeholder: 'enter a title'
-    // },
     {
       label: "Status",
       name: 'label', 

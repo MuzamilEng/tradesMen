@@ -3,11 +3,19 @@ const cloudinary = require('../cloudinary.config')
 
 
 const createTrademanProfile = async (req, res) => {
-  console.log(req.body, );
-  const { occupation, username, email, ratings, hourlyRate, description, location, } = req.body;
+  console.log(req.body, "jwkdhxqihi");
+  const { occupation, username, email, ratings, hourlyRate, description, location, lat, lng } = req.body;
+  const parsedLat = Number(lat?.[1]);
+const parsedLng = Number(lng?.[1]);
+console.log(parsedLat, parsedLng, 'parsedLat and parsedLng');
+
+if (isNaN(parsedLat) || isNaN(parsedLng)) {
+  return res.status(400).json({ message: 'Invalid lat or lng values' });
+}
+  console.log(req.body, 'req.body');
   try {
     let mainImageURL;
-    console.log(req.file, "hello kjs");
+    // console.log(req.file, "hello kjs");
     if (req.file) {
       console.log('File received:', req.file);
       const mainImage = req.file;
@@ -18,7 +26,7 @@ const createTrademanProfile = async (req, res) => {
       console.log(mainImageURL);
     }
     const newContent = new TrademanSchema({
-      occupation, username, email, ratings, hourlyRate, description, location, image: mainImageURL,
+      occupation, username, email, ratings, hourlyRate, description, location, image: mainImageURL, lat: parsedLat, lng: parsedLng
     });
 
     const savedContent = await newContent.save();
@@ -40,9 +48,9 @@ const createTrademanProfile = async (req, res) => {
 
 // Function to update an existing trademan
 const updateTrademanProfile = async (req, res, next) => {
-  const { occupation, username, email, ratings, hourlyRate, description, location } = req.body;
+  const { occupation, username, email, ratings, hourlyRate, description, location, lat, lng } = req.body;
 
-  const updateFields = {occupation, username, email, ratings, hourlyRate, description, location};
+  const updateFields = {occupation, username, email, ratings, hourlyRate, description, location , lat, lng};
 
   try {
     const existingContent = await TrademanSchema.findById(req.params.id);
