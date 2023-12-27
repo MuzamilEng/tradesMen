@@ -18,7 +18,7 @@ const App = () => {
         <Route path='/profile' element={<Profile />} />
         <Route path='/map' element={<MapComponent />} />
         <Route path='/tracker' element={<Tracker />} />
-        <Route path='/user-profile/' element={<UserProfile />} />
+        <Route path='/profile/:id' element={<UserProfile />} />
       </Routes>
     </>
   )

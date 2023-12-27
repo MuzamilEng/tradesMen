@@ -50,7 +50,7 @@ const Login = () => {
         if(fetchDetails.status === 200 || fetchDetails.status === 201) {
             showToast('Successfully Logged In', 'success');
             setTimeout(() => {
-                navigate('/');
+                navigate('/profile');
             }, 3000);
         } else {
             showToast('Failed to login. Please try again.', 'error');

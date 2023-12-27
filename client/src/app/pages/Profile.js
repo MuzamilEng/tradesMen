@@ -87,7 +87,12 @@ const Profile = () => {
           // navigate('/');
         }, 3000);
     
-        console.log(result, "from onSubmit");
+        console.log(result, "from onSubmit")
+        console.log(result.data._id, "from onSubmit")
+        const profileId = result?.data._id;
+        console.log(profileId, "profileId");
+        localStorage.setItem('profileId', profileId);
+        navigate(`/profile/${profileId}`);
       } catch (error) {
         toast.error("An error occurred while adding post", {
           position: "top-right",
