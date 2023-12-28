@@ -1,14 +1,14 @@
 import React from "react";
 
-function ProjectCard({ card }) {
+function ProjectCard({ image, username, occupation }) {
   return (
-    <div className="projectCard">
-      <img src={card.img} alt="" />
+    <div className="projectCard m-vw">
+      <img src={image} alt="" />
       <div className="info">
-        <img src={card.pp} alt="" />
+        <img src={image} alt="" />
         <div className="texts">
-          <h2>{card.cat}</h2>
-          <span className="text-vw">{card.username}</span>
+          <h2>{occupation}</h2>
+          <span className="text-vw">{username}</span>
         </div>
       </div>
     </div>

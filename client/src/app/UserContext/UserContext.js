@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState, useReducer } from 'react';
 import axios from 'axios';
 import {tracker} from '../Data'
+import { useGetAllTradesmenQuery } from '../store/storeApi';
 
 const initialState = tracker
 const UserContext = createContext(initialState);
@@ -57,6 +58,8 @@ export const UserProvider = ({ children }) => {
   // ------------
   const [userInfo, setUserInfo] = useState({firstName: "", lastName: "", password: "", email: "", phoneNumber: null, category: "",})
   const [content, setContent] = useState([]);
+  const {data: tradesManProfiles} = useGetAllTradesmenQuery();
+  const [tradesmanProfiles, setTradesmanProfiles] = useState([]);
   const [searchedLocation, setSearchedLocation] = useState(null)
   const [userDetails, setUserDetails] = useState({firstName: "", lastName: "", password: "", email: "", phoneNumber: null, category: "",});
   const [tradesManProfile, setTradesManProfile] = useState({
@@ -74,12 +77,19 @@ export const UserProvider = ({ children }) => {
   })
   const userLoginInfo =  localStorage.getItem('userLoginInfo')
   // console.log(userLoginInfo, 'userinfo');
+
+  useEffect(() => {
+    if(tradesManProfiles){
+      setTradesmanProfiles(tradesManProfiles)
+    }
+  }, [tradesManProfiles])
+  console.log(tradesmanProfiles, "tradesmanProfiles");
   useEffect(() => {
     setRecord(state)
   }, [state]);
   return (
     <UserContext.Provider value={{ content, userDetails, setUserDetails, setContent, userInfo, setUserInfo, tradesManProfile, setTradesManProfile, searchedLocation, setSearchedLocation,
-    addData, updateData, deleteData, setRecord, selectedData, setSelectedData, state, selectData }}>
+    addData, updateData, deleteData, setRecord, selectedData, setSelectedData, state, selectData, tradesmanProfiles, userLoginInfo }}>
       {children}
     </UserContext.Provider>
   );

@@ -2,22 +2,44 @@ import React from 'react'
 import Login from './Login'
 import Layout from '../Layout/Layout'
 import Featured from '../Component/Featured'
-import Slide from '../Component/Slide'
+// import Slide from '../Component/Slide'
 import { cards, projects } from '../Data'
 import Card from '../Component/Card'
 import ProjectCard from '../Component/ProjectCard'
+import { useGlobalContext } from '../UserContext/UserContext'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 
 const Home = () => {
+  const {tradesmanProfiles} = useGlobalContext();
+  const CustomPrevArrow = (props) => (
+    <span {...props} className="text-vw text-black absolute cursor-pointer top-[8vw] -left-0.5vw z-50">
+    <FontAwesomeIcon icon={faArrowLeft} className='text-2vw text-black  rounded-md hover:bg-gray-100 bg-white p-[0.7vw] text-center' />
+  </span>);
+  const CustomNextArrow = (props) => (
+      <span {...props} className="text-vw text-black absolute cursor-pointer top-[8vw] right-0.5vw">
+    <FontAwesomeIcon icon={faArrowRight} className='text-2vw text-red-800 rounded-full hover:bg-gray-100 bg-white p-[0.7vw] text-center' />
+  </span> );
+
+const settings = { dots: false, prevArrow: <CustomPrevArrow />, nextArrow: <CustomNextArrow />, arrows: true, infinite: true, speed: 500, slidesToShow: 4, slidesToScroll: 1, autoplay: true, autoplaySpeed: 3000 };
+
   return (
     <div>
       <Layout>
         <Featured />
         <div className="pl-2vw pr-2vw">
-        <Slide slidesToShow={5} arrowsScroll={5}>
+        <div className="grid w-full gap-vw m-vw  grid-cols-1">
+        <Slider {...settings}>
         {cards.map((card) => (
           <Card key={card.id} card={card} />
         ))}
-      </Slide>
+      </Slider>
+      </div>
         </div>
       <main>
       <div className="features">
@@ -188,12 +210,12 @@ const Home = () => {
         </div>
       </div>
       </main>
-      <div className="pr-2vw pl-2vw">
-      <Slide slidesToShow={4} arrowsScroll={4}>
-        {projects.map((card) => (
-          <ProjectCard key={card.id} card={card} />
+      <div className="grid w-full gap-vw m-vw  grid-cols-1">
+      <Slider {...settings}>
+        {tradesmanProfiles?.map((card) => (
+          <ProjectCard key={card.id} username={card?.username} image={card?.image} occupation={card?.occupation} />
         ))}
-      </Slide>
+      </Slider>
       </div>
       </Layout>
     </div>

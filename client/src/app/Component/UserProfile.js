@@ -13,10 +13,10 @@ const UserProfile = () => {
   return (
     <div className='w-full'>
         <Layout>
-            <main className="w-full relative h-[90vw] col-center">
-                <h1 className='text-vw text-black underline'>User Profile</h1>
-                <img src={data?.image} alt={data?.username} className='w-full max-w-[8vw] h-[8vw] rounded-full absolute right-2vw top-[20vw]' />
-                <article className="w-full p-3vw grid grid-cols-2 gap-2">
+            <main className=" mt-vw">
+                <h1 className='text-2vw text-center font-semibold text-black'>Welcome Back! {data?.username}</h1>
+                <img src={data?.image} alt={data?.username} className='w-full max-w-[6vw] h-[6vw] rounded-full absolute left-2vw top-[12vw]' />
+                <article className="w-full p-3vw grid grid-cols-2 mt-2vw gap-2">
                 <section className='p-vw m-0.5vw'>
                     <label className='text-vw font-semibold ml-vw text-black' htmlFor="">Username</label> <br />
                     <input type="text" value={data?.username} className='text-vw ml-vw p-vw w-full max-w-[25vw] rounded-md border-[1px] border-gray-300 focus:outline-none' />
@@ -41,11 +41,10 @@ const UserProfile = () => {
                     <label className='text-vw font-semibold ml-vw text-black' htmlFor="">Address</label> <br />
                     <input type="text" value={data?.location} className='text-vw ml-vw p-vw w-full max-w-[25vw] rounded-md border-[1px] border-gray-300 focus:outline-none' />
                 </section>
-                <div className="w-full">
-                <label className='text-vw font-semibold ml-vw text-black' htmlFor="">Pin Location</label> <br />
+                </article>
+                <div className="w-full h-[25vw] relative">
                 <PinLocation lat={lat ? lat : -73.978548} lng={lng? lng : 40.755588} />
                 </div>
-                </article>
             </main>
         </Layout>
     </div>
