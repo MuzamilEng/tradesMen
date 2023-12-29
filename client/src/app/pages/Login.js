@@ -9,6 +9,7 @@ import { Icon } from '@iconify/react';
 import Header from '../Component/Header';
 import Navbar from '../Component/Navbar';
 import axios from 'axios';
+import LoginButton from '../Component/LoginButton';
 
 const Login = () => {
     const [loginUser] = useLoginUserMutation();
@@ -93,7 +94,10 @@ const Login = () => {
                             <div className="flex justify-center items-center">
                                 <button type='submit' className='bg-[#1dbf73] text-white mt-2vw p-0.5vw w-full max-w-[10vw] hover:bg-[#1dbf73e0] text-vw rounded-md'>Login</button>
                             </div>
+                            <p className='text-[0.9vw] mt-0.5vw w-full text-center'>Don't have an account? <Link to='/signup' className='text-vw font-medium text-black hover:text-blue-600'>Sign up</Link></p>
+                            
                             <p className='text-[0.9vw] mt-0.5vw w-full text-center'>or continue with</p>
+                            {/* <LoginButton /> */}
                             <div className="mt-2vw w-full flex items-center">
                                 <section className="flex items-center border-[1px] border-gray-500 cursor-pointer hover:bg-gray-100 ml-vw w-full max-w-[8vw] text-center justify-center rounded-md p-0.5vw">
                                     <Icon icon="mdi:facebook" className='text-[#3b5998] text-[1.5vw] mr-0.2vw' />

@@ -12,8 +12,8 @@ const App = () => {
   return (
     <>
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/login' element={<Login />} />
+        <Route path='/tradesmen' element={<Home />} />
+        <Route path='/' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/map' element={<MapComponent />} />
@@ -23,5 +23,8 @@ const App = () => {
     </>
   )
 }
+
+// clientId = i6Emcp030e1VFxsV1ENnaY6XyOvCznaA
+// client secret = rk4y3sJvx_YIE24g7IRcFDi6yp3Tg0EW0uU9dBeB15UP08qs9lxOHiY8WKMpqiJH
 
 export default App
