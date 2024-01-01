@@ -8,6 +8,7 @@ function Navbar() {
 
   const { pathname } = useLocation();
 
+
   const isActive = () => {
     window.scrollY > 0 ? setActive(true) : setActive(false);
   };
@@ -24,7 +25,7 @@ function Navbar() {
   const currentUser = {
     id: 1,
     username: "Anna",
-    isSeller: true,
+    isSeller: true, 
   };
 
   return (

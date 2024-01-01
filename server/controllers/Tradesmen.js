@@ -48,9 +48,9 @@ if (isNaN(parsedLat) || isNaN(parsedLng)) {
 
 // Function to update an existing trademan
 const updateTrademanProfile = async (req, res, next) => {
-  const { occupation, username, email, ratings, hourlyRate, description, location, lat, lng } = req.body;
+  const { occupation, username, email, ratings, hourlyRate, description, location, lat, lng, phoneNumber } = req.body;
 
-  const updateFields = {occupation, username, email, ratings, hourlyRate, description, location , lat, lng};
+  const updateFields = {occupation, username, email, ratings, hourlyRate, description, location , lat, lng, phoneNumber};
 
   try {
     const existingContent = await TrademanSchema.findById(req.params.id);
@@ -124,6 +124,19 @@ const getTrademanProfileById = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+const getTrademanProfileByEmail = async (req, res) => {
+  const {email} = req.query;
+  console.log(req.query, 'req.query');
+  try {
+    const profile = await TrademanSchema.findOne({email: email});
+    if (!profile) {
+      return res.status(404).json({ error: 'profile not found' });
+    }
+    res.status(200).json(profile);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 // Delete a trademan by ID
 const deleteTrademanProfile = async (req, res) => {
   try {
@@ -138,12 +151,30 @@ const deleteTrademanProfile = async (req, res) => {
   }
 };
 
+const allTradesMen = async (req, res) => {
+  console.log(req.query, 'query');
+  const keyword = req.query.search ? 
+  {
+    $or : [
+      { username: {$regex : req.query.search, $options: "i"}},
+      { email: {$regex : req.query.search, $options: "i"}},
+    ]
+  } : {};
 
+  try {
+    const profiles = await TrademanSchema.find(keyword).find({ _id: { $ne: req.user._id } });
+    res.status(200).json(profiles);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 module.exports = {
   createTrademanProfile,
   updateTrademanProfile,
   getAllTradesmenProfiles,
   getTrademanProfileById,
-  deleteTrademanProfile
+  deleteTrademanProfile,
+  getTrademanProfileByEmail,
+  allTradesMen
 };

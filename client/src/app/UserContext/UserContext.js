@@ -61,6 +61,7 @@ export const UserProvider = ({ children }) => {
   const {data: tradesManProfiles} = useGetAllTradesmenQuery();
   const [tradesmanProfiles, setTradesmanProfiles] = useState([]);
   const [searchedLocation, setSearchedLocation] = useState(null)
+  const [tradesmanProfileDetails, setTradesmanProfileDetails] = useState(null);
   const [userDetails, setUserDetails] = useState({firstName: "", lastName: "", password: "", email: "", phoneNumber: null, category: "",});
   const [tradesManProfile, setTradesManProfile] = useState({
     username: "",
@@ -87,9 +88,13 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     setRecord(state)
   }, [state]);
+  useEffect(()=> {
+    setTradesmanProfileDetails(tradesmanProfileDetails)
+  }, [tradesmanProfileDetails])
+  console.log(tradesmanProfileDetails, 'pr details');
   return (
     <UserContext.Provider value={{ content, userDetails, setUserDetails, setContent, userInfo, setUserInfo, tradesManProfile, setTradesManProfile, searchedLocation, setSearchedLocation,
-    addData, updateData, deleteData, setRecord, selectedData, setSelectedData, state, selectData, tradesmanProfiles, userLoginInfo }}>
+    addData, updateData, deleteData, setRecord, selectedData, setSelectedData, state, selectData, tradesmanProfiles, userLoginInfo, tradesmanProfileDetails, setTradesmanProfileDetails }}>
       {children}
     </UserContext.Provider>
   );

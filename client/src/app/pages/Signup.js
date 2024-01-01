@@ -16,7 +16,7 @@ const Signup = () => {
     const [showOpt, setShowOpt] = React.useState(false);
     const navigate = useNavigate()
     const [otpValue, setOptValue] = React.useState([]);
-    const { handleSubmit, setValue, control, formState: { errors } } = useForm({
+    const { handleSubmit, setValue, control, formState: { errors }, reset } = useForm({
         defaultValues: {
             firstName: "",
             lastName: '',
@@ -50,7 +50,7 @@ const Signup = () => {
                 if (!response.error) {
                 showToast('Successfully Signed Up', 'success');
                     if (response.data.category === 'tradesman') {
-                    navigate('/login');
+                    navigate('/');
                 } else {
                     setTimeout(() => {
                         navigate('/');
@@ -63,6 +63,7 @@ const Signup = () => {
             console.error('Error during sign-up:', error);
             showToast('An unexpected error occurred. Please try again.', 'error');
         }
+        reset();
     };
     
     return (
@@ -119,7 +120,7 @@ const Signup = () => {
                                     ))}
                                 </section>
                             </section>
-                            <div className="flex w-full justify-center items-center">
+                            <div className="flex w-full -mt-[2.5vw] justify-center items-center">
                                 <button type='submit' className='bg-[#1dbf73] text-white mt-2vw p-0.5vw w-full max-w-[10vw] hover:bg-[#1dbf73e0] text-vw rounded-md'>Sign Up</button>
                             </div>
                             <p className='text-[0.9vw] mt-0.5vw w-full text-center'>or continue with</p>

@@ -10,6 +10,11 @@ const TrademanSchema = require('./models/Tradesmen');
 const multer = require('multer');
 const cloudinary = require('cloudinary').v2;
 const path = require('path');
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
+const Message = require('./models/Message');
 
 cloudinary.config({
   cloud_name: 'njnjj2fdiawje',
@@ -39,48 +44,43 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-app.use('/api/v1/', auth);
-app.use('/api/v1/tradesman', tradesmanRoute);
-app.post('/api/v1/tradesman', upload.single('image'), async (req, res, next) => {
-  const { occupation, username, email, ratings, hourlyRate, description, location,lat, lng, phoneNumber } = req.body;
-  console.log(req.body, 'req.body');
-    const parsedLat = Number(lat?.[1]);
-const parsedLng = Number(lng?.[1]);
-console.log(parsedLat, parsedLng, 'parsedLat and parsedLng');
 
-  let mainImageURL;
+app.get('/', (req, res) => {
+  console.log('hello bot');
+  res.json({req})
+});
 
-  // Handle image updates
-  if (req.file) {
-    const mainImage = req.file;
-    const mainImageResult = await cloudinary.uploader.upload(mainImage.path, {
-      folder: 'Assets',
-    });
-    mainImageURL = mainImageResult.secure_url;
-  }
+app.get('/api/v1/messages', async (req, res) => {
+ try {
+  const messages = await Message.find();
+  res.status(200).json(messages);
+  console.log(messages, 'messages');
+ } catch (error) {
+  console.log(error, 'error fetching messages' );
+ }
+})
 
-  const newContent = new TrademanSchema({
-    occupation, username, email, ratings, hourlyRate, description, location, image: mainImageURL, lat: parsedLat, lng: parsedLng, phoneNumber
+io.on('connection', (socket) => {
+  // console.log('a user connected', socket.rooms);
+
+  // Listen for sendMessage event
+  socket.on('sendMessage', async (data) => {
+    // Save the message to the database
+    const message = new Message(data);
+    await message.save();
+
+    // Broadcast the message to all connected clients
+    io.emit('message', data);
   });
 
-  try {
-    const savedContent = await newContent.save();
-
-    const responseObj = {
-      ...savedContent._doc,
-    };
-
-    if (mainImageURL) {
-      responseObj.mainImage = mainImageURL;
-    }
-
-    res.status(201).json(responseObj);
-  } catch (error) {
-    console.error('Error saving product:', error);
-    res.status(500).json({ message: 'Error saving product' });
-  }
-
+  // Disconnect event
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
 });
+app.use('/api/v1/', auth);
+app.use('/api/v1/tradesman', tradesmanRoute);
+
 
 app.use(errorHandler)
 app.use(notFound)
@@ -88,7 +88,7 @@ app.use(notFound)
 const start = async () => {
   try {
     await connectDB(process.env.URI);
-    app.listen(port, () =>
+    server.listen(port, () =>
       console.log(`Server is listening on port ${port}...`)
     );
   } catch (error) {
@@ -97,3 +97,44 @@ const start = async () => {
 };
 
 start(); 
+
+// app.post('/api/v1/tradesman', upload.single('image'), async (req, res, next) => {
+//   const { occupation, username, email, ratings, hourlyRate, description, location,lat, lng, phoneNumber } = req.body;
+//   // console.log(req.body, 'req.body');
+//     const parsedLat = Number(lat?.[1]);
+// const parsedLng = Number(lng?.[1]);
+// // console.log(parsedLat, parsedLng, 'parsedLat and parsedLng');
+
+//   let mainImageURL;
+
+//   // Handle image updates
+//   if (req.file) {
+//     const mainImage = req.file;
+//     const mainImageResult = await cloudinary.uploader.upload(mainImage.path, {
+//       folder: 'Assets',
+//     });
+//     mainImageURL = mainImageResult.secure_url;
+//   }
+
+//   const newContent = new TrademanSchema({
+//     occupation, username, email, ratings, hourlyRate, description, location, image: mainImageURL, lat: parsedLat, lng: parsedLng, phoneNumber
+//   });
+
+//   try {
+//     const savedContent = await newContent.save();
+
+//     const responseObj = {
+//       ...savedContent._doc,
+//     };
+
+//     if (mainImageURL) {
+//       responseObj.mainImage = mainImageURL;
+//     }
+
+//     res.status(201).json(responseObj);
+//   } catch (error) {
+//     console.error('Error saving product:', error);
+//     res.status(500).json({ message: 'Error saving product' });
+//   }
+
+// });

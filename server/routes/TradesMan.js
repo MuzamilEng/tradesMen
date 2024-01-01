@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
-const { createTrademanProfile, updateTrademanProfile, deleteTrademanProfile, getAllTradesmenProfiles, getTrademanProfileById } = require('../controllers/Tradesmen');
+const { createTrademanProfile, updateTrademanProfile, deleteTrademanProfile, getAllTradesmenProfiles, getTrademanProfileById, getTrademanProfileByEmail, allTradesMen } = require('../controllers/Tradesmen');
+const { authenticateJWT } = require('../middleware/authMiddleware');
 
 const storage = multer.diskStorage({
   // destination: ('./public/uploads/'),
@@ -24,6 +25,8 @@ const uploadFiles = upload.fields([{ name: 'image', maxCount: 1 }, { name: 'imag
 
 // Get all lettings
 router.route('/').get(getAllTradesmenProfiles);
+router.route('/getProfile').get(getTrademanProfileByEmail);
+router.route('/getAllTradesmen').get(authenticateJWT, allTradesMen);
 
 // Create a new letting
 // router.route('/').post(uploadFiles, createTrademanProfile);
