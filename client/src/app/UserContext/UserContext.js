@@ -1,61 +1,12 @@
 import React, { createContext, useContext, useEffect, useState, useReducer } from 'react';
 import axios from 'axios';
-import {tracker} from '../Data'
 import { useGetAllTradesmenQuery } from '../store/storeApi';
+import {useNavigate} from "react-router-dom"
 
-const initialState = tracker
-const UserContext = createContext(initialState);
-
-
+const UserContext = createContext();
 export const useGlobalContext = () => useContext(UserContext);
 
 export const UserProvider = ({ children }) => {
-  const userReducer = (state, action) => {
-    switch (action.type) {
-      case 'UPDATE':
-        const updatedState = state.map(item => 
-          item.id === action.payload.id ? { ...item, ...action.payload.data } : item
-        );
-        console.log("Updated State:", updatedState); // Add this line
-        return updatedState;
-  
-      case 'ADD':
-        return [...state, action.payload];
-  
-      case 'DELETE':
-        const remainingDate = state?.filter((data) => data.id !== action.payload);
-        console.log(remainingDate, "remaining data");
-        return remainingDate || [];
-  
-      default:
-        return state;
-    }
-  };
-  const [selectedData, setSelectedData] = useState(null);
-  const [state, dispatch] = useReducer(userReducer, initialState);
-  const [record, setRecord] = useState([]);
-  // console.log(state, "UserProvider ki statae");
-
-
-  const selectData = (data) => {
-    setSelectedData(data);
-  }
-  const updateData = (id, data) => {
-    dispatch({ type: 'UPDATE', payload: { id, data } });
-  };
-
-  const deleteData = (id) => {
-    dispatch({ type: 'DELETE', payload: { id } });
-  };
-
-  const addData = (data) => {
-    const newId = state.length;  
-    dispatch({ type: 'ADD', payload: { ...data, id: newId } });
-    console.log(state, "add record");
-  };
-  
-// console.log(state, 'state')
-  // ------------
   const [userInfo, setUserInfo] = useState({firstName: "", lastName: "", password: "", email: "", phoneNumber: null, category: "",})
   const [content, setContent] = useState([]);
   const {data: tradesManProfiles} = useGetAllTradesmenQuery();
@@ -76,25 +27,48 @@ export const UserProvider = ({ children }) => {
       lat: "",
       lng: "",
   })
-  const userLoginInfo =  localStorage.getItem('userLoginInfo')
-  // console.log(userLoginInfo, 'userinfo');
 
+  // ----------------------------------------------------------------
+  const [selectedChat, setSelectedChat] = useState();
+  const [user, setUser] = useState();
+  const [notification, setNotification] = useState([]);
+  const [chats, setChats] = useState();
+  const navigate = useNavigate();
+  const userLoginInfo =  localStorage.getItem('userLoginInfo')
+  console.log(userLoginInfo, 'userinfo');
+  useEffect(() => {
+    const userInfo = JSON.parse(localStorage.getItem("userLoginInfo"));
+    setUser(userInfo);
+
+    // if (!userInfo) navigate("/");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navigate]);
+
+  console.log(user, "user1234");
+
+  // ----------------------------------------------------------------
   useEffect(() => {
     if(tradesManProfiles){
       setTradesmanProfiles(tradesManProfiles)
     }
   }, [tradesManProfiles])
   console.log(tradesmanProfiles, "tradesmanProfiles");
-  useEffect(() => {
-    setRecord(state)
-  }, [state]);
+  ;
   useEffect(()=> {
     setTradesmanProfileDetails(tradesmanProfileDetails)
   }, [tradesmanProfileDetails])
   console.log(tradesmanProfileDetails, 'pr details');
   return (
     <UserContext.Provider value={{ content, userDetails, setUserDetails, setContent, userInfo, setUserInfo, tradesManProfile, setTradesManProfile, searchedLocation, setSearchedLocation,
-    addData, updateData, deleteData, setRecord, selectedData, setSelectedData, state, selectData, tradesmanProfiles, userLoginInfo, tradesmanProfileDetails, setTradesmanProfileDetails }}>
+    tradesmanProfiles, userLoginInfo, tradesmanProfileDetails, setTradesmanProfileDetails,
+    selectedChat,
+    setSelectedChat,
+    user,
+    setUser,
+    notification,
+    setNotification,
+    chats,
+    setChats, }}>
       {children}
     </UserContext.Provider>
   );

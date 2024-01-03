@@ -8,6 +8,8 @@ import MapComponent from './app/Component/MapComponent'
 import UserProfile from './app/Component/UserProfile'
 import Dashboard from './app/pages/Dashboard'
 import Chat from './app/Component/Chat'
+import SingleChat from './app/Component/SingleChat'
+import Chatpage from './app/pages/Chatpage'
 
 const App = () => {
   return (
@@ -20,7 +22,7 @@ const App = () => {
         <Route path='/map' element={<MapComponent />} />
         <Route path='/profile/:id' element={<UserProfile />} />
         <Route path='/dashboard' element={<Dashboard />} />
-        <Route path='/chat' element={<Chat />} />
+        <Route path='/chat' element={<Chatpage />} />
       </Routes>
     </>
   )

@@ -75,8 +75,27 @@ const getUserDetails = (req, res) => {
   });
 };
 
+const allUsers = async (req, res) => {
+  console.log(req.query, 'query');
+  const keyword = req.query.search ? 
+  {
+    $or : [
+      { username: {$regex : req.query.search, $options: "i"}},
+      { email: {$regex : req.query.search, $options: "i"}},
+    ]
+  } : {};
+
+  try {
+    const profiles = await User.find(keyword).find({ _id: { $ne: req.user._id } });
+    res.status(200).json(profiles);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   signUp,
   login,
   getUserDetails,
+  allUsers
 };

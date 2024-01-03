@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { ChakraProvider } from '@chakra-ui/react'
 import './index.css';
 import App from './App';
 import { Auth0Provider } from '@auth0/auth0-react';
@@ -22,7 +23,9 @@ root.render(
     <Provider store={store}>
       <BrowserRouter>
         <UserProvider>
+          <ChakraProvider>
           <App />
+          </ChakraProvider>
         </UserProvider>
       </BrowserRouter>
     </Provider>

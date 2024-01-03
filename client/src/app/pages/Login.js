@@ -38,6 +38,8 @@ const Login = () => {
         e.preventDefault();
         try {
             const response = await loginUser(data);
+            console.log(response.data, 'response');
+            localStorage.setItem('tokken', JSON.stringify(response.data.token));
             const fetchDetails = await axios.get('http://localhost:5000/api/v1/getDetails', {
                 headers: {
                     Authorization: `Bearer ${response.data.token}`,
