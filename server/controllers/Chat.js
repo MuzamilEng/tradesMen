@@ -1,10 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Chat = require("../models/ChatModal");
-const User = require("../models/User");
+// const User = require("../models/User");
 
-//@description     Create or fetch One to One Chat
-//@route           POST /api/chat/
-//@access          Protected
 const accessChat = asyncHandler(async (req, res) => {
   const { userId } = req.body;
 
@@ -13,67 +10,50 @@ const accessChat = asyncHandler(async (req, res) => {
     return res.sendStatus(400);
   }
 
-  var isChat = await Chat.find({
-    isGroupChat: false,
-    $and: [
-      { users: { $elemMatch: { $eq: req.user._id } } },
-      { users: { $elemMatch: { $eq: userId } } },
-    ],
-  })
-    .populate("users", "-password")
-    .populate("latestMessage");
+  try {
+    // Check if the chat already exists
+    const existingChat = await Chat.findOne({
+      $and: [
+        { users: { $elemMatch: { $eq: req.user._id } } },
+        { users: { $elemMatch: { $eq: userId } } },
+      ],
+    })
+      .populate("users", "-password")
+      .populate("latestMessage.sender", "name image email");
 
-  isChat = await User.populate(isChat, {
-    path: "latestMessage.sender",
-    select: "name pic email",
-  });
+    if (existingChat) {
+      res.status(200).json(existingChat);
+    } else {
+      // If the chat doesn't exist, create a new one
+      const chatData = {
+        users: [req.user._id, userId],
+      };
 
-  if (isChat.length > 0) {
-    res.send(isChat[0]);
-  } else {
-    var chatData = {
-      chatName: "sender",
-      isGroupChat: false,
-      users: [req.user._id, userId],
-    };
-
-    try {
       const createdChat = await Chat.create(chatData);
-      const FullChat = await Chat.findOne({ _id: createdChat._id }).populate(
+      const fullChat = await Chat.findOne({ _id: createdChat._id }).populate(
         "users",
         "-password"
       );
-      res.status(200).json(FullChat);
-    } catch (error) {
-      res.status(400);
-      throw new Error(error.message);
+
+      res.status(200).json(fullChat);
     }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
 });
 
-//@description     Fetch all chats for a user
-//@route           GET /api/chat/
-//@access          Protected
 const fetchChats = asyncHandler(async (req, res) => {
   try {
-    Chat.find({ users: { $elemMatch: { $eq: req.user._id } } })
+    const userChats = await Chat.find({ users: req.user._id })
       .populate("users", "-password")
-      .populate("groupAdmin", "-password")
-      .populate("latestMessage")
-      .sort({ updatedAt: -1 })
-      .then(async (results) => {
-        results = await User.populate(results, {
-          path: "latestMessage.sender",
-          select: "name pic email",
-        });
-        res.status(200).send(results);
-      });
+      .populate("latestMessage.sender", "name pic email")
+      .sort({ updatedAt: -1 });
+
+    res.status(200).json(userChats);
   } catch (error) {
-    res.status(400);
-    throw new Error(error.message);
+    res.status(400).json({ error: error.message });
   }
 });
-
 
 module.exports = {
   accessChat,

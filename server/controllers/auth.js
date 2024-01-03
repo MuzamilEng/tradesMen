@@ -7,6 +7,7 @@ const passport = require('passport');
 const signUp = async (req, res) => {
   try {
     const { firstName, lastName, category, password, email, phoneNumber } = req.body;
+    console.log(req.body, "namesvgfdt")
 
     // Check if the email is already taken
     const existingUser = await User.findOne({ email });

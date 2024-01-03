@@ -1,12 +1,9 @@
-import { AddIcon } from "@chakra-ui/icons";
 import { Box, Stack, Text } from "@chakra-ui/layout";
 import { useToast } from "@chakra-ui/toast";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { getSender } from "../config/ChatLogics";
 import ChatLoading from "./ChatLoading";
-import GroupChatModal from "./miscellaneous/GroupChatModal";
-import { Button } from "@chakra-ui/react";
 import { useGlobalContext } from "../UserContext/UserContext";
 
 const MyChats = ({ fetchAgain }) => {
@@ -69,15 +66,6 @@ const MyChats = ({ fetchAgain }) => {
         alignItems="center"
       >
         My Chats
-        <GroupChatModal>
-          <Button
-            display="flex"
-            fontSize={{ base: "17px", md: "10px", lg: "17px" }}
-            rightIcon={<AddIcon />}
-          >
-            New Group Chat
-          </Button>
-        </GroupChatModal>
       </Box>
       <Box
         display="flex"
@@ -85,7 +73,7 @@ const MyChats = ({ fetchAgain }) => {
         p={3}
         bg="#F8F8F8"
         width="100%"
-        height="100%"
+        height="30vw"
         borderRadius="lg"
         overflowY="hidden"
       >
@@ -109,10 +97,10 @@ const MyChats = ({ fetchAgain }) => {
                 </Text>
                 {chat.latestMessage && (
                   <Text fontSize="xs">
-                    <b>{chat.latestMessage.sender.email} : </b>
-                    {chat.latestMessage.content.length > 50
-                      ? chat.latestMessage.content.substring(0, 51) + "..."
-                      : chat.latestMessage.content}
+                    <b>{chat?.latestMessage?.sender?.name} : </b>
+                    {chat?.latestMessage.content?.length > 50
+                      ? chat?.latestMessage?.content.substring(0, 51) + "..."
+                      : chat?.latestMessage?.content}
                   </Text>
                 )}
               </Box>

@@ -19,17 +19,17 @@ const upload = multer({
   }
 });
 
-const uploadFiles = upload.fields([{ name: 'image', maxCount: 1 }, { name: 'image2', maxCount: 1 }])
+const uploadFiles = upload.single('image');
 
 
 
 // Get all lettings
+router.route('/').post(uploadFiles, createTrademanProfile);
 router.route('/').get(getAllTradesmenProfiles);
 router.route('/getProfile').get(getTrademanProfileByEmail);
 router.route('/getAllTradesmen').get(authenticateJWT, allTradesMen);
 
 // Create a new letting
-// router.route('/').post(uploadFiles, createTrademanProfile);
 
 // Update an existing letting by ID
 router.route('/:id').put(uploadFiles, updateTrademanProfile);

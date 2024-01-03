@@ -1,32 +1,25 @@
 const TrademanSchema = require('../models/Tradesmen');
 const cloudinary = require('../cloudinary.config')
-
-
+// Function to update an existing trademan
 const createTrademanProfile = async (req, res) => {
-  console.log(req.body, "jwkdhxqihi");
-  const { occupation, username, email, ratings, hourlyRate, description, location, lat, lng } = req.body;
-  const parsedLat = Number(lat?.[1]);
-const parsedLng = Number(lng?.[1]);
-console.log(parsedLat, parsedLng, 'parsedLat and parsedLng');
-
-if (isNaN(parsedLat) || isNaN(parsedLng)) {
-  return res.status(400).json({ message: 'Invalid lat or lng values' });
-}
-  console.log(req.body, 'req.body');
   try {
+    const { occupation, username, email, ratings, hourlyRate, description, location, lat, lng, phoneNumber } = req.body;
+    const parsedLat = Number(lat?.[1]);
+    const parsedLng = Number(lng?.[1]);
+
     let mainImageURL;
-    // console.log(req.file, "hello kjs");
+
+    // Handle image updates
     if (req.file) {
-      console.log('File received:', req.file);
       const mainImage = req.file;
       const mainImageResult = await cloudinary.uploader.upload(mainImage.path, {
         folder: 'Assets',
       });
       mainImageURL = mainImageResult.secure_url;
-      console.log(mainImageURL);
     }
+
     const newContent = new TrademanSchema({
-      occupation, username, email, ratings, hourlyRate, description, location, image: mainImageURL, lat: parsedLat, lng: parsedLng
+      occupation, username, email, ratings, hourlyRate, description, location, image: mainImageURL, lat: parsedLat, lng: parsedLng, phoneNumber
     });
 
     const savedContent = await newContent.save();
@@ -34,6 +27,7 @@ if (isNaN(parsedLat) || isNaN(parsedLng)) {
     const responseObj = {
       ...savedContent._doc,
     };
+
     if (mainImageURL) {
       responseObj.mainImage = mainImageURL;
     }
@@ -45,8 +39,6 @@ if (isNaN(parsedLat) || isNaN(parsedLng)) {
   }
 };
 
-
-// Function to update an existing trademan
 const updateTrademanProfile = async (req, res, next) => {
   const { occupation, username, email, ratings, hourlyRate, description, location, lat, lng, phoneNumber } = req.body;
 
