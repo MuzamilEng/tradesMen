@@ -42,7 +42,7 @@ function SideDrawer() {
   const navigate = useNavigate();
 
   const logoutHandler = () => {
-    localStorage.removeItem("userInfo");
+    localStorage.removeItem("userLoginInfo");
     navigate("/");
   };
 

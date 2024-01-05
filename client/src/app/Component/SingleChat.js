@@ -126,24 +126,15 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   useEffect(() => {
     socket.on("message received", (newMessageReceived) => {
-      if (
-        !selectedChatCompare || // if chat is not selected or doesn't match the current chat
-        selectedChatCompare._id !== newMessageReceived.chat._id
-      ) {
-        if (!notification.includes(newMessageReceived)) {
-          setNotification([newMessageReceived, ...notification]);
-          setFetchAgain(!fetchAgain);
-        }
-      } else {
-        setMessages(prevMessages => [...prevMessages, newMessageReceived]);
-      }
+      setMessages([...messages, newMessageReceived]);
+
     });
   
     return () => {
       // Cleanup the socket event listener when the component unmounts
       socket.off("message received");
     };
-  }, [selectedChatCompare, notification, fetchAgain]);
+  });
   
 
   const typingHandler = (e) => {

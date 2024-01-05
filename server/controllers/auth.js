@@ -3,16 +3,25 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const { authenticateJWT } = require('../middleware/authMiddleware');
 const passport = require('passport');
+const cloudinary = require('../cloudinary.config');
 
 const signUp = async (req, res) => {
   try {
     const { firstName, lastName, category, password, email, phoneNumber } = req.body;
     console.log(req.body, "namesvgfdt")
-
+    let mainImageURL;
     // Check if the email is already taken
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ error: 'Email already exists' });
+    }
+
+    if (req.file) {
+      const mainImage = req.file;
+      const mainImageResult = await cloudinary.uploader.upload(mainImage.path, {
+        folder: 'Assets',
+      });
+      mainImageURL = mainImageResult.secure_url;
     }
 
     // Hash the password
@@ -27,11 +36,20 @@ const signUp = async (req, res) => {
       password: hashedPassword,
       email,
       phoneNumber,
+      image: mainImageURL
     });
 
     const savedUser = await newUser.save();
 
-    res.status(201).json(savedUser);
+    const responseObj = {
+      ...savedUser._doc,
+    }
+    if (mainImageURL) {
+      responseObj.mainImage = mainImageURL;
+    }
+
+
+    res.status(201).json(responseObj);
   } catch (error) {
     console.error('Error during registration:', error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -72,6 +90,7 @@ const getUserDetails = (req, res) => {
       email: user?.email,
       phoneNumber: user?.phoneNumber,
       category: user?.category,
+      image: user?.image
     });
   });
 };

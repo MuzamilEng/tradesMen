@@ -7,7 +7,7 @@ const UserContext = createContext();
 export const useGlobalContext = () => useContext(UserContext);
 
 export const UserProvider = ({ children }) => {
-  const [userInfo, setUserInfo] = useState({firstName: "", lastName: "", password: "", email: "", phoneNumber: null, category: "",})
+  const [userInfo, setUserInfo] = useState({firstName: "",image: "", lastName: "", password: "", email: "", phoneNumber: null, category: "",})
   const [content, setContent] = useState([]);
   const {data: tradesManProfiles} = useGetAllTradesmenQuery();
   const [tradesmanProfiles, setTradesmanProfiles] = useState([]);
@@ -37,10 +37,10 @@ export const UserProvider = ({ children }) => {
   const userLoginInfo =  localStorage.getItem('userLoginInfo')
   console.log(userLoginInfo, 'userinfo');
   useEffect(() => {
-    const userInfo = JSON.parse(localStorage.getItem("userLoginInfo"));
-    setUser(userInfo);
+    const userInfos = JSON.parse(localStorage.getItem("userLoginInfo"));
+    setUser(userInfos);
 
-    // if (!userInfo) navigate("/");
+    if (!userInfos) navigate("/");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate]);
 

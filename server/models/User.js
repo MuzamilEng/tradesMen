@@ -16,6 +16,9 @@ const userSchema = new mongoose.Schema({
   phoneNumber:{
     type: Number
   },
+  image:{
+    type: String
+  },
   category:{
     type: String
   }

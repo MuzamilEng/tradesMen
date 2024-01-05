@@ -26,6 +26,7 @@ const MyChats = ({ fetchAgain }) => {
 
       const { data } = await axios.get("http://localhost:5000/api/v1/chat", config);
       setChats(data);
+      console.log(data, 'chat created');
     } catch (error) {
       toast({
         title: "Error Occured!",
@@ -43,6 +44,7 @@ const MyChats = ({ fetchAgain }) => {
     fetchChats();
     // eslint-disable-next-line
   }, [fetchAgain]);
+  console.log(loggedUser, 'loggedUser');
 
   return (
     <Box
@@ -97,7 +99,7 @@ const MyChats = ({ fetchAgain }) => {
                 </Text>
                 {chat.latestMessage && (
                   <Text fontSize="xs">
-                    <b>{chat?.latestMessage?.sender?.name} : </b>
+                    <b>{chat?.latestMessage?.sender?.firstName} : </b>
                     {chat?.latestMessage.content?.length > 50
                       ? chat?.latestMessage?.content.substring(0, 51) + "..."
                       : chat?.latestMessage?.content}

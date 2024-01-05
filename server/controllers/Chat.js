@@ -1,7 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Chat = require("../models/ChatModal");
-// const User = require("../models/User");
-
+const User = require("../models/User");
 const accessChat = asyncHandler(async (req, res) => {
   const { userId } = req.body;
 
@@ -10,50 +9,62 @@ const accessChat = asyncHandler(async (req, res) => {
     return res.sendStatus(400);
   }
 
-  try {
-    // Check if the chat already exists
-    const existingChat = await Chat.findOne({
-      $and: [
-        { users: { $elemMatch: { $eq: req.user._id } } },
-        { users: { $elemMatch: { $eq: userId } } },
-      ],
-    })
-      .populate("users", "-password")
-      .populate("latestMessage.sender", "name image email");
+  var isChat = await Chat.find({
+    $and: [
+      { users: { $elemMatch: { $eq: req.user._id } } },
+      { users: { $elemMatch: { $eq: userId } } },
+    ],
+  })
+    .populate("users", "-password")
+    .populate("latestMessage");
 
-    if (existingChat) {
-      res.status(200).json(existingChat);
-    } else {
-      // If the chat doesn't exist, create a new one
-      const chatData = {
-        users: [req.user._id, userId],
-      };
+  isChat = await User.populate(isChat, {
+    path: "latestMessage.sender",
+    select: "name image email",
+  });
 
+  if (isChat.length > 0) {
+    res.send(isChat[0]);
+  } else {
+    var chatData = {
+      chatName: "sender",
+      users: [req.user._id, userId],
+    };
+
+    try {
       const createdChat = await Chat.create(chatData);
-      const fullChat = await Chat.findOne({ _id: createdChat._id }).populate(
+      const FullChat = await Chat.findOne({ _id: createdChat._id }).populate(
         "users",
         "-password"
       );
-
-      res.status(200).json(fullChat);
+      res.status(200).json(FullChat);
+    } catch (error) {
+      res.status(400);
+      throw new Error(error.message);
     }
-  } catch (error) {
-    res.status(400).json({ error: error.message });
   }
 });
 
 const fetchChats = asyncHandler(async (req, res) => {
   try {
-    const userChats = await Chat.find({ users: req.user._id })
+    Chat.find({ users: { $elemMatch: { $eq: req.user._id } } })
       .populate("users", "-password")
-      .populate("latestMessage.sender", "name pic email")
-      .sort({ updatedAt: -1 });
-
-    res.status(200).json(userChats);
+      // .populate("groupAdmin", "-password")
+      .populate("latestMessage")
+      .sort({ updatedAt: -1 })
+      .then(async (results) => {
+        results = await User.populate(results, {
+          path: "latestMessage.sender",
+          select: "name image email",
+        });
+        res.status(200).send(results);
+      });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400);
+    throw new Error(error.message);
   }
 });
+
 
 module.exports = {
   accessChat,

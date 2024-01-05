@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { signup } from '../Data'
 import { useForm, Controller } from 'react-hook-form';
 import { toast, ToastContainer } from 'react-toastify';
@@ -14,6 +14,8 @@ const Signup = () => {
     const [signUpUser] = useSignUpUserMutation()
     const {userInfo, setUserInfo} = useGlobalContext();
     const [showOpt, setShowOpt] = React.useState(false);
+    const [selectedImageURL, setSelectedImageURL] = useState("");
+
     const navigate = useNavigate()
     const [otpValue, setOptValue] = React.useState([]);
     const { handleSubmit, setValue, control, formState: { errors }, reset } = useForm({
@@ -24,6 +26,7 @@ const Signup = () => {
             password: '',
             phoneNumber: '',
             category: '',
+            image: "",
         },
     });
     const handleInputChange = (e) => {
@@ -34,6 +37,15 @@ const Signup = () => {
         })
         setValue(name, value);
     };
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setUserInfo({ ...userInfo, [e.target.name]: file }); // Set image as an object with public_id and url: file });
+          const imageURL = URL.createObjectURL(file);
+          setSelectedImageURL(imageURL);
+        }
+      };
     const showToast = (message, type) => {
         toast[type](message, {
             position: toast.POSITION.TOP_RIGHT,
@@ -43,28 +55,46 @@ const Signup = () => {
 
     const onSubmit = async (data, e) => {
         e.preventDefault();
+        
+        // Create a FormData object to hold the form data, including the image
+        const formData = new FormData();
+      
         try {
-            const response = await signUpUser(data);
-            // console.log(response, 'success');
-            // console.log(response.data, 'success');
-                if (!response.error) {
-                showToast('Successfully Signed Up', 'success');
-                    if (response.data.category === 'tradesman') {
-                    navigate('/');
-                } else {
-                    setTimeout(() => {
-                        navigate('/');
-                    }, 2000);
-                }
-            } else {
-                showToast('Failed to sign up. Please try again.', 'error');
+          // Append text data to formData
+          for (const key in data) {
+            if (data[key] !== undefined) {
+              formData.append(key, data[key]);
             }
+          }
+          // Append image to formData
+          if (userInfo?.image) {
+            formData.append('image', userInfo.image);
+          }
+      
+          // Call the signUpUser function with the formData
+          const response = await signUpUser(formData);
+      
+          if (!response.error) {
+            showToast('Successfully Signed Up', 'success');
+            if (response.data.category === 'tradesman') {
+              navigate('/');
+            } else {
+              setTimeout(() => {
+                navigate('/');
+              }, 2000);
+            }
+          } else {
+            showToast('Failed to sign up. Please try again.', 'error');
+          }
         } catch (error) {
-            console.error('Error during sign-up:', error);
-            showToast('An unexpected error occurred. Please try again.', 'error');
+          console.error('Error during sign-up:', error);
+          showToast('An unexpected error occurred. Please try again.', 'error');
         }
+        
+        // Reset the form
         reset();
-    };
+      };
+      
     
     return (
         <div>
@@ -75,6 +105,10 @@ const Signup = () => {
                     {signup?.map((item, index) => (
                         <div key={index} className='mt-2vw'>
                             <h1 className='text-[1.6vw] italic font-medium text-start'>{item?.title}</h1>
+                            <div className="col-center">
+                            <img src={selectedImageURL} className='w-full bg-slate-300 mt-vw max-w-[7vw] h-[7vw] rounded-full border-[1px] border-gray-300 ' /> <br />
+                          <input type="file" name='image' onChange={handleImageChange} className='p-0.5vw mt-vw border-[1px] border-gray-300 rounded-md w-full max-w-[10vw]' />
+                            </div>
                             <section className="grid mt-2vw grid-cols-2 gap-2">
                             {item?.form?.map((form, index) => (
                                 <div key={index} className='w-full  p-0.5vw max-w-[30vw]'>
