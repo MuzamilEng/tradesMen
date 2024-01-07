@@ -1,10 +1,10 @@
 import React from 'react'
-import Login from './Login'
+import Login from './Auth/Login'
 import Layout from '../Layout/Layout'
-import Featured from '../Component/Featured'
+import Featured from '../Component/Common/Featured'
 import { cards, projects } from '../Data'
-import Card from '../Component/Card'
-import ProjectCard from '../Component/ProjectCard'
+import Card from '../Component/Cards/Card'
+import ProjectCard from '../Component/Cards/ProjectCard'
 import { useGlobalContext } from '../UserContext/UserContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';

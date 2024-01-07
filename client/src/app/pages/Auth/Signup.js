@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
-import { signup } from '../Data'
+import { signup } from '../../Data'
 import { useForm, Controller } from 'react-hook-form';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-import { useSignUpUserMutation } from '../store/storeApi';
+import { useSignUpUserMutation } from '../../store/storeApi';
 import { Icon } from '@iconify/react';
-import Header from '../Component/Header';
-import Otp from '../Component/Otp';
-import { useGlobalContext } from '../UserContext/UserContext';
+import Header from '../../Component/Common/Header';
+import Otp from '../../Component/Otp';
+import { useGlobalContext } from '../../UserContext/UserContext';
 
 const Signup = () => {
     const [signUpUser] = useSignUpUserMutation()

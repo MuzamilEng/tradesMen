@@ -7,18 +7,15 @@ const tradesMenSchema = new mongoose.Schema({
     email: String,
     ratings: Number,
     hourlyRate: Number,
-      description: String,
-      location: String,
-        lat: Number,
-        lng: Number,
-      phoneNumber: Number,
-      image: {
-        type: String,
-      }
-      // image: {
-      //      public_id: {type: String,},
-      //    url: {type: String,}
-      // },   
+    description: String,
+    location: String,
+    lat: Number,
+    lng: Number,
+    phoneNumber: Number,
+    availability: String,
+    image: {
+      type: String,
+      },
   })
 
 module.exports = mongoose.model('Trademan', tradesMenSchema);

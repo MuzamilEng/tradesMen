@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import Header from '../Component/Header'
-import { tradesmanProfile } from '../Data'
+import { tradesmanProfile } from '../../Data'
 import { useForm, Controller } from 'react-hook-form';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAddTradesmanMutation } from '../store/storeApi';
-import { useGlobalContext } from '../UserContext/UserContext';
-import Map from '../Component/Map';
-
+import { useAddTradesmanMutation } from '../../store/storeApi';
+import { useGlobalContext } from '../../UserContext/UserContext';
+import Map from '../../Component/GoogleMap/Map';
+import PersonalInfo from './PersonalInfo';
+import { Icon } from '@iconify/react';
 
 const Profile = () => {
   const [searchedLocation, setSearchedLocation] = useState(null)
@@ -63,8 +63,8 @@ const Profile = () => {
         }
       }
     
-      console.log(coordinates?.lat, 'coordinates ------------1');
-      console.log(coordinates?.lng, 'coordinates-------------1');
+      // console.log(coordinates?.lat, 'coordinates ------------1');
+      // console.log(coordinates?.lng, 'coordinates-------------1');
       // Convert coordinates to numbers and append to formData
     formData.append('lat', coordinates?.lat);
     formData.append('lng', coordinates?.lng);
@@ -87,10 +87,10 @@ const Profile = () => {
           // navigate('/');
         }, 3000);
     
-        console.log(result, "from onSubmit")
-        console.log(result.data._id, "from onSubmit")
+        // console.log(result, "from onSubmit")
+        // console.log(result.data._id, "from onSubmit")
         const profileId = result?.data._id;
-        console.log(profileId, "profileId");
+        // console.log(profileId, "profileId");
         localStorage.setItem('profileId', profileId);
         navigate(`/profile/${profileId}`);
       } catch (error) {
@@ -112,20 +112,33 @@ const Profile = () => {
       setCoordinates({ ...coordinates, lat, lng });
     }, [searchedLocation]);
     
-  console.log(coordinates?.lat, 'coordinates');
-  console.log(coordinates?.lng, 'coordinates');
+  // console.log(coordinates?.lat, 'coordinates');
+  // console.log(coordinates?.lng, 'coordinates');
 
   return (
     <div>
-        <Header />
         <ToastContainer />
+        <PersonalInfo />
         <form onSubmit={handleSubmit(onSubmit)} className="p-3vw w-full h-full">
             {tradesmanProfile?.map((item, index) => (
                 <div key={index} className="w-full h-[90vw]">
-                    <h1 className='text-3xl text-center italic font-medium underline'>{item?.title}</h1>
-                    <img src={selectedImageURL || tradesManProfile?.image} className='w-full bg-slate-300 mt-vw max-w-[7vw] h-[7vw] rounded-full border-[1px] border-gray-300 ' /> <br />
-                    <input type="file" name='image' onChange={handleImageChange} className='p-0.5vw mt-vw border-[1px] border-gray-300 rounded-md w-full max-w-[10vw]' />
-                    <div className="col-center w-full">
+                <section className='col-center w-full'>
+                  <div className='relative w-full bg-gray-400 cursor-pointer hover:bg-gray-600 overflow-hidden max-w-[10vw] h-[10vw] rounded-full border-2'>
+                  <label htmlFor='image' className='relative bg-gray-300'>
+                      <img src={selectedImageURL} alt=' ' className='w-full h-full z-10 object-cover' />
+                      {!selectedImageURL && <Icon icon="ant-design:camera-filled" className='text-3vw text-white absolute top-[3.3vw] left-[3.3vw] z-50 ' />}
+                  </label>
+                  <input
+                    type='file'
+                    id='image'
+                    name='image'
+                    onChange={handleImageChange}
+                    className='sr-only' // Use sr-only class to hide the input visually
+                  />
+                 </div>  
+                 <label htmlFor="image" className='text-black text-[1.3vw] font-semibold'>Profile Image</label>
+                  </section> 
+    <div className="col-center w-full">
                     <section className="mt-vw ml-8vw p-2vw w-full grid grid-cols-2 gap-2">
                         {item?.form?.map((item2, index)=>(
                             <div key={index} className='w-full max-w-[33vw]'>

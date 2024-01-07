@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useEffect, useState, useReducer } from 'react';
-import axios from 'axios';
 import { useGetAllTradesmenQuery } from '../store/storeApi';
 import {useNavigate} from "react-router-dom"
 
@@ -35,7 +34,7 @@ export const UserProvider = ({ children }) => {
   const [chats, setChats] = useState();
   const navigate = useNavigate();
   const userLoginInfo =  localStorage.getItem('userLoginInfo')
-  console.log(userLoginInfo, 'userinfo');
+  // console.log(userLoginInfo, 'userinfo');
   useEffect(() => {
     const userInfos = JSON.parse(localStorage.getItem("userLoginInfo"));
     setUser(userInfos);
@@ -44,7 +43,7 @@ export const UserProvider = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate]);
 
-  console.log(user, "user1234");
+  // console.log(user, "user1234");
 
   // ----------------------------------------------------------------
   useEffect(() => {
@@ -52,12 +51,12 @@ export const UserProvider = ({ children }) => {
       setTradesmanProfiles(tradesManProfiles)
     }
   }, [tradesManProfiles])
-  console.log(tradesmanProfiles, "tradesmanProfiles");
+  // console.log(tradesmanProfiles, "tradesmanProfiles");
   ;
   useEffect(()=> {
     setTradesmanProfileDetails(tradesmanProfileDetails)
   }, [tradesmanProfileDetails])
-  console.log(tradesmanProfileDetails, 'pr details');
+  // console.log(tradesmanProfileDetails, 'pr details');
   return (
     <UserContext.Provider value={{ content, userDetails, setUserDetails, setContent, userInfo, setUserInfo, tradesManProfile, setTradesManProfile, searchedLocation, setSearchedLocation,
     tradesmanProfiles, userLoginInfo, tradesmanProfileDetails, setTradesmanProfileDetails,

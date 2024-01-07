@@ -1,12 +1,12 @@
 import React from 'react'
-import { useGlobalContext } from '../UserContext/UserContext'
 import { Link } from 'react-router-dom'
 import { Icon } from '@iconify/react'
-import Explore from '../Component/Explore'
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Layout2 from '../Layout/Layout2'
+import Layout2 from '../../Layout/Layout2'
+import { useGlobalContext } from '../../UserContext/UserContext';
+import Explore from '../../Component/Common/Explore';
 
 const Dashboard = () => {
   const {tradesmanProfileDetails: data} = useGlobalContext();

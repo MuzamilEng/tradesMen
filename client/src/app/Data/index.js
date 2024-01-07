@@ -1,21 +1,11 @@
 import React from 'react'
 import { Icon } from '@iconify/react';
 
-export const header = [];
 
 export const login = [
     { 
         title: "Welcome to TradesMen! Please login.", url: "/login",
         form: [
-        //     {label: "Name", name: "name", type: "text", placeholder: "Enter your name",
-        //     rules : {
-        //         required: 'name is required',
-        //         pattern: {
-        //             value: /^[a-zA-Z]+$/,
-        //             message: 'Only alphabets are allowed',
-        //         }
-        //     }
-        // },
             {label: "Email", name: "email", type: "text", placeholder: "Enter your email",
             rules : {
                 required: 'Email is required',
@@ -103,31 +93,31 @@ export const tradesmanProfile = [
 
       }
       },
-      {
-        label: "Hourly Rate",
-        type: "number",
-        name: 'hourlyRate',
-        placeholder: "Enter your hourlyRate",
-        rules : {
-          rules : {
-            required: 'Hourly Rate is required',
-            message: 'Hourly Rate is required',
+      // {
+      //   label: "Hourly Rate",
+      //   type: "number",
+      //   name: 'hourlyRate',
+      //   placeholder: "Enter your hourlyRate",
+      //   rules : {
+      //     rules : {
+      //       required: 'Hourly Rate is required',
+      //       message: 'Hourly Rate is required',
   
-        }
-      }
-      },
-      {
-        label: "Ratings",
-        type: "number",
-        name: 'ratings',
-        placeholder: "Enter your ratings",
-        rules : {
-          rules : {
-            required: 'Ratings is required',
-            message: 'ratings is required',
-        }
-      }
-      },
+      //   }
+      // }
+      // },
+      // {
+      //   label: "Ratings",
+      //   type: "number",
+      //   name: 'ratings',
+      //   placeholder: "Enter your ratings",
+      //   rules : {
+      //     rules : {
+      //       required: 'Ratings is required',
+      //       message: 'ratings is required',
+      //   }
+      // }
+      // },
       {
         label: "Location",
         type: "text",
@@ -410,150 +400,20 @@ export const cards = [
   ];
 
 
- 
-
-  // export const tradesmanProfile = [
-  //   {
-  //     title: "Hello Motto!. Welcome to tradesmen",
-  //     img: "img/man1.avif",
-  //     form: [
-  //       {
-  //         label: "Username",
-  //         title: "Jhons Smilga",
-  //       },{
-  //         label: "Email",
-  //         title: "jhnonsmilga@gmail.com",
-  //       },{
-  //         label: "Phone Number",
-  //         title: "0922 76433 7654",
-  //       },{
-  //         label: "Title",
-  //         title: "Plumber",
-  //       },
-  //       {
-  //         label: "Description",
-  //         title: "I am a skilled plumber with more than 4 years expeirence. I have worked on several industrial projects. I also work on hourly rate and on small sale projects",
-  //       },
-  //       {
-  //         label: "Hourly Rate",
-  //         title: 110,
-  //       },
-  //       {
-  //         label: "Ratings",
-  //         title: 4.5,
-  //       },
-  //       {
-  //         label: "Location",
-  //         title: "USA, Los Angeles",
-  //       }
-  //     ],
-  //   }
-  // ]
-  export const tableTitle = [
-    {
-      title: 'Project',
-      icon: <Icon icon="pepicons-pencil:dots-y" />,
-    },
-    {
-      title: 'Owner',
-      icon: <Icon icon="pepicons-pencil:dots-y" />,
-      icon2: <Icon icon="ep:arrow-down-bold" />,
-      width: 'w-[12vw]',
-    },{
-      title: 'Status',
-      icon: <Icon icon="pepicons-pencil:dots-y" />,
-      icon2: <Icon icon="ep:arrow-down-bold" />,
-    },{
-      title: 'Deadline',
-      icon: <Icon icon="pepicons-pencil:dots-y" />,
-      icon2: <Icon icon="ep:arrow-down-bold" />,
-    },{
-      title: 'Related Doc',
-      icon: <Icon icon="ep:arrow-down-bold" />,
-    },
-  ]
-
-  export const tracker = [
-    {
-      id: 0,
-      title: "Complete Messaging...",
-      owner: 'img/man.png',
-      status_inProgress: {label: 'In Progress', value: 'inProgress', status_count: 3, date: "Jan 12 2018", date_count: 1, docs: 'Messaging Exercise'},
-      status_upComing: {label: 'Upcoming', value: 'upcoming', status_count: 3, date: "Jan 23 2022", date_count: 1, docs: 'Messaging Exercise'},
-      status_complete: {label: 'Complete', value: 'complete', status_count: 3, date: "Mar 2 2012", date_count: 1, docs: 'Messaging Exercise'},
-      status_atRisk: {label: 'At Risk', value: 'atRisk', status_count: 3, date: "Dec 11 2018", date_count: 1, docs: 'Messaging Exercise'},     
-    },
-    {
-      id:1,
-      title: "Project Budget",
-      owner: 'img/man.png',
-      status_inProgress: {label: 'In Progress', value: 'inProgress', status_count: 3, date: "Jan 12 2018", date_count: 1, docs: 'Marketing Budget Review'},
-      status_upComing: {label: 'Upcoming', value: 'upcoming', status_count: 3, date: "Mar 2 2012", date_count: 1, docs: 'Marketing Budget Review'},
-      status_complete: {label: 'Complete', value: 'complete', status_count: 3, date: "Jan 23 2022", date_count: 1, docs: 'Marketing Budget Review'},
-      status_atRisk: {label: 'At Risk', value: 'atRisk', status_count: 3, date: "Jan 12 2018", date_count: 1, docs: 'Marketing Budget Review'},     
-    },
-    {
-      id:2,
-      title: "Draft Press Release",
-      owner: 'img/man.png',
-      status_inProgress: {label: 'In Progress', value: 'inProgress', status_count: 3, date: "Mar 2 2012", date_count: 1, docs: 'Press Release'},
-      status_upComing: {label: 'Upcoming', value: 'upcoming', status_count: 2, date: "Jan 12 2018", date_count: 1, docs: 'Press Release'},
-      status_complete: {label: 'Complete', value: 'complete', status_count: 4, date: "Jan 12 2018", date_count: 1, docs: 'Press Release'},
-      status_atRisk: {label: 'At Risk', value: 'atRisk', status_count: 6, date: "Jan 23 2022", date_count: 1, docs: 'Press Release'},
-    },
-    {
-      id:3,
-      title: "Social Media Plan",
-      owner: 'img/man.png',
-      status_inProgress: {label: 'In Progress', value: 'inProgress', status_count: 3, date: "Jan 12 2018", date_count: 1, docs: 'Social Media Plan'},
-      status_upComing: {label: 'Upcoming', value: 'upcoming', status_count: 2, date: "Mar 2 2012", date_count: 1, docs: 'Social Media Plan'},
-        status_complete: {label: 'Complete', value: 'complete', status_count: 4, date: "Jan 12 2018", date_count: 1, docs: 'Social Media Plan'},
-        status_atRisk: {label: 'At Risk', value: 'atRisk', status_count: 6, date: "Jan 12 2018", date_count: 1, docs: 'Social Media Plan'},
-    },
-    {
-      id:4,
-      title: "Email Customers",
-      owner: 'img/man.png',
-      status_inProgress: {label: 'In Progress', value: 'inProgress',name: 'inprogress', status_count: 3, date: "Jan 23 2022", date_count: 1, docs: 'Email Copy'},
-        status_upComing: {label: 'Upcoming', value: 'upcoming',name: 'upcoming', status_count: 2, date: "Jan 12 2018", date_count: 1, docs: 'Email Copy'},
-        status_complete:  {label: 'Complete', value: 'complete',name: 'complete', status_count: 4, date: "Mar 2 2012", date_count: 1, docs: 'Email Copy'},
-        status_atRisk: {label: 'At Risk', value: 'atRisk', name: 'atRisk', status_count: 6, date: "Jan 12 2018", date_count: 1, docs: 'Email Copy'},
-    },
-    {
-      id:5,
-      title: "Draft Blog Post",
-      owner: 'img/man.png',
-      status_inProgress: {label: 'In Progress', value: 'inProgress', status_count: 3, date: "Jan 12 2018", date_count: 1, docs: 'Announcement Blog Post'},
-        status_upComing:  {label: 'Upcoming', value: 'upcoming', status_count: 2, date: "Jan 23 2022", date_count: 1, docs: 'Announcement Blog Post'},
-        status_complete:  {label: 'Complete', value: 'complete', status_count: 4, date: "Mar 2 2012", date_count: 1, docs: 'Announcement Blog Post'},
-        status_atRisk: {label: 'At Risk', value: 'atRisk', status_count: 6, date: "Jan 12 2018", date_count: 1, docs: 'Announcement Blog Post'},
-    },
-  ]
-
-  export const addRecord = [
-   {
-      label: "Project Title",
-      name: 'title',
-      type: 'text',
-      placeholder: 'enter a title'
-    },
-    {
-      label: "Status",
-      name: 'label', 
-      type: 'text',
-      placeholder: 'enter status'
-    },
-    {
-      label: "Date",
-      name: 'date',
-      type: 'text',
-      placeholder: 'enter date'
-    },
-    {
-      label: "Related Docs",
-      name:"docs",
-      type: 'text',
-      placeholder: 'enter a title'
-    },
-  ]
-
+export const start_selling  = [
+  {
+    title: "Learn what makes a successful profile",
+    info: "Discover the do’s and don’ts to ensure you’re always on the right track.",
+    icon: <Icon icon="fluent:learning-app-24-regular" />,
+  },
+  {
+    title: "Create your seller profile",
+    info: "Add your profile picture, description, and professional information.",
+    icon: <Icon icon="gg:profile" />,
+  },
+  {
+    title: "Publish your Gig",
+    info: "Create a Gig of the service you’re offering and start selling instantly.",
+    icon: <Icon icon="tabler:home-hand" />,
+  },
+]

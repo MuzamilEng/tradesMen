@@ -11,7 +11,7 @@ import { use, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import { useToast } from "@chakra-ui/toast";
-import ChatLoading from "../ChatLoading";
+import ChatLoading from "../Chats/ChatLoading";
 import { Spinner } from "@chakra-ui/spinner";
 import ProfileModal from "./ProfileModal";
 import NotificationBadge from "react-notification-badge";

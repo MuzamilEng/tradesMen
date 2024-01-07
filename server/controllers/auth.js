@@ -68,7 +68,7 @@ const login = (req, res, next) => {
 
     // Generate and sign a JWT token
     const token = jwt.sign({ id: user._id, email: user.email }, 'JSONWEBTOKKENSECRETKEY!@#$%^&*()', {
-      expiresIn: '1h',
+      expiresIn: '12d',
     });
 
     // Send the token in the response

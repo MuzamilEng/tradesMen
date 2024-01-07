@@ -1,6 +1,6 @@
 import React from 'react'
 import Layout from '../Layout/Layout'
-import PinLocation from './PinLocation'
+import PinLocation from './GoogleMap/PinLocation'
 import { Link, useParams } from 'react-router-dom'
 import { useGetTrademanByIdQuery } from '../store/storeApi'
 import { Icon } from '@iconify/react';

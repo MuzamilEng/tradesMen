@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/layout";
-import "./styles.css";
+import "../styles.css";
 import SingleChat from "./SingleChat";
-import { useGlobalContext } from "../UserContext/UserContext";
+import { useGlobalContext } from "../../UserContext/UserContext";
 
 const Chatbox = ({ fetchAgain, setFetchAgain }) => {
   const { selectedChat } = useGlobalContext();

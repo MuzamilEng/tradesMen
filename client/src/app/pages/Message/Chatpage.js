@@ -1,9 +1,9 @@
 import { Box } from "@chakra-ui/layout";
 import { useState } from "react";
-import { useGlobalContext } from "../UserContext/UserContext";
-import SideDrawer from "../Component/miscellaneous/SideDrawer";
-import MyChats from "../Component/MyChats";
-import Chatbox from "../Component/Chatbox";
+import { useGlobalContext } from "../../UserContext/UserContext";
+import SideDrawer from "../../Component/miscellaneous/SideDrawer";
+import MyChats from "../../Component/Chats/MyChats";
+import Chatbox from "../../Component/Chats/Chatbox";
 
 const Chatpage = () => {
   const [fetchAgain, setFetchAgain] = useState(false);

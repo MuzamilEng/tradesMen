@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
-import { login, tradesmanProfile } from '../Data'
+import { login, tradesmanProfile } from '../../Data'
 import { useForm, Controller } from 'react-hook-form';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { useLoginUserMutation } from '../store/storeApi';
+import { useLoginUserMutation } from '../../store/storeApi';
 import { Icon } from '@iconify/react';
-import Header from '../Component/Header';
+import Header from '../../Component/Common/Header';
 import axios from 'axios';
-import LoginButton from '../Component/LoginButton';
-import { useGlobalContext } from '../UserContext/UserContext';
+import LoginButton from '../../Component/Common/LoginButton';
+import { useGlobalContext } from '../../UserContext/UserContext';
 
 const Login = () => {
     const [loginUser] = useLoginUserMutation();
@@ -24,7 +24,7 @@ const Login = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        console.log(value, "value")
+        // console.log(value, "value")
         setValue(name, value);
     };
     const showToast = (message, type) => {
@@ -47,30 +47,36 @@ const Login = () => {
             });
                 const userLoginInfo = fetchDetails?.data;
             localStorage.setItem('userLoginInfo', JSON.stringify(userLoginInfo));
-                if (userLoginInfo.category === 'tradesman') {
-                try {
-                    const fetchProfile = await axios.get(`http://localhost:5000/api/v1/tradesman/getProfile?email=${userLoginInfo.email}`);
-                    const profile = fetchProfile.data;
-                    setTradesmanProfileDetails(profile)
-                    if (fetchProfile.status === 200 || fetchProfile.status === 201) {
-                        showToast('Successfully Logged In', 'success');
-                        setTimeout(() => {
-                            navigate('/dashboard');
-                        }, 3000);
-                    }
-                } catch (error) {
-                    // console.log(error, 'no profile found');
-                        showToast('Successfully Logged In', 'success');
-                        setTimeout(() => {
-                            navigate('/profile');
-                        }, 3000);
-                }
-            } else {
+            if(fetchDetails?.status === 200 || fetchDetails?.status === 201){
                 showToast('Successfully Logged In', 'success');
                 setTimeout(() => {
-                    navigate('/tradesmen');
+                    navigate('/');
                 }, 3000);
             }
+            //     if (userLoginInfo.category === 'tradesman') {
+            //     try {
+            //         const fetchProfile = await axios.get(`http://localhost:5000/api/v1/tradesman/getProfile?email=${userLoginInfo.email}`);
+            //         const profile = fetchProfile.data;
+            //         setTradesmanProfileDetails(profile)
+            //         if (fetchProfile.status === 200 || fetchProfile.status === 201) {
+            //             showToast('Successfully Logged In', 'success');
+            //             setTimeout(() => {
+            //                 navigate('/dashboard');
+            //             }, 3000);
+            //         }
+            //     } catch (error) {
+            //         // console.log(error, 'no profile found');
+            //             showToast('Successfully Logged In', 'success');
+            //             setTimeout(() => {
+            //                 navigate('/profile');
+            //             }, 3000);
+            //     }
+            // } else {
+            //     showToast('Successfully Logged In', 'success');
+            //     setTimeout(() => {
+            //         navigate('/');
+            //     }, 3000);
+            // }
         } catch (error) {
             console.error('Error during login:', error);
             showToast('An unexpected error occurred. Please try again.', 'error');

@@ -160,7 +160,50 @@ const allTradesMen = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+const advancedSearch = async (req, res) => {
+  const { price, availability, occupation, distanceRadius } = req.query;
+  const parseMinPrice = parseInt(minPrice);
+  const parseMaxPrice = parseInt(maxPrice);
+  const parseBedrooms = parseInt(bedrooms);
+  const parseBathrooms = parseInt(bathrooms);
+  console.log(req.query, 'query');
 
+  // Define an array to store the conditions for the $and operator
+  const andConditions = [];
+
+  // Check and add conditions based on the provided query parameters
+  if (minPrice) {
+    andConditions.push({ pricePerWeek: { $gte: parseMinPrice } });
+  }
+  if (maxPrice) {
+    andConditions.push({ pricePerMonth: { $lte: parseMaxPrice } });
+  }
+  if (bedrooms) {
+    andConditions.push({ bedrooms: parseBedrooms });
+  }
+  if (bathrooms) {
+    andConditions.push({ bathrooms: parseBathrooms });
+  }
+  if (propertyType) {
+    andConditions.push({ propertyType });
+  }
+  if (location) {
+    andConditions.push({ location });
+  }
+
+  // Build the final search query
+  const searchQuery = andConditions.length > 0 ? { $and: andConditions } : {};
+
+  try {
+    const searchResults = await TrademanSchema.find(searchQuery);
+    res.status(200).json(searchResults);
+  } catch (error) {
+    console.error('Error during search:', error);
+    res.status(500).json({
+      error: 'Internal server error',
+    });
+  }
+};
 module.exports = {
   createTrademanProfile,
   updateTrademanProfile,

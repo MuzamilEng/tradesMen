@@ -1,28 +1,32 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Home from './app/pages/Home'
-import Login from './app/pages/Login'
-import Signup from './app/pages/Signup'
-import Profile from './app/pages/Profile'
-import MapComponent from './app/Component/MapComponent'
+import Login from './app/pages/Auth/Login'
+import Signup from './app/pages/Auth/Signup'
+import MapComponent from './app/Component/GoogleMap/MapComponent'
 import UserProfile from './app/Component/UserProfile'
 import Dashboard from './app/pages/Dashboard'
-import Chat from './app/Component/Chat'
-import SingleChat from './app/Component/SingleChat'
-import Chatpage from './app/pages/Chatpage'
+import Chatpage from './app/pages/Message/Chatpage'
+import Onboarding from './app/pages/onboarding'
+import Profile from './app/pages/Profile/Profile'
+import PersonalInfo from './app/pages/Profile/PersonalInfo'
+import Gigs from './app/pages/Profile/Gigs'
 
 const App = () => {
   return (
     <>
       <Routes>
-        <Route path='/tradesmen' element={<Home />} />
-        <Route path='/' element={<Login />} />
+        <Route path='/' element={<Home />} />
+        <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/map' element={<MapComponent />} />
         <Route path='/profile/:id' element={<UserProfile />} />
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/chat' element={<Chatpage />} />
+        <Route path='/seller_onboarding' element={<Onboarding />} />
+        <Route path='/personal_info' element={<PersonalInfo />} />
+        <Route path='/manage_gigs' element={<Gigs />} />
       </Routes>
     </>
   )
