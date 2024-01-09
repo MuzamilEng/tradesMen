@@ -40,9 +40,14 @@ const createTrademanProfile = async (req, res) => {
 };
 
 const updateTrademanProfile = async (req, res, next) => {
-  const { occupation, username, email, ratings, hourlyRate, description, location, lat, lng, phoneNumber } = req.body;
+  console.log(req.body, "req body");
+  const {
+    occupation, username, email, ratings, hourlyRate, description, location, lat, lng, phoneNumber, image, gigImage1, gigImage2, gigImage3, video, docs1, docs2
+  } = req.body;
 
-  const updateFields = {occupation, username, email, ratings, hourlyRate, description, location , lat, lng, phoneNumber};
+  const updateFields = {
+    occupation, username, email, ratings, hourlyRate, description, location, lat, lng, phoneNumber, image, gigImage1, gigImage2, gigImage3, video, docs1, docs2
+  };
 
   try {
     const existingContent = await TrademanSchema.findById(req.params.id);
@@ -54,31 +59,38 @@ const updateTrademanProfile = async (req, res, next) => {
     // Keep track of existing public_ids to delete them later
     const existingPublicIds = [];
 
-    for (let i = 1; i <= 15; i++) {
-      const fieldName = `image${i}`;
-
+    // Function to handle file upload and update fields
+    const handleFileUpload = async (fieldName) => {
       if (req.files[fieldName]) {
-        // Delete previous image if it exists
-        if (existingContent[fieldName] && existingContent[fieldName].public_id) {
-          existingPublicIds.push(existingContent[fieldName].public_id);
+        // Delete previous file if it exists
+        if (existingContent[fieldName]) {
+          existingPublicIds.push(existingContent[fieldName]);
         }
 
-        const image = req.files[fieldName][0];
-        const result = await cloudinary.uploader.upload(image.path, {
+        const file = req.files[fieldName][0];
+        const result = await cloudinary.uploader.upload(file.path, {
           folder: 'Assets',
         });
 
-        updateFields[fieldName] = { public_id: result.public_id, url: result.secure_url };
+        updateFields[fieldName] = result.secure_url;
       }
-    }
+    };
 
-    // Delete previous images in Cloudinary
+    // Handling file uploads for multiple fields
+    handleFileUpload('image');
+    handleFileUpload('gigImage1');
+    handleFileUpload('gigImage2');
+    handleFileUpload('gigImage3');
+    handleFileUpload('video');
+    handleFileUpload('docs1');
+    handleFileUpload('docs2');
+
+    // Delete previous files in Cloudinary
     for (const publicId of existingPublicIds) {
       await cloudinary.uploader.destroy(publicId.replace(cloudinary.config().cloud_name + '/', ''));
     }
 
-    const updatedContent = await 
-    TrademanSchema.findByIdAndUpdate(
+    const updatedContent = await TrademanSchema.findByIdAndUpdate(
       req.params.id,
       { $set: updateFields },
       { new: true }
@@ -90,10 +102,12 @@ const updateTrademanProfile = async (req, res, next) => {
 
     res.status(200).json(updatedContent);
   } catch (error) {
-    console.error('Error updating product:', error);
-    res.status(500).json({ message: 'Error updating product' });
+    console.error('Error updating profile:', error);
+    res.status(500).json({ message: 'Error updating profile' });
   }
 };
+
+
 
 // Get all trademans
 const getAllTradesmenProfiles = async (req, res) => {

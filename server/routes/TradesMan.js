@@ -19,7 +19,9 @@ const upload = multer({
   }
 });
 
-const uploadFiles = upload.single('image');
+// const uploadFiles = upload.single('image');
+const uploadFiles = upload.fields([{ name: 'image', maxCount: 1 }, { name: 'gigImage1', maxCount: 1 }, { name: 'gigImage2', maxCount: 1 }, { name: 'gigImage3', maxCount: 1 }, { name: 'video', maxCount: 1 }, { name: 'docs2', maxCount: 1 }, { name: 'docs1', maxCount: 1 } ])
+
 
 
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Icon } from '@iconify/react'
 import Slider from "react-slick";
@@ -7,10 +7,25 @@ import "slick-carousel/slick/slick-theme.css";
 import Layout2 from '../../Layout/Layout2'
 import { useGlobalContext } from '../../UserContext/UserContext';
 import Explore from '../../Component/Common/Explore';
+import axios from 'axios';
 
 const Dashboard = () => {
-  const {tradesmanProfileDetails: data} = useGlobalContext();
+  const {user} = useGlobalContext();
+//   console.log(user, "user 1111111");
+  const [profileDetails, setProfileDetails] = useState(null)
   const settings = { dots: true,  arrows: false, infinite: true, speed: 3000, slidesToShow: 1, slidesToScroll: 1, autoplay: true, autoplaySpeed: 3000 };
+  const fetchTradesmanProfile = async () => {
+    const result = await axios.get(`http://localhost:5000/api/v1/tradesman/getProfile?email=${user?.email}`);
+    setProfileDetails(result.data);
+    // console.log(result, 'result');
+  }
+//   console.log(profileDetails);
+  
+  useEffect(() => {
+    if(user){
+    fetchTradesmanProfile();
+    }
+  }, [user]);
   return (
     <div>
     <Layout2>
@@ -19,8 +34,8 @@ const Dashboard = () => {
               <div className='w-full max-w-[30vw]'>
                 <section className="w-full p-vw border-[1px] border-gray-300 max-w-[25vw]">
                     <div className="col-center p-vw">
-                        <img src={data?.image ? data?.image : '/img/man.png'} alt={data?.username} className='w-full max-w-[7vw] h-[7vw] rounded-full object-cover' />
-                        <h1 className='text-vw text-center mt-0.5vw font-semibold text-black'>Your display name: <br />@ {data?.username}</h1>
+                        <img src={profileDetails?.image ? profileDetails?.image : '/img/man.png'} alt={profileDetails?.username} className='w-full max-w-[7vw] h-[7vw] rounded-full object-cover' />
+                        <h1 className='text-vw text-center mt-0.5vw font-semibold text-black'>Your display name: <br />@ {profileDetails?.username}</h1>
                         <Link>
                         <div className="w-[22vw] mt-vw text-center border-[1px] hover:bg-gray-600 hover:text-white border-black rounded-md p-0.5vw">
                             <p className='text-vw text-center font-semibold hover:text-white text-black'>Preview your profile</p>
@@ -54,12 +69,12 @@ const Dashboard = () => {
                 <article className="w-full mt-7vw max-w-[25vw] p-vw border-[1px] border-gray-400">
                 <h1 className='text-vw text-black font-semibold'>Description</h1>
                 <p className='text-vw w-full mt-vw text-gray-800'>
-                🔶🔶Lets talks about Web-application and Mobile-application development. 🖐️Hi guys! ▶️ I'm a skilled full stack developer with over 2.5+ years experience in ♦️MERN Stack Development with extensive experience in building CMS and CRM application. ⏩ 3+years experience in JavaScript, HTML5 and CSS . ⏩ expert in translating🔺Figma into responsive designs. ⏩ I'm an expert in🔻fixing core-web-errors in codes of any of the languages i have mastered. Also have expertise in 🔺websites speed and performance optimization . 🏅 successfully completed projects as freelancer.
+                    {profileDetails?.description}
                 </p>
             </article>
                   </div>
                 <section className="w-full ml-vw max-w-[70vw]">
-                    <img src={data?.image ? data?.image : 'https://www.beingguru.com/wp-content/uploads/2023/02/create-a-GIG-on-Fiverr-get-Orders-758x426.png'}  className='w-full max-w-[50vw] border-[1px] h-20vw object-fit' alt={data?.username} />
+                    <img src={profileDetails?.image ? profileDetails?.image : 'https://www.beingguru.com/wp-content/uploads/2023/02/create-a-GIG-on-Fiverr-get-Orders-758x426.png'}  className='w-full max-w-[50vw] border-[1px] h-20vw object-fit' alt={profileDetails?.username} />
                     <div className="-mt-10vw">
                     <Explore />
                     </div>

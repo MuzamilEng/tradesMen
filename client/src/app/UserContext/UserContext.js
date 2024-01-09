@@ -1,11 +1,13 @@
 import React, { createContext, useContext, useEffect, useState, useReducer } from 'react';
-import { useGetAllTradesmenQuery } from '../store/storeApi';
+import { useGetAllTradesmenQuery, useGetTrademanByEmailQuery } from '../store/storeApi';
 import {useNavigate} from "react-router-dom"
+import axios from "axios";
 
 const UserContext = createContext();
 export const useGlobalContext = () => useContext(UserContext);
 
 export const UserProvider = ({ children }) => {
+  const {data: email} = useGetTrademanByEmailQuery()
   const [userInfo, setUserInfo] = useState({firstName: "",image: "", lastName: "", password: "", email: "", phoneNumber: null, category: "",})
   const [content, setContent] = useState([]);
   const {data: tradesManProfiles} = useGetAllTradesmenQuery();
@@ -33,17 +35,19 @@ export const UserProvider = ({ children }) => {
   const [notification, setNotification] = useState([]);
   const [chats, setChats] = useState();
   const navigate = useNavigate();
-  const userLoginInfo =  localStorage.getItem('userLoginInfo')
+
+  const userLoginInfo = JSON.parse(localStorage.getItem("userLoginInfo"))
   // console.log(userLoginInfo, 'userinfo');
   useEffect(() => {
     const userInfos = JSON.parse(localStorage.getItem("userLoginInfo"));
     setUser(userInfos);
 
-    if (!userInfos) navigate("/");
+    if (!userInfos) navigate("/login");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate]);
-
-  // console.log(user, "user1234");
+  
+  console.log(user, "user1234");
+  
 
   // ----------------------------------------------------------------
   useEffect(() => {
@@ -56,7 +60,7 @@ export const UserProvider = ({ children }) => {
   useEffect(()=> {
     setTradesmanProfileDetails(tradesmanProfileDetails)
   }, [tradesmanProfileDetails])
-  // console.log(tradesmanProfileDetails, 'pr details');
+
   return (
     <UserContext.Provider value={{ content, userDetails, setUserDetails, setContent, userInfo, setUserInfo, tradesManProfile, setTradesManProfile, searchedLocation, setSearchedLocation,
     tradesmanProfiles, userLoginInfo, tradesmanProfileDetails, setTradesmanProfileDetails,

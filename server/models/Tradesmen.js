@@ -16,6 +16,24 @@ const tradesMenSchema = new mongoose.Schema({
     image: {
       type: String,
       },
-  })
+    gigImage1:{
+      type: String,
+    },
+    gigImage2:{
+      type: String,
+    },
+    gigImage3:{
+      type: String,
+    },
+    video:{
+      type: String,
+    },
+    docs1:{
+      type: String,
+    },
+    docs2:{
+      type: String,
+    },
+  }, {timestamps: true})
 
 module.exports = mongoose.model('Trademan', tradesMenSchema);

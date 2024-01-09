@@ -11,6 +11,9 @@ export const storeApi = createApi({
         getTrademanById: builder.query({
             query: (id) => `/tradesman/${id}`,
           }),
+          getTrademanByEmail: builder.query({
+            query: (email) => `/tradesman/getProfile/${email}`,
+          }),
         addTradesman: builder.mutation({
             query: (data) => ({
                 url: '/tradesman',
@@ -71,6 +74,7 @@ export const storeApi = createApi({
 export const {
     useGetAllTradesmenQuery,
     useGetTrademanByIdQuery,
+    useGetTrademanByEmailQuery,
     useAddTradesmanMutation,
     useUpdateTradesmanMutation,
     useDeleteTradesmanMutation,

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useGlobalContext } from "../../UserContext/UserContext";
 // import "./Navbar.scss";
 
 function Navbar() {
+  const {user} = useGlobalContext()
   const [active, setActive] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -44,12 +46,12 @@ function Navbar() {
           <span>English</span>
           {!currentUser?.isSeller && <span>Become a Seller</span>}
           {currentUser ? (
-            <div className="user" onClick={()=>setOpen(!open)}>
+            <div className="" onClick={()=>setOpen(!open)}>
               <img
-                src="https://images.pexels.com/photos/1115697/pexels-photo-1115697.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                alt=""
+                src={user?.image}
+                alt={user?.name}
+                className="w-3vw h-3vw rounded-full object-fit cursor-pointer"
               />
-              <span>{currentUser?.username}</span>
               {open && <div className="options">
                 {currentUser.isSeller && (
                   <>
