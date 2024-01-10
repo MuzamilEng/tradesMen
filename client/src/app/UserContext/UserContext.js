@@ -10,6 +10,7 @@ export const UserProvider = ({ children }) => {
   const {data: email} = useGetTrademanByEmailQuery()
   const [userInfo, setUserInfo] = useState({firstName: "",image: "", lastName: "", password: "", email: "", phoneNumber: null, category: "",})
   const [content, setContent] = useState([]);
+  const [tradesManProfileId, setTradesManProfileId] = useState(null)
   const {data: tradesManProfiles} = useGetAllTradesmenQuery();
   const [tradesmanProfiles, setTradesmanProfiles] = useState([]);
   const [searchedLocation, setSearchedLocation] = useState(null)
@@ -50,6 +51,21 @@ export const UserProvider = ({ children }) => {
   
 
   // ----------------------------------------------------------------
+
+
+  const fetchTradesmanProfile = async () => {
+    const result = await axios.get(`http://localhost:5000/api/v1/tradesman/getProfile?email=${user?.email}`);
+    setTradesManProfileId(result.data);
+    // console.log(result, 'resultin context');
+  }
+  // console.log(tradesManProfileId, "1id details");
+  
+  useEffect(() => {
+    if(user){
+    fetchTradesmanProfile();
+    }
+    setTradesManProfileId(user?.id)
+  }, [user]);
   useEffect(() => {
     if(tradesManProfiles){
       setTradesmanProfiles(tradesManProfiles)
@@ -63,7 +79,7 @@ export const UserProvider = ({ children }) => {
 
   return (
     <UserContext.Provider value={{ content, userDetails, setUserDetails, setContent, userInfo, setUserInfo, tradesManProfile, setTradesManProfile, searchedLocation, setSearchedLocation,
-    tradesmanProfiles, userLoginInfo, tradesmanProfileDetails, setTradesmanProfileDetails,
+    tradesmanProfiles, userLoginInfo, tradesmanProfileDetails, setTradesmanProfileDetails, tradesManProfileId, setTradesManProfileId,
     selectedChat,
     setSelectedChat,
     user,

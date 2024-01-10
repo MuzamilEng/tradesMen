@@ -13,6 +13,8 @@ const tradesMenSchema = new mongoose.Schema({
     lng: Number,
     phoneNumber: Number,
     availability: String,
+    gigTitle: String,
+    gigDescription: String,
     image: {
       type: String,
       },

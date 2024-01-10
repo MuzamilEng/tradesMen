@@ -7,25 +7,25 @@ import "slick-carousel/slick/slick-theme.css";
 import Layout2 from '../../Layout/Layout2'
 import { useGlobalContext } from '../../UserContext/UserContext';
 import Explore from '../../Component/Common/Explore';
-import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 const Dashboard = () => {
-  const {user} = useGlobalContext();
-//   console.log(user, "user 1111111");
-  const [profileDetails, setProfileDetails] = useState(null)
+  const {tradesManProfileId: profileDetails} = useGlobalContext();
+  // console.log(profileDetails, "user 1111111");
   const settings = { dots: true,  arrows: false, infinite: true, speed: 3000, slidesToShow: 1, slidesToScroll: 1, autoplay: true, autoplaySpeed: 3000 };
-  const fetchTradesmanProfile = async () => {
-    const result = await axios.get(`http://localhost:5000/api/v1/tradesman/getProfile?email=${user?.email}`);
-    setProfileDetails(result.data);
-    // console.log(result, 'result');
-  }
-//   console.log(profileDetails);
-  
-  useEffect(() => {
-    if(user){
-    fetchTradesmanProfile();
-    }
-  }, [user]);
+  const CustomPrevArrow = (props) => (
+    <span {...props} className="text-vw text-black absolute cursor-pointer top-7vw -left-vw z-50">
+    <FontAwesomeIcon icon={faArrowLeft} className='text-vw text-black  rounded-md hover:bg-gray-300 bg-gray-400 p-[0.7vw] text-center' />
+  </span>);
+  const CustomNextArrow = (props) => (
+      <span {...props} className="text-vw text-black absolute cursor-pointer  top-7vw -right-vw">
+    <FontAwesomeIcon icon={faArrowRight} className='text-vw text-black rounded-md hover:bg-gray-300 bg-gray-400 p-[0.7vw] text-center' />
+  </span> );
+
+const settings2 = { dots: false, prevArrow: <CustomPrevArrow />, nextArrow: <CustomNextArrow />, arrows: true, infinite: true, speed: 500, slidesToShow: 1, slidesToScroll: 1, autoplay: true, autoplaySpeed: 3000 };
+
   return (
     <div>
     <Layout2>
@@ -73,8 +73,16 @@ const Dashboard = () => {
                 </p>
             </article>
                   </div>
-                <section className="w-full ml-vw max-w-[70vw]">
-                    <img src={profileDetails?.image ? profileDetails?.image : 'https://www.beingguru.com/wp-content/uploads/2023/02/create-a-GIG-on-Fiverr-get-Orders-758x426.png'}  className='w-full max-w-[50vw] border-[1px] h-20vw object-fit' alt={profileDetails?.username} />
+                <section className="w-full ml-vw max-w-[42vw]">
+                <div className="grid grid-cols-1 gap-vw">
+                <Slider {...settings2} className='ml-2vw'>
+                    <img src={profileDetails?.gigImage1} alt="dasbord_img" className='w-full max-w-[40vw] h-[15vw] object-fit' />
+                    <img src={profileDetails?.gigImage2} alt="dasbord_img" className='w-full max-w-[40vw] h-[15vw] object-fit' />
+                    <img src={profileDetails?.gigImage3} alt="dasbord_img" className='w-full max-w-[40vw] h-[15vw] object-fit' />
+                    <video src={profileDetails?.video} controls className='w-full max-w-[40vw] h-[15vw] object-fit'></video>
+                    </Slider>
+                </div>
+                    {/* <img src={profileDetails?.image ? profileDetails?.image : 'https://www.beingguru.com/wp-content/uploads/2023/02/create-a-GIG-on-Fiverr-get-Orders-758x426.png'}  className='w-full max-w-[50vw] border-[1px] h-20vw object-fit' alt={profileDetails?.username} /> */}
                     <div className="-mt-10vw">
                     <Explore />
                     </div>

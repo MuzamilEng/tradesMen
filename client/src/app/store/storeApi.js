@@ -23,7 +23,7 @@ export const storeApi = createApi({
         }),
         updateTradesman: builder.mutation({
             query: ({ id, data }) => ({
-              url: `/tradesman/${id}`,
+              url: `/tradesman/update/${id}`,
               method: 'PUT',
               body: data,
             }),

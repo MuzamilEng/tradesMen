@@ -4,6 +4,8 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
+import { useUpdateTradesmanMutation } from '../../store/storeApi';
+import { useGlobalContext } from '../../UserContext/UserContext';
 
 const ImageInput = ({ id, name, accept, selectedImage, handleImageChange }) => {
   return (
@@ -50,23 +52,29 @@ const DocumentInput = ({ id, name, accept, selectedDocument, handleDocumentChang
 
 const Overview = () => {
   const [selectedImageURL, setSelectedImageURL] = useState({
-    image1: "", image2: "", image3: "", video: "", docs1: "", docs2: "",
+    gigImage1: "", gigImage2: "", gigImage3: "", video: "",
   });
+  const {tradesManProfileId} = useGlobalContext()
+  const id = tradesManProfileId?._id
+  console.log(id, "tr ki id");
 
   const navigate = useNavigate();
+  const [updateTradesman] = useUpdateTradesmanMutation();
   const { handleSubmit, setValue, control, formState: { errors }, reset, register } = useForm({
     defaultValues: {
       gigTitle: "",
       gigDescription: "",
-      image1: "",
-      image2: "",
-      image3: "",
+      gigImage1: "",
+      gigImage2: "",
+      gigImage3: "",
       video: "",
-      docs1: "",
-      docs2: "",
     },
   });
 
+  const handleInputChange = (e)=>{
+    const { name, value } = e.target;
+    setValue(name, value);
+  }
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -90,10 +98,55 @@ const Overview = () => {
       setSelectedImageURL({ ...selectedImageURL, [e.target.name]: documentURL });
     }
   };
+  const showToast = (message, type) => {
+    toast[type](message, {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 3000,
+    });
+};
 
-  const onSubmit = (data) => {
-    // Handle form submission here
-    console.log(data);
+  const onSubmit = async (data, e) => {
+    e.preventDefault();
+    
+    // Create a FormData object to hold the form data, including the image
+    const formData = new FormData();
+  
+    try {
+      // Append text data to formData
+      for (const key in data) {
+        if (data[key] !== undefined) {
+          formData.append(key, data[key]);
+        }
+      }
+      // Append image to formData
+      if (selectedImageURL?.gigImage1) {
+        formData.append('gigImage1', selectedImageURL?.gigImage1);
+      }
+      if (selectedImageURL?.gigImage2) {
+        formData.append('gigImage2', selectedImageURL?.gigImage2);
+      }
+      if (selectedImageURL?.gigImage3) {
+        formData.append('gigImage3', selectedImageURL?.gigImage3);
+      }
+  
+      // Call the signUpUser function with the formData
+      const response = await updateTradesman({id, formData});
+  
+      if (response.data) {
+        showToast('Successfully updated', 'success');
+        setTimeout(() => {
+          navigate('/dashboard');
+        }, 2000);
+      } else {
+        showToast('Failed to sign up. Please try again.', 'error');
+      }
+    } catch (error) {
+      console.error('Error during sign-up:', error);
+      showToast('An unexpected error occurred. Please try again.', 'error');
+    }
+    
+    // Reset the form
+    reset();
   };
 
   return (
@@ -104,12 +157,12 @@ const Overview = () => {
             <h1 className="text-[1.2vw] font-bold">Gig Title</h1>
             <p className='text-vw w-full max-w-[17vw]'>As your Gig storefront, your title is the most important place to include keywords that buyers would likely use to search for a service like yours.</p>
           </div>
-          <textarea className='w-full p-vw border-[2px] rounded-md max-w-[25vw] focus:outline-none' {...register('gigTitle')}></textarea>
+          <textarea className='w-full p-vw border-[2px] rounded-md max-w-[25vw] focus:outline-none' onChange={handleInputChange} name='gigTitle' {...register('gigTitle')}></textarea>
         </div>
         <div className="mt-2vw border-b-[1px] w-full">
           <h1 className="text-[1.5vw] w-full text-center border-b-[1px] p-vw font-bold">Description</h1>
           <p className='text-vw w-full mt-vw font-medium max-w-[17vw]'>Briefly Describe Your Gig</p>
-          <textarea rows={6} className='w-full p-vw mt-vw border-[2px] rounded-md focus:outline-none' {...register('gigDescription')}></textarea>
+          <textarea rows={6} className='w-full p-vw mt-vw border-[2px] rounded-md focus:outline-none' onChange={handleInputChange} name='gigDescription' {...register('gigDescription')}></textarea>
         </div>
         <div className="mt-vw w-full">
           <h1 className='text-[1.5vw] font-bold text-center'>Showcase Your Services In A Gig Gallery</h1>
@@ -118,9 +171,9 @@ const Overview = () => {
             <h1 className='text-vw text-black mt-0.5vw font-semibold'>Images (up to 3)</h1>
             <p className='text-vw w-full mt-vw font-medium'>Get noticed by the right buyers with visual examples of your services</p>
             <div className="flex mt-vw items-center">
-              <ImageInput id='image1' name='image1' selectedImage={selectedImageURL?.image1} accept='image/*' handleImageChange={handleImageChange} />
-              <ImageInput id='image2' name='image2' selectedImage={selectedImageURL?.image2} accept='image/*' handleImageChange={handleImageChange} />
-              <ImageInput id='image3' name='image3' selectedImage={selectedImageURL?.image3} accept='image/*' handleImageChange={handleImageChange} />
+              <ImageInput id='gigImage1' name='gigImage1' selectedImage={selectedImageURL?.gigImage1} accept='image/*' handleImageChange={handleImageChange} />
+              <ImageInput id='gigImage2' name='gigImage2' selectedImage={selectedImageURL?.gigImage2} accept='image/*' handleImageChange={handleImageChange} />
+              <ImageInput id='gigImage3' name='gigImage3' selectedImage={selectedImageURL?.gigImage3} accept='image/*' handleImageChange={handleImageChange} />
             </div>
           </section>
           <section className="w-full p-vw">
@@ -136,14 +189,14 @@ const Overview = () => {
               />
             </div>
           </section>
-          <section className="w-full p-vw">
+          {/* <section className="w-full p-vw">
             <h1 className='text-vw text-black mt-0.5vw font-semibold'>Document (up to 2)</h1>
             <p className='text-vw w-full mt-vw font-medium'>Show some of the best work you created in a document (PDFs only).</p>
             <div className="flex mt-vw items-center">
               <DocumentInput id='docs1' name='docs1' selectedDocument={selectedImageURL?.docs1} accept='application/pdf' handleDocumentChange={handleDocumentChange} />
               <DocumentInput id='docs2' name='docs2' selectedDocument={selectedImageURL?.docs2} accept='application/pdf' handleDocumentChange={handleDocumentChange} />
             </div>
-          </section>
+          </section> */}
         </div>
         <button type="submit" className="mt-4 p-2 bg-blue-500 text-white rounded">Submit</button>
       </form>

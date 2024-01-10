@@ -34,7 +34,7 @@ function SideDrawer() {
     notification,
     setNotification,
     chats,
-    setChats,
+    setChats, selectedChat
   } = useGlobalContext();
 
   const toast = useToast();
@@ -84,7 +84,7 @@ function SideDrawer() {
   };
 
   const accessChat = async (userId) => {
-    console.log(userId);
+    console.log(userId, "chat access");
 
     try {
       setLoadingChat(true);
@@ -98,6 +98,7 @@ function SideDrawer() {
 
       if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
       setSelectedChat(data);
+      console.log(selectedChat, "selected chat");
       setLoadingChat(false);
       onClose();
     } catch (error) {

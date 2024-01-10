@@ -44,7 +44,7 @@ const MyChats = ({ fetchAgain }) => {
     fetchChats();
     // eslint-disable-next-line
   }, [fetchAgain]);
-  console.log(loggedUser, 'loggedUser');
+  // console.log(loggedUser, 'loggedUser');
 
   return (
     <Box
@@ -99,7 +99,7 @@ const MyChats = ({ fetchAgain }) => {
                 </Text>
                 {chat.latestMessage && (
                   <Text fontSize="xs">
-                    <b>{chat?.latestMessage?.sender?.firstName} : </b>
+                    {/* <b>{chat?.latestMessage?.sender?.firstName} </b> // sender email */}
                     {chat?.latestMessage.content?.length > 50
                       ? chat?.latestMessage?.content.substring(0, 51) + "..."
                       : chat?.latestMessage?.content}

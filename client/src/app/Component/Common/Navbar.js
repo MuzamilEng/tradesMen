@@ -44,6 +44,7 @@ function Navbar() {
           <span>TradesMen Business</span>
           <span>Explore</span>
           <span>English</span>
+          {user  && <Link to='/chat'><span>Messages</span></Link>}
           {!currentUser?.isSeller && <span>Become a Seller</span>}
           {currentUser ? (
             <div className="" onClick={()=>setOpen(!open)}>

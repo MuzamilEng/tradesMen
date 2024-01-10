@@ -84,7 +84,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       fetchMessages();
       selectedChatCompare = selectedChat;
     }, [selectedChat]);
-    console.log(selectedChatCompare, 'selected chat compare111111--------------------------------1');
     
     useEffect(() => {
       socket.on("message recieved", (newMessageRecieved) => {
@@ -196,57 +195,59 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               ))}
           </Text>
           <Box
-            display="flex"
-            flexDir="column"
-            justifyContent="flex-end"
-            p={3}
-            bg="#E8E8E8"
-            width="100%"
-            hight="100%"
-            borderRadius="lg"
-            overflowY="hidden"
-          >
-            {loading ? (
-              <Spinner
-                size="xl"
-                w={20}
-                h={20}
-                alignSelf="center"
-                margin="auto"
-              />
-            ) : (
-              <div className="messages">
-            <ScrollableChat messages={messages} />
-          </div>
-            )}
+  display="flex"
+  flexDir="column"
+  justifyContent="flex-end"
+  p={3}
+  bg="#E8E8E8"
+  width="100%"
+  height="100%"
+  borderRadius="lg"
+  overflowY="hidden"
+>
+  {loading ? (
+    <Spinner
+      size="xl"
+      w={20}
+      h={20}
+      alignSelf="center"
+      margin="auto"
+    />
+  ) : (
+    <div className="">
+      <ScrollableChat messages={messages} />
+    </div>
+  )}
 
-            <FormControl
-              onKeyDown={sendMessage}
-              id="first-name"
-              isRequired
-              mt={3}
-            >
-              {istyping ? (
-                <div>
-                  <Lottie
-                    options={defaultOptions}
-                    height={50}
-                    width={70}
-                    style={{ marginBottom: 15, marginLeft: 0 }}
-                  />
-                </div>
-              ) : (
-                <></>
-              )}
-              <Input className=""
-                variant="filled"
-                bg="#E0E0E0"
-                placeholder="Enter a message.."
-                value={newMessage}
-                onChange={typingHandler}
-              />
-            </FormControl>
-          </Box>
+  <FormControl
+    onKeyDown={sendMessage}
+    id="first-name"
+    isRequired
+    mt={3}
+    alignSelf="flex-end"
+  >
+    {istyping ? (
+      <div>
+        <Lottie
+          options={defaultOptions}
+          height={50}
+          width={20}
+          style={{ marginBottom: 15, marginLeft: 0 }}
+        />
+      </div>
+    ) : (
+      <></>
+    )}
+    <Input
+      variant="filled"
+      bg="#E0E0E0"
+      placeholder="Enter a message.."
+      value={newMessage}
+      onChange={typingHandler}
+    />
+  </FormControl>
+</Box>
+
         </>
       ) : (
         // to get socket.io on same page

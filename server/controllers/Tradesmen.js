@@ -39,59 +39,95 @@ const createTrademanProfile = async (req, res) => {
   }
 };
 
-const updateTrademanProfile = async (req, res, next) => {
-  console.log(req.body, "req body");
-  const {
-    occupation, username, email, ratings, hourlyRate, description, location, lat, lng, phoneNumber, image, gigImage1, gigImage2, gigImage3, video, docs1, docs2
-  } = req.body;
-
-  const updateFields = {
-    occupation, username, email, ratings, hourlyRate, description, location, lat, lng, phoneNumber, image, gigImage1, gigImage2, gigImage3, video, docs1, docs2
-  };
-
+const updateTrademanProfile = async (req, res) => {
   try {
-    const existingContent = await TrademanSchema.findById(req.params.id);
+    const { id } = req.params;
+
+    const existingContent = await TrademanSchema.findById(id);
 
     if (!existingContent) {
       return res.status(404).json({ message: 'Content not found' });
     }
 
-    // Keep track of existing public_ids to delete them later
-    const existingPublicIds = [];
+    const { occupation, username, email, ratings, hourlyRate, description, location, lat, lng, phoneNumber, gigTitle, gigDescription } = req.body;
+    const parsedLat = Number(lat?.[1]);
+    const parsedLng = Number(lng?.[1]);
 
-    // Function to handle file upload and update fields
-    const handleFileUpload = async (fieldName) => {
-      if (req.files[fieldName]) {
-        // Delete previous file if it exists
-        if (existingContent[fieldName]) {
-          existingPublicIds.push(existingContent[fieldName]);
-        }
+    let mainImageURL = existingContent?.image;
 
-        const file = req.files[fieldName][0];
-        const result = await cloudinary.uploader.upload(file.path, {
-          folder: 'Assets',
-        });
-
-        updateFields[fieldName] = result.secure_url;
-      }
-    };
-
-    // Handling file uploads for multiple fields
-    handleFileUpload('image');
-    handleFileUpload('gigImage1');
-    handleFileUpload('gigImage2');
-    handleFileUpload('gigImage3');
-    handleFileUpload('video');
-    handleFileUpload('docs1');
-    handleFileUpload('docs2');
-
-    // Delete previous files in Cloudinary
-    for (const publicId of existingPublicIds) {
-      await cloudinary.uploader.destroy(publicId.replace(cloudinary.config().cloud_name + '/', ''));
+    // Handle image updates
+    if (req.file) {
+      const mainImage = req.file;
+      const mainImageResult = await cloudinary.uploader.upload(mainImage.path, {
+        folder: 'Assets',
+      });
+      mainImageURL = mainImageResult.secure_url;
     }
 
+    // Handle gigImage1 update
+    let gigImage1URL = existingContent?.gigImage1;
+    if (req.files && req.files.gigImage1) {
+      const gigImage1 = req.files.gigImage1[0];
+      const gigImage1Result = await cloudinary.uploader.upload(gigImage1.path, {
+        folder: 'Assets',
+      });
+      gigImage1URL = gigImage1Result.secure_url;
+    }
+
+    // Handle gigImage2 update
+    let gigImage2URL = existingContent?.gigImage2;
+    if (req.files && req.files.gigImage2) {
+      const gigImage2 = req.files.gigImage2[0];
+      const gigImage2Result = await cloudinary.uploader.upload(gigImage2.path, {
+        folder: 'Assets',
+      });
+      gigImage2URL = gigImage2Result.secure_url;
+    }
+
+    // Handle gigImage3 update
+    let gigImage3URL = existingContent?.gigImage3;
+    if (req.files && req.files.gigImage3) {
+      const gigImage3 = req.files.gigImage3[0];
+      const gigImage3Result = await cloudinary.uploader.upload(gigImage3.path, {
+        folder: 'Assets',
+      });
+      gigImage3URL = gigImage3Result.secure_url;
+    }
+
+    // Handle video update
+    let videoURL = existingContent?.video;
+    if (req.files && req.files.video) {
+      console.log(req.files.video[0], "video file");
+      const video = req.files.video[0];
+      const videoResult = await cloudinary.uploader.upload(video.path, {
+        folder: 'Assets',
+        resource_type: 'video', // Ensure proper resource type for video uploads
+      });
+      videoURL = videoResult.secure_url;
+    }
+
+    const updateFields = {
+      occupation: occupation || existingContent.occupation,
+      username: username || existingContent.username,
+      email: email || existingContent.email,
+      ratings: ratings || existingContent.ratings,
+      hourlyRate: hourlyRate || existingContent.hourlyRate,
+      description: description || existingContent.description,
+      location: location || existingContent.location,
+      gigTitle: gigTitle || existingContent?.gigTitle,
+      gigDescription: gigDescription || existingContent?.gigDescription,
+      image: mainImageURL,
+      gigImage1: gigImage1URL,
+      gigImage2: gigImage2URL,
+      gigImage3: gigImage3URL,
+      video: videoURL,
+      lat: parsedLat || existingContent.lat,
+      lng: parsedLng || existingContent.lng,
+      phoneNumber: phoneNumber || existingContent.phoneNumber,
+    };
+
     const updatedContent = await TrademanSchema.findByIdAndUpdate(
-      req.params.id,
+      id,
       { $set: updateFields },
       { new: true }
     );
@@ -106,8 +142,6 @@ const updateTrademanProfile = async (req, res, next) => {
     res.status(500).json({ message: 'Error updating profile' });
   }
 };
-
-
 
 // Get all trademans
 const getAllTradesmenProfiles = async (req, res) => {

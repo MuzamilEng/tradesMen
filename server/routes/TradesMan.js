@@ -14,13 +14,21 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage: storage,
-  limits: {
-    fieldSize: 10 * 1024 * 1024, // Increase field size limit to 10MB (adjust as needed)
-  }
+  limits: { fileSize: '50mb' }
 });
 
+var videoSize = 30 * 1024 * 1024;
+console.log(videoSize, 'videoSize');
+
 // const uploadFiles = upload.single('image');
-const uploadFiles = upload.fields([{ name: 'image', maxCount: 1 }, { name: 'gigImage1', maxCount: 1 }, { name: 'gigImage2', maxCount: 1 }, { name: 'gigImage3', maxCount: 1 }, { name: 'video', maxCount: 1 }, { name: 'docs2', maxCount: 1 }, { name: 'docs1', maxCount: 1 } ])
+const uploadFiles = upload.fields([
+  { name: 'image', maxCount: 1 },
+  { name: 'gigImage1', maxCount: 1 },
+  { name: 'gigImage2', maxCount: 1 },
+  { name: 'gigImage3', maxCount: 1 },
+  { name: 'video', maxCount: 1 }, // Increase limit for video field
+]);
+
 
 
 
@@ -34,7 +42,7 @@ router.route('/getAllTradesmen').get(authenticateJWT, allTradesMen);
 // Create a new letting
 
 // Update an existing letting by ID
-router.route('/:id').put(uploadFiles, updateTrademanProfile);
+router.route('/update/:id').put(uploadFiles, updateTrademanProfile);
 
 // Get a letting by ID and Delete a letting by ID
 router.route('/:id').get(getTrademanProfileById).delete(deleteTrademanProfile);
