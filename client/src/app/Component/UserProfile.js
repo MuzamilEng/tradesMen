@@ -7,7 +7,10 @@ import { Icon } from '@iconify/react';
 
 const UserProfile = () => {
     const {id} = useParams()
-    const {data} = useGetTrademanByIdQuery(id);
+    const {data, isLoading} = useGetTrademanByIdQuery(id);
+    if(isLoading){
+        return <h1>loading</h1>
+    }
     const lat = data?.lat
     const lng = data?.lng
     console.log(data, "data profile")
@@ -28,7 +31,7 @@ const UserProfile = () => {
                 </section>
                 <section className='p-vw m-0.5vw'>
                     <label className='text-vw font-semibold ml-vw text-black' htmlFor="">Phone Number</label> <br />
-                    <input type="text" value={data?.phoneNumber} className='text-vw ml-vw p-vw w-full max-w-[25vw] rounded-md border-[1px] border-gray-300 focus:outline-none' />
+                    <input type="text" value={'0'+ data?.phoneNumber} className='text-vw ml-vw p-vw w-full max-w-[25vw] rounded-md border-[1px] border-gray-300 focus:outline-none' />
                 </section>
                 <section className='p-vw m-0.5vw'>
                     <label className='text-vw font-semibold ml-vw text-black' htmlFor="">Occupation</label> <br />

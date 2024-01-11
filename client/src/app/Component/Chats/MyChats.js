@@ -44,8 +44,7 @@ const MyChats = ({ fetchAgain }) => {
     fetchChats();
     // eslint-disable-next-line
   }, [fetchAgain]);
-  // console.log(loggedUser, 'loggedUser');
-
+  
   return (
     <Box
       display={{ base: selectedChat ? "none" : "flex", md: "flex" }}

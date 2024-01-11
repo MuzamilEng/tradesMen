@@ -5,6 +5,8 @@ import { useGlobalContext } from "../../UserContext/UserContext";
 
 function Navbar() {
   const {user} = useGlobalContext()
+  const {tradesManProfileId} = useGlobalContext();
+  const id = tradesManProfileId?._id
   const [active, setActive] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -43,10 +45,16 @@ function Navbar() {
         <div className="nav_links">
           <span>TradesMen Business</span>
           <span>Explore</span>
-          <span>English</span>
+          {!user  && <Link to={'/login'} className="link"><button className="nav_btn">Join</button></Link>}
           {user  && <Link to='/chat'><span>Messages</span></Link>}
+          {user  && <Link to={`/profile/${id}`} className="link"><span className="nav_btn">Profile</span></Link>}
           {!currentUser?.isSeller && <span>Become a Seller</span>}
-          {currentUser ? (
+          {user && <img
+                src={user?.image}
+                alt={user?.name}
+                className="w-3vw h-3vw rounded-full object-fit cursor-pointer"
+              />}
+          {/* {user ? (
             <div className="" onClick={()=>setOpen(!open)}>
               <img
                 src={user?.image}
@@ -82,7 +90,7 @@ function Navbar() {
                 <button className="nav_btn">Join</button>
               </Link>
             </>
-          )}
+          )} */}
         </div>
       </div>
     {/* {(active || pathname !== "/") && ( */}

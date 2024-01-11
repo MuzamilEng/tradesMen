@@ -43,11 +43,11 @@ export const UserProvider = ({ children }) => {
     const userInfos = JSON.parse(localStorage.getItem("userLoginInfo"));
     setUser(userInfos);
 
-    if (!userInfos) navigate("/login");
+    // if (!userInfos) navigate("/login");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate]);
   
-  console.log(user, "user1234");
+  // console.log(user, "user1234");
   
 
   // ----------------------------------------------------------------

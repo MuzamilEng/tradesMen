@@ -138,7 +138,7 @@ const Profile = () => {
                  </div>  
                  <label htmlFor="image" className='text-black text-[1.3vw] font-semibold'>Profile Image</label>
                   </section> 
-    <div className="col-center w-full">
+                    <div className="col-center w-full">
                     <section className="mt-vw ml-8vw p-2vw w-full grid grid-cols-2 gap-2">
                         {item?.form?.map((item2, index)=>(
                             <div key={index} className='w-full max-w-[33vw]'>
