@@ -54,9 +54,12 @@ export const UserProvider = ({ children }) => {
 
 
   const fetchTradesmanProfile = async () => {
-    const result = await axios.get(`http://localhost:5000/api/v1/tradesman/getProfile?email=${user?.email}`);
-    setTradesManProfileId(result.data);
-    // console.log(result, 'resultin context');
+    try {
+      const result = await axios.get(`http://localhost:5000/api/v1/tradesman/getProfile?email=${user?.email}`);
+      setTradesManProfileId(result.data);
+    } catch (error) {
+      console.log(error);
+    }
   }
   // console.log(tradesManProfileId, "1id details");
   

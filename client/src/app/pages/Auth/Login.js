@@ -47,12 +47,6 @@ const Login = () => {
             });
                 const userLoginInfo = fetchDetails?.data;
             localStorage.setItem('userLoginInfo', JSON.stringify(userLoginInfo));
-            if(fetchDetails?.status === 200 || fetchDetails?.status === 201){
-                showToast('Successfully Logged In', 'success');
-                setTimeout(() => {
-                    navigate('/');
-                }, 3000);
-            }
                 if (userLoginInfo.category === 'tradesman') {
                 try {
                     const fetchProfile = await axios.get(`http://localhost:5000/api/v1/tradesman/getProfile?email=${userLoginInfo.email}`);
@@ -61,14 +55,14 @@ const Login = () => {
                     if (fetchProfile.status === 200 || fetchProfile.status === 201) {
                         showToast('Successfully Logged In', 'success');
                         setTimeout(() => {
-                            navigate('/dashboard');
+                            navigate('/');
                         }, 3000);
                     }
                 } catch (error) {
-                    // console.log(error, 'no profile found');
-                        showToast('Successfully Logged In', 'success');
+                    console.log(error, 'no profile found');
+                    showToast('Successfully Logged In', 'success');
                         setTimeout(() => {
-                            navigate('/profile');
+                            navigate('/');
                         }, 3000);
                 }
             } else {

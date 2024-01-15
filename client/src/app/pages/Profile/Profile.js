@@ -19,6 +19,7 @@ const Profile = () => {
    // Retrieving user login info from localStorage
    const userLoginInfoString = localStorage.getItem('userLoginInfo');
    const userLoginInfo = JSON.parse(userLoginInfoString);
+   console.log(userLoginInfo, 'userLoginInfo');
     const [addTradesman] = useAddTradesmanMutation();
     const navigate = useNavigate();
     // const [userDetails, setUserDetails] = useState(null)
@@ -34,7 +35,7 @@ const Profile = () => {
         hourlyRate: tradesManProfile?.hourlyRate || "",
         description: tradesManProfile?.description || "",
         location: tradesManProfile?.location || "",
-        image: tradesManProfile?.image || "",
+        image: userLoginInfo?.image || "",
           lat: coordinates?.lat || 0,
           lng: coordinates?.lng || 0,
       },
@@ -70,7 +71,7 @@ const Profile = () => {
     formData.append('lng', coordinates?.lng);
    
       // Append image to formData
-      if (tradesManProfile?.image) {
+      if (userLoginInfo?.image || tradesManProfile?.image) {
         formData.append('image', tradesManProfile.image);
       }
     
@@ -125,7 +126,7 @@ const Profile = () => {
                 <section className='col-center w-full'>
                   <div className='relative w-full bg-gray-400 cursor-pointer hover:bg-gray-600 overflow-hidden max-w-[10vw] h-[10vw] rounded-full border-2'>
                   <label htmlFor='image' className='relative bg-gray-300'>
-                      <img src={selectedImageURL} alt=' ' className='w-full h-full z-10 object-cover' />
+                      <img src={userLoginInfo?.image ? userLoginInfo?.image : selectedImageURL} alt=' ' className='w-full h-full z-10 object-cover' />
                       {!selectedImageURL && <Icon icon="ant-design:camera-filled" className='text-3vw text-white absolute top-[3.3vw] left-[3.3vw] z-50 ' />}
                   </label>
                   <input

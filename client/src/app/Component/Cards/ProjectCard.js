@@ -11,7 +11,7 @@ function ProjectCard({ image, username, occupation, handleSendMessage }) {
           <h2>{occupation}</h2>
           <span className="text-vw">{username}</span>
         </div>
-        <button className="text-vw p-0.5vw bg-blue-500 rounded-md " onClick={handleSendMessage}>Send Message</button>
+        {/* <button className="text-vw p-0.5vw bg-blue-500 rounded-md " onClick={handleSendMessage}>Send Message</button> */}
       </div>
     </div>
   );

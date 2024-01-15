@@ -4,14 +4,15 @@ import { useForm, Controller } from 'react-hook-form';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-import { useSignUpUserMutation } from '../../store/storeApi';
+import { useAddTradesmanMutation, useSignUpUserMutation } from '../../store/storeApi';
 import { Icon } from '@iconify/react';
 import Header from '../../Component/Common/Header';
 import Otp from '../../Component/Otp';
 import { useGlobalContext } from '../../UserContext/UserContext';
 
 const Signup = () => {
-    const [signUpUser] = useSignUpUserMutation()
+    const [signUpUser] = useSignUpUserMutation();
+    const [addTradesman] = useAddTradesmanMutation();
     const {userInfo, setUserInfo} = useGlobalContext();
     const [showOpt, setShowOpt] = React.useState(false);
     const [selectedImageURL, setSelectedImageURL] = useState("");
@@ -70,19 +71,23 @@ const Signup = () => {
           if (userInfo?.image) {
             formData.append('image', userInfo.image);
           }
-      
+      console.log(data, "data");
+      console.log(formData, "formData");
           // Call the signUpUser function with the formData
           const response = await signUpUser(formData);
       
           if (!response.error) {
             showToast('Successfully Signed Up', 'success');
-            if (response.data.category === 'tradesman') {
-              navigate('/');
-            } else {
-              setTimeout(() => {
-                navigate('/');
-              }, 2000);
-            }
+            setTimeout(() => {
+              navigate('/login');
+            }, 2000);
+            // if (response.data.category === 'tradesman') {
+            //   navigate('/profile');
+            // } else {
+            //   setTimeout(() => {
+            //     navigate('/login');
+            //   }, 2000);
+            // }
           } else {
             showToast('Failed to sign up. Please try again.', 'error');
           }

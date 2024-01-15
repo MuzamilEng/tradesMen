@@ -5,8 +5,10 @@ import { useGlobalContext } from "../../UserContext/UserContext";
 
 function Navbar() {
   const {user} = useGlobalContext()
+  console.log(user, "user data a");
   const {tradesManProfileId} = useGlobalContext();
   const id = tradesManProfileId?._id
+  console.log(id, "tradesManProfile");
   const [active, setActive] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -46,8 +48,10 @@ function Navbar() {
           <span>TradesMen Business</span>
           <span>Explore</span>
           {!user  && <Link to={'/login'} className="link"><button className="nav_btn">Join</button></Link>}
+          {user  && <Link to={'/dashboard'} className="link"><button className="nav_btn">Dashboard</button></Link>}
           {user  && <Link to='/chat'><span>Messages</span></Link>}
-          {user  && <Link to={`/profile/${id}`} className="link"><span className="nav_btn">Profile</span></Link>}
+          {!user  && <Link to={`/profile/${id}`} className="link"><span className="">Profile</span></Link>}
+          {user && id == undefined  && <Link to={`/profile`} className="link"><span className="">Create Profile</span></Link>}
           {!currentUser?.isSeller && <span>Become a Seller</span>}
           {user && <img
                 src={user?.image}

@@ -10,6 +10,7 @@ import Explore from '../../Component/Common/Explore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import Layout from '../../Layout/Layout';
 
 const Dashboard = () => {
   const {tradesManProfileId: profileDetails} = useGlobalContext();
@@ -28,7 +29,7 @@ const settings2 = { dots: false, prevArrow: <CustomPrevArrow />, nextArrow: <Cus
 
   return (
     <div>
-    <Layout2>
+    <Layout>
         <main className="w-full p-2vw">
             <article className="flex w-full items-start p-vw">
               <div className='w-full max-w-[30vw]'>
@@ -95,7 +96,7 @@ const settings2 = { dots: false, prevArrow: <CustomPrevArrow />, nextArrow: <Cus
                 </section>
             </article>
             </main>
-            </Layout2>
+            </Layout>
     </div>
   )
 }

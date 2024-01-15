@@ -11,6 +11,7 @@ import Onboarding from './app/pages/onboarding'
 import Profile from './app/pages/Profile/Profile'
 import PersonalInfo from './app/pages/Profile/PersonalInfo'
 import Gigs from './app/pages/Profile/Gigs'
+import Overview from './app/Component/Gigs/Overview'
 
 const App = () => {
   return (
@@ -26,7 +27,7 @@ const App = () => {
         <Route path='/chat' element={<Chatpage />} />
         <Route path='/seller_onboarding' element={<Onboarding />} />
         <Route path='/personal_info' element={<PersonalInfo />} />
-        <Route path='/manage_gigs' element={<Gigs />} />
+        <Route path='/manage_gigs/:id' element={<Overview />} />
       </Routes>
     </>
   )

@@ -42,6 +42,8 @@ const createTrademanProfile = async (req, res) => {
 const updateTrademanProfile = async (req, res) => {
   try {
     const { id } = req.params;
+    // console.log(id, 'idiuytrewqlkjhgfds');
+    console.log(req.files, "files");
 
     const existingContent = await TrademanSchema.findById(id);
 
@@ -67,6 +69,7 @@ const updateTrademanProfile = async (req, res) => {
     // Handle gigImage1 update
     let gigImage1URL = existingContent?.gigImage1;
     if (req.files && req.files.gigImage1) {
+      console.log(req.files, "enfijsidjds");
       const gigImage1 = req.files.gigImage1[0];
       const gigImage1Result = await cloudinary.uploader.upload(gigImage1.path, {
         folder: 'Assets',

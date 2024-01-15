@@ -8,6 +8,7 @@ import { Icon } from '@iconify/react';
 const UserProfile = () => {
     const {id} = useParams()
     const {data, isLoading} = useGetTrademanByIdQuery(id);
+    console.log(data, "data profile");
     if(isLoading){
         return <h1>loading</h1>
     }
@@ -17,9 +18,10 @@ const UserProfile = () => {
   return (
     <div className='w-full'>
         <Layout>
-            <main className=" mt-vw">
+            <main className="relative mt-vw">
+                <div className="absolute top-2vw right-vw w-full max-w-[20vw]"><Link className='text-vw text-white bg-green-500 p-[0.7vw] rounded-md' to={`/manage_gigs/${id}`}>Add your portfolio </Link></div>
                 <h1 className='text-2vw text-center font-semibold text-black'>Welcome Back! {data?.username}</h1>
-                <img src={data?.image ? data?.image : '/img/man.png'} alt={data?.username} className='w-full max-w-[6vw] h-[6vw] rounded-full absolute left-2vw top-[12vw] object-fit' />
+                <img src={data?.image ? data?.image : '/img/man.png'} alt={data?.username} className='w-full max-w-[6vw] h-[6vw] rounded-full absolute left-2vw top-[1vw] object-fit' />
                 <article className="w-full p-3vw grid grid-cols-2 mt-2vw gap-2">
                 <section className='p-vw m-0.5vw'>
                     <label className='text-vw font-semibold ml-vw text-black' htmlFor="">Username</label> <br />
