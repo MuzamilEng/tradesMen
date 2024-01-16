@@ -1,6 +1,7 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Home from './app/pages/Home'
+import Home2 from './app/pages/Home2'
 import Login from './app/pages/Auth/Login'
 import Signup from './app/pages/Auth/Signup'
 import MapComponent from './app/Component/GoogleMap/MapComponent'
@@ -28,6 +29,7 @@ const App = () => {
         <Route path='/seller_onboarding' element={<Onboarding />} />
         <Route path='/personal_info' element={<PersonalInfo />} />
         <Route path='/manage_gigs/:id' element={<Overview />} />
+        <Route path='/home' element={<Home2 />} />
       </Routes>
     </>
   )

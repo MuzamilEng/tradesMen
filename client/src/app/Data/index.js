@@ -417,3 +417,96 @@ export const start_selling  = [
     icon: <Icon icon="tabler:home-hand" />,
   },
 ]
+
+export const navData = [
+  {
+    logo: "Trademan",
+    lists: [
+      {
+        id: 1,
+        url: "xyz",
+        title: "Doctors",
+      },
+      {
+        id: 2,
+        url: "xyz",
+        title: "Consult online",
+      },
+      {
+        id: 3,
+        url: "xyz",
+        title: "Hospitals",
+      },
+      {
+        id: 4,
+        url: "xyz",
+        title: "Lab Tests",
+      },
+      {
+        id: 5,
+        url: "xyz",
+        title: "Surgeries",
+      },
+      {
+        id: 6,
+        url: "xyz",
+        title: "Health Blog",
+      },
+      {
+        id: 7,
+        url: "xyz",
+        title: "Patient Relief - 10%",
+      },
+    ],
+  },
+];
+export const heroData = [
+  {
+    img: "xyz",
+    title: "In-clinic Visit",
+    info: "Book Appointement",
+  },
+  {
+    img: "xyz",
+    title: "Weight loss clinic",
+    info: "Healthy life style",
+  },
+];
+export const labData = [
+  {
+    img: "xyz",
+    title: "Labs",
+  },
+  {
+    img: "xyz",
+    title: "Blogs",
+  },
+  {
+    img: "xyz",
+    title: "Hospitals",
+  },
+  {
+    img: "xyz",
+    title: "Surgeries",
+  },
+];
+export const profileCard = [
+  {
+    img: "/images/emp9.jpg",
+    name: "Dr.Muhammad Saqib Ahmad",
+    proffession: "Dentist",
+    experience: "10 years experience",
+  },
+  {
+    img: "/images/emp9.jpg",
+    name: "Dr. Sadaf Amin",
+    proffession: "Dermatologist",
+    experience: "50 years experience",
+  },
+  {
+    img: "/images/emp9.jpg",
+    name: "Dr.Usman Javed",
+    proffession: "Dentist",
+    experience: "10 years experience",
+  },
+];
