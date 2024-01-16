@@ -13,6 +13,7 @@ import Profile from './app/pages/Profile/Profile'
 import PersonalInfo from './app/pages/Profile/PersonalInfo'
 import Gigs from './app/pages/Profile/Gigs'
 import Overview from './app/Component/Gigs/Overview'
+import { ProfileD } from './app/pages/ProfileD'
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
         <Route path='/personal_info' element={<PersonalInfo />} />
         <Route path='/manage_gigs/:id' element={<Overview />} />
         <Route path='/home' element={<Home2 />} />
+        <Route path='/profileD' element={<ProfileD />} />
       </Routes>
     </>
   )
