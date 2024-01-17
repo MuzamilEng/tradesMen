@@ -33,7 +33,7 @@ const settings = { dots: false, prevArrow: <CustomPrevArrow />, nextArrow: <Cust
       <div className="pl-2vw">
         <div className="grid w-full gap-vw m-vw  grid-cols-1">
         <Slider {...settings}>
-        {cards.map((card) => (
+        {cards.map((card) => ( 
           <Card key={card.id} card={card} />
         ))}
       </Slider>
