@@ -1,9 +1,12 @@
+
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useGlobalContext } from "../../UserContext/UserContext";
+import Modal from "./Modal";
 // import "./Navbar.scss";
 
 function Navbar() {
+  const [isPopupOpen, setPopupOpen] = useState(false);
   const {user} = useGlobalContext()
   console.log(user, "user data a");
   const {tradesManProfileId} = useGlobalContext();
@@ -53,48 +56,19 @@ function Navbar() {
           {!user  && <Link to={`/profile/${id}`} className="link"><span className="">Profile</span></Link>}
           {user && id == undefined  && <Link to={`/profile`} className="link"><span className="">Create Profile</span></Link>}
           {!currentUser?.isSeller && <span>Become a Seller</span>}
-          {user && <img
+          {user &&
+          <div className="relative w-3vw h-3vw rounded-full">
+             <img
                 src={user?.image}
                 alt={user?.name}
                 className="w-3vw h-3vw rounded-full object-fit cursor-pointer"
-              />}
-          {/* {user ? (
-            <div className="" onClick={()=>setOpen(!open)}>
-              <img
-                src={user?.image}
-                alt={user?.name}
-                className="w-3vw h-3vw rounded-full object-fit cursor-pointer"
+                onClick={()=>setPopupOpen(!isPopupOpen)}
               />
-              {open && <div className="options">
-                {currentUser.isSeller && (
-                  <>
-                    <Link className="nav_link" to="/mygigs">
-                      Gigs
-                    </Link>
-                    <Link className="nav_link" to="/add">
-                      Add New Gig
-                    </Link>
-                  </>
-                )}
-                <Link className="nav_link" to="/orders">
-                  Orders
-                </Link>
-                <Link className="nav_link" to="/messages">
-                  Messages
-                </Link>
-                <Link className="nav_link" to="/">
-                  Logout
-                </Link>
-              </div>}
-            </div>
-          ) : (
-            <>
-              <span>Sign in</span>
-              <Link className="link" to="/register">
-                <button className="nav_btn">Join</button>
-              </Link>
-            </>
-          )} */}
+              <section className="absolute left-[-2vw] top-[3.5vw]">
+                {isPopupOpen && <Modal />}
+              </section>
+            </div>}
+          
         </div>
       </div>
     {/* {(active || pathname !== "/") && ( */}
@@ -109,7 +83,9 @@ function Navbar() {
             </Link>
             <Link className="link menuLink" to="/">
               Writing & Translation
-            </Link>
+            </Link > 
+            
+
             <Link className="link menuLink" to="/">
               AI Services
             </Link>
@@ -132,6 +108,8 @@ function Navbar() {
           <hr />
         </>
       {/* )} */}
+ 
+
     </div>
     </>
   );

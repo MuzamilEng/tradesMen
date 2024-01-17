@@ -8,6 +8,7 @@ import App from './App';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { UserProvider } from './app/UserContext/UserContext';
 import { store } from './app/store/store';
+import "tw-elements-react/dist/css/tw-elements-react.min.css";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 

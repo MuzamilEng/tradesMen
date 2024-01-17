@@ -1,7 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
+    "./index.html",
     "./src/**/*.{js,jsx,ts,tsx}",
+    "./node_modules/tw-elements-react/dist/js/**/*.js"
   ],  theme: {
     extend: {
       fontSize: {
@@ -78,7 +80,7 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require("tw-elements-react/dist/plugin.cjs")]
 }
 
 // Generate classes for vw units from 2vw to 100vw

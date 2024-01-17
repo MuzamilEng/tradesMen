@@ -3,7 +3,7 @@ import Form from "../Component/Common/Form";
 import Hero from "../Component/Common/Hero";
 import Queries from "../Component/Common/Queries";
 import Profile from "../Component/Common/Profile";
-import Navbar2 from "../Component/Common/Navbar2";
+import Navbar from "../Component/Common/Navbar";
 import Footer from "../Component/Common/Footer";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
@@ -28,7 +28,7 @@ const settings = { dots: false, prevArrow: <CustomPrevArrow />, nextArrow: <Cust
 
   return (
     <div className="h-[100vh] w-full overflow-y-scroll overflow-x-hidden ">
-      <Navbar2 />
+      <Navbar />
       <Form />
       <div className="pl-2vw">
         <div className="grid w-full gap-vw m-vw  grid-cols-1">

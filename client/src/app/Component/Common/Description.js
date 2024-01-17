@@ -1,7 +1,7 @@
 import React from 'react'
 import { countrieCode, timeArray } from '../../Data';
 
-export const Description = () => {
+export const Description = ({desc}) => {
     const getCurrentDate = () => {
         const now = new Date();
         const year = now.getFullYear();
@@ -16,8 +16,8 @@ export const Description = () => {
     <section className='shadow-lg w-full max-w-[60vw] p-[1vw] bg-slate-200 rounded-md mt-[2vw] ml-[2.5vw]'>
     <div className=' p-[0.2vw]'>
     <h1 className='font-bold'>Description</h1>
-    <textarea name="" id="" cols="100" rows="5" className='shadow-lg p-[1vw] rounded-md' readOnly >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Impedit quia eius sed tempore provident. Blanditiis deleniti debitis harum dicta saepe sit quod, repellat, voluptates delectus dignissimos magnam animi, ab qui!lorem20 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perferendis explicabo est fugit debitis nulla voluptatem, iusto harum eveniet asperiores saepe</textarea>
-    <textarea name="" id="" cols="100" rows="5" className='shadow-lg p-[1vw] rounded-md' readOnly >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Impedit quia eius sed tempore provident. Blanditiis deleniti debitis harum dicta saepe sit quod, repellat, voluptates delectus dignissimos magnam animi, ab qui!lorem20 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perferendis explicabo est fugit debitis nulla voluptatem, iusto harum eveniet asperiores saepe</textarea>
+    <textarea name="" id="" cols="100" rows="8" className='shadow-lg p-[1vw] rounded-md' readOnly >{desc}</textarea>
+    {/* <textarea name="" id="" cols="100" rows="5" className='shadow-lg p-[1vw] rounded-md' readOnly ></textarea> */}
     </div>
     </section>
     <section className='mt-[2vw] bg-zinc-200 rounded-md shadow-lg w-full max-w-[30vw] pb-[1vw] overflow-x-hidden'>
