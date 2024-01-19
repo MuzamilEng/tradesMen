@@ -5,7 +5,7 @@ const Queries = () => {
     <>
       <main className=' p-[2vw] pr-[2vw] mt-[2vw]'> 
       <div className='bg-green-300 p-[4vw] rounded-md shadow-lg'>
-        <h1 className='font-bold'>Get free medical advice by asking a doctor</h1>
+        <h1 className='font-bold'>Get free  advice by asking a Trademan</h1>
         <p className='transform translate-y-[1vw]'>Ask a question anonymously</p>
         <p className='transform translate-y-[1vw]'>Ask a question anonymously</p>
         <div className=' transform translate-x-[20vw] translate-y-[-2vw]'>

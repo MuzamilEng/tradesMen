@@ -14,6 +14,7 @@ import PersonalInfo from './app/pages/Profile/PersonalInfo'
 import Gigs from './app/pages/Profile/Gigs'
 import Overview from './app/Component/Gigs/Overview'
 import { ProfileD } from './app/pages/ProfileD'
+import Searchuser from './app/pages/Searchuser'
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
         <Route path='/manage_gigs/:id' element={<Overview />} />
         <Route path='/home' element={<Home2 />} />
         <Route path='/profileD/:id' element={<ProfileD />} />
+        <Route path='/SearchUser' element={<Searchuser />} />
       </Routes>
     </>
   )

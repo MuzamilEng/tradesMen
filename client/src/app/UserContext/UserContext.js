@@ -29,7 +29,7 @@ export const UserProvider = ({ children }) => {
       lat: "",
       lng: "",
   })
-
+const [searchData,setSearchData]= useState({})
   // ----------------------------------------------------------------
   const [selectedChat, setSelectedChat] = useState();
   const [user, setUser] = useState();
@@ -79,7 +79,11 @@ export const UserProvider = ({ children }) => {
   useEffect(()=> {
     setTradesmanProfileDetails(tradesmanProfileDetails)
   }, [tradesmanProfileDetails])
-
+function data(searchObj){
+  console.log(searchObj)
+  setSearchData(searchObj)
+  
+}
   return (
     <UserContext.Provider value={{ content, userDetails, setUserDetails, setContent, userInfo, setUserInfo, tradesManProfile, setTradesManProfile, searchedLocation, setSearchedLocation,
     tradesmanProfiles, userLoginInfo, tradesmanProfileDetails, setTradesmanProfileDetails, tradesManProfileId, setTradesManProfileId,
@@ -90,7 +94,7 @@ export const UserProvider = ({ children }) => {
     notification,
     setNotification,
     chats,
-    setChats, }}>
+    setChats,data,searchData }}>
       {children}
     </UserContext.Provider>
   );

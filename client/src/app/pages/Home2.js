@@ -32,7 +32,7 @@ const settings = { dots: false, prevArrow: <CustomPrevArrow />, nextArrow: <Cust
       <Form />
       <div className="pl-2vw">
         <div className="grid w-full gap-vw m-vw  grid-cols-1">
-        <Slider {...settings}>
+        <Slider {...settings}> 
         {cards.map((card) => ( 
           <Card key={card.id} card={card} />
         ))}

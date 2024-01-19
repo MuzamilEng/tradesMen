@@ -462,20 +462,22 @@ export const navData = [
 ];
 export const heroData = [
   {
-    img: "xyz",
-    title: "In-clinic Visit",
-    info: "Book Appointement",
+    img: "/img/m5.png",
+    title: "Book Appointement",
+    info: "Book your appointment with a skilled tradesman effortlessly..",
+    bgColor:"b2"
   },
   {
-    img: "xyz",
-    title: "Weight loss clinic",
-    info: "Healthy life style",
+    img: "/img/m6.png",
+    title: "Best Carpenter",
+    info: "Here the best and skillfull carpenter",
+    bgColor:"b3"
   },
 ];
 export const labData = [
   {
     img: "xyz",
-    title: "Labs",
+    title: "Carpenter",
   },
   {
     img: "xyz",
@@ -483,11 +485,11 @@ export const labData = [
   },
   {
     img: "xyz",
-    title: "Hospitals",
+    title: "palumber",
   },
   {
     img: "xyz",
-    title: "Surgeries",
+    title: "agency",
   },
 ];
 export const profileCard = [
@@ -1481,3 +1483,39 @@ const generateTimeArray = () => {
 };
 export const timeArray = generateTimeArray();
 console.log(timeArray)
+export let cities =["occupation","username","minhourlyRate","maxhourlyRate"];
+export const advancedSearch = [
+  {
+    label: "Occupation",
+    name: "occupation",
+    type: "select",
+    placeholder: "Occupation",
+    options: [
+      {label: "Carpenter", value: "carpenter"},
+      {label: "Software Engineer", value: "Software Engineer"},
+      {label: "Designer", value: "Designer"},
+      {label: "Developer", value: "Developer"},
+      {label: "Manager", value: "Manager"},
+      {label: "Accountant", value: "Accountant"},
+      {label: "Lawyer", value: "Lawyer"}
+    ]
+  },
+  {
+    label: "Username",
+    name: "username",
+    type: "text",
+    placeholder: "Enter Username",
+  },
+  {
+    label: "Min Hourly Rate",
+    name: "minhourlyRate",
+    type: "number",
+    placeholder: "Enter Min Hourly Rate",
+  },
+  {
+    label: "Max Hourly Rate",
+    name: "maxhourlyRate",
+    type: "number",
+    placeholder: "Enter Max Hourly Rate",
+  }
+]

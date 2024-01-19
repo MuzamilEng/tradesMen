@@ -23,9 +23,9 @@ const Profile = ()=>{
 const settings = { dots: false, prevArrow: <CustomPrevArrow />, nextArrow: <CustomNextArrow />, arrows: true, infinite: true, speed: 500, slidesToShow: 4, slidesToScroll: 1, autoplay: true, autoplaySpeed: 3000 };
  return (
   <>
-    <h1 className = "font-bold text-[1.3vw] transform translate-y-[4.5vw] translate-x-[3vw] text-blue-900">Doctors in Lahore</h1>
+    <h1 className = "font-bold text-[1.3vw] transform translate-y-[4.5vw] translate-x-[3vw] text-blue-900 ">Here you find best and skill ful Tradesmen</h1>
    <section className="p-[2vw] w-full ">
-    <div className='p-[0vw] bg-slate-200  w-full rounded-md shadow-lg'>
+    <div className='p-[1vw] bg-slate-200  w-full rounded-md shadow-lg'>
         <div className="grid w-full  gap-vw m-vw  grid-cols-1">
       <Slider {...settings} className='m-[1vw]'>
        {tradesmanProfiles?.map((card) => (

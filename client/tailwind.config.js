@@ -78,6 +78,11 @@ module.exports = {
         '0.5vw': '0.5vw',
         'vw': '1vw',
       },
+      backgroundColor:{
+        "b1":"#DCF2F1",
+        "b2":"#D9EDBF",
+        "b3":"#9DBC98"
+      }
     },
   },
   plugins: [require("tw-elements-react/dist/plugin.cjs")]
